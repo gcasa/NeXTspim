@@ -1,0 +1,4714 @@
+
+state 0
+	$accept : _LINE $end 
+	$$1 : _    (1)
+
+	.  reduce 1
+
+	LINE  goto 1
+	$$1  goto 2
+
+state 1
+	$accept :  LINE_$end 
+
+	$end  accept
+	.  error
+
+
+state 2
+	LINE :  $$1_OPT_LBL CMD 
+	OPT_LBL : _    (5)
+	$$376 : _    (376)
+
+	Y_ID  reduce 376
+	.  reduce 5
+
+	OPT_LBL  goto 3
+	ID  goto 4
+	$$376  goto 5
+
+state 3
+	LINE :  $$1 OPT_LBL_CMD 
+
+	Y_EOF  shift 10
+	Y_NL  shift 9
+	Y_ABS_D_OP  shift 239
+	Y_ABS_S_OP  shift 238
+	Y_ADDIU_OP  shift 153
+	Y_ADDI_OP  shift 152
+	Y_ADDU_OP  shift 143
+	Y_ADD_D_OP  shift 241
+	Y_ADD_OP  shift 142
+	Y_ADD_S_OP  shift 240
+	Y_ANDI_OP  shift 154
+	Y_AND_OP  shift 144
+	Y_BC0F_OP  shift 186
+	Y_BC0T_OP  shift 182
+	Y_BC1F_OP  shift 187
+	Y_BC1T_OP  shift 183
+	Y_BC2F_OP  shift 188
+	Y_BC2T_OP  shift 184
+	Y_BC3F_OP  shift 189
+	Y_BC3T_OP  shift 185
+	Y_BEQ_OP  shift 198
+	Y_BGEZAL_OP  shift 191
+	Y_BGEZ_OP  shift 190
+	Y_BGTZ_OP  shift 192
+	Y_BLEZ_OP  shift 193
+	Y_BLTZAL_OP  shift 195
+	Y_BLTZ_OP  shift 194
+	Y_BNE_OP  shift 199
+	Y_BREAK_OP  shift 27
+	Y_CFC0_OP  shift 230
+	Y_CFC1_OP  shift 231
+	Y_CFC2_OP  shift 232
+	Y_CFC3_OP  shift 233
+	Y_CTC0_OP  shift 234
+	Y_CTC1_OP  shift 235
+	Y_CTC2_OP  shift 236
+	Y_CTC3_OP  shift 237
+	Y_CVT_D_S_OP  shift 248
+	Y_CVT_D_W_OP  shift 249
+	Y_CVT_S_D_OP  shift 250
+	Y_CVT_S_W_OP  shift 251
+	Y_CVT_W_D_OP  shift 252
+	Y_CVT_W_S_OP  shift 253
+	Y_C_EQ_D_OP  shift 272
+	Y_C_EQ_S_OP  shift 258
+	Y_C_F_D_OP  shift 270
+	Y_C_F_S_OP  shift 256
+	Y_C_LE_D_OP  shift 282
+	Y_C_LE_S_OP  shift 268
+	Y_C_LT_D_OP  shift 280
+	Y_C_LT_S_OP  shift 266
+	Y_C_NGE_D_OP  shift 281
+	Y_C_NGE_S_OP  shift 267
+	Y_C_NGLE_D_OP  shift 277
+	Y_C_NGLE_S_OP  shift 263
+	Y_C_NGL_D_OP  shift 279
+	Y_C_NGL_S_OP  shift 265
+	Y_C_NGT_D_OP  shift 283
+	Y_C_NGT_S_OP  shift 269
+	Y_C_OLE_D_OP  shift 274
+	Y_C_OLE_S_OP  shift 260
+	Y_C_SEQ_D_OP  shift 278
+	Y_C_SEQ_S_OP  shift 264
+	Y_C_SF_D_OP  shift 276
+	Y_C_SF_S_OP  shift 262
+	Y_C_UEQ_D_OP  shift 273
+	Y_C_UEQ_S_OP  shift 259
+	Y_C_ULE_D_OP  shift 275
+	Y_C_ULE_S_OP  shift 261
+	Y_C_UN_D_OP  shift 271
+	Y_C_UN_S_OP  shift 257
+	Y_DIVU_OP  shift 166
+	Y_DIV_D_OP  shift 243
+	Y_DIV_OP  shift 165
+	Y_DIV_S_OP  shift 242
+	Y_JALR_OP  shift 211
+	Y_JAL_OP  shift 210
+	Y_JR_OP  shift 209
+	Y_J_OP  shift 208
+	Y_LBU_OP  shift 111
+	Y_LB_OP  shift 110
+	Y_LHU_OP  shift 113
+	Y_LH_OP  shift 112
+	Y_LUI_OP  shift 122
+	Y_LWC0_OP  shift 119
+	Y_LWC1_OP  shift 125
+	Y_LWC2_OP  shift 120
+	Y_LWC3_OP  shift 121
+	Y_LWL_OP  shift 115
+	Y_LWR_OP  shift 116
+	Y_LW_OP  shift 114
+	Y_MFC0_OP  shift 220
+	Y_MFC1_OP  shift 221
+	Y_MFC2_OP  shift 223
+	Y_MFC3_OP  shift 224
+	Y_MFHI_OP  shift 216
+	Y_MFLO_OP  shift 217
+	Y_MOV_D_OP  shift 215
+	Y_MOV_S_OP  shift 214
+	Y_MTC0_OP  shift 225
+	Y_MTC1_OP  shift 226
+	Y_MTC2_OP  shift 228
+	Y_MTC3_OP  shift 229
+	Y_MTHI_OP  shift 218
+	Y_MTLO_OP  shift 219
+	Y_MULTU_OP  shift 173
+	Y_MULT_OP  shift 172
+	Y_MUL_D_OP  shift 245
+	Y_MUL_S_OP  shift 244
+	Y_NEG_D_OP  shift 255
+	Y_NEG_S_OP  shift 254
+	Y_NOR_OP  shift 162
+	Y_ORI_OP  shift 155
+	Y_OR_OP  shift 146
+	Y_PFW_OP  shift 118
+	Y_RFE_OP  shift 140
+	Y_SB_OP  shift 128
+	Y_SH_OP  shift 129
+	Y_SLLV_OP  shift 149
+	Y_SLL_OP  shift 159
+	Y_SLTIU_OP  shift 158
+	Y_SLTI_OP  shift 157
+	Y_SLTU_OP  shift 148
+	Y_SLT_OP  shift 147
+	Y_SRAV_OP  shift 150
+	Y_SRA_OP  shift 160
+	Y_SRLV_OP  shift 151
+	Y_SRL_OP  shift 161
+	Y_SUBU_OP  shift 164
+	Y_SUB_D_OP  shift 247
+	Y_SUB_OP  shift 163
+	Y_SUB_S_OP  shift 246
+	Y_SWC0_OP  shift 134
+	Y_SWC1_OP  shift 137
+	Y_SWC2_OP  shift 135
+	Y_SWC3_OP  shift 136
+	Y_SWL_OP  shift 131
+	Y_SWR_OP  shift 132
+	Y_SW_OP  shift 130
+	Y_SYSCALL_OP  shift 141
+	Y_XORI_OP  shift 156
+	Y_XOR_OP  shift 145
+	Y_ABS_POP  shift 29
+	Y_BAL_POP  shift 213
+	Y_BEQZ_POP  shift 196
+	Y_BGEU_POP  shift 203
+	Y_BGE_POP  shift 202
+	Y_BGTU_POP  shift 201
+	Y_BGT_POP  shift 200
+	Y_BLEU_POP  shift 207
+	Y_BLE_POP  shift 206
+	Y_BLTU_POP  shift 205
+	Y_BLT_POP  shift 204
+	Y_BNEZ_POP  shift 197
+	Y_B_POP  shift 212
+	Y_LA_POP  shift 14
+	Y_LD_POP  shift 117
+	Y_LI_POP  shift 15
+	Y_LI_D_POP  shift 16
+	Y_LI_S_POP  shift 17
+	Y_L_D_POP  shift 127
+	Y_L_S_POP  shift 126
+	Y_MFC1_D_POP  shift 222
+	Y_MTC1_D_POP  shift 227
+	Y_MOVE_POP  shift 33
+	Y_MULOU_POP  shift 171
+	Y_MULO_POP  shift 170
+	Y_MUL_POP  shift 169
+	Y_NEGU_POP  shift 31
+	Y_NEG_POP  shift 30
+	Y_NOP_POP  shift 28
+	Y_NOT_POP  shift 32
+	Y_REMU_POP  shift 168
+	Y_REM_POP  shift 167
+	Y_ROL_POP  shift 44
+	Y_ROR_POP  shift 43
+	Y_SD_POP  shift 133
+	Y_SEQ_POP  shift 180
+	Y_SGEU_POP  shift 179
+	Y_SGE_POP  shift 178
+	Y_SGTU_POP  shift 177
+	Y_SGT_POP  shift 176
+	Y_SLEU_POP  shift 175
+	Y_SLE_POP  shift 174
+	Y_SNE_POP  shift 181
+	Y_S_D_POP  shift 139
+	Y_S_S_POP  shift 138
+	Y_ULHU_POP  shift 124
+	Y_ULH_POP  shift 123
+	Y_ULW_POP  shift 18
+	Y_USH_POP  shift 24
+	Y_USW_POP  shift 23
+	Y_ALIAS_DIR  shift 69
+	Y_ALIGN_DIR  shift 70
+	Y_ASCII_DIR  shift 71
+	Y_ASCIIZ_DIR  shift 72
+	Y_ASM0_DIR  shift 73
+	Y_BGNB_DIR  shift 74
+	Y_BYTE_DIR  shift 75
+	Y_COMM_DIR  shift 76
+	Y_DATA_DIR  shift 77
+	Y_DOUBLE_DIR  shift 79
+	Y_ENDB_DIR  shift 81
+	Y_ENDR_DIR  shift 82
+	Y_END_DIR  shift 80
+	Y_ENT_DIR  shift 83
+	Y_ERR_DIR  shift 85
+	Y_EXTERN_DIR  shift 84
+	Y_FILE_DIR  shift 86
+	Y_FLOAT_DIR  shift 87
+	Y_FMASK_DIR  shift 88
+	Y_FRAME_DIR  shift 89
+	Y_GLOBAL_DIR  shift 90
+	Y_HALF_DIR  shift 91
+	Y_K_TEXT_DIR  shift 106
+	Y_K_DATA_DIR  shift 78
+	Y_LABEL_DIR  shift 92
+	Y_LCOMM_DIR  shift 93
+	Y_LIVEREG_DIR  shift 94
+	Y_LOC_DIR  shift 95
+	Y_MASK_DIR  shift 96
+	Y_NOALIAS_DIR  shift 97
+	Y_OPTIONS_DIR  shift 98
+	Y_RDATA_DIR  shift 100
+	Y_REPEAT_DIR  shift 99
+	Y_SDATA_DIR  shift 101
+	Y_SET_DIR  shift 102
+	Y_SPACE_DIR  shift 103
+	Y_STRUCT_DIR  shift 104
+	Y_TEXT_DIR  shift 105
+	Y_VERSTAMP_DIR  shift 107
+	Y_VREG_DIR  shift 108
+	Y_WORD_DIR  shift 109
+	.  error
+
+	CMD  goto 6
+	ASM_CODE  goto 7
+	ASM_DIRECTIVE  goto 8
+	LOAD_OP  goto 11
+	LOAD_COP  goto 12
+	LOAD_IMM_OP  goto 13
+	ULOADH_POP  goto 19
+	LOADF_OP  goto 20
+	STORE_OP  goto 21
+	STORE_COP  goto 22
+	STOREF_OP  goto 25
+	SYS_OP  goto 26
+	BINARY_OP_I  goto 34
+	BINARY_OPR_I  goto 35
+	BINARY_IMM_OP  goto 36
+	SHIFT_OP  goto 37
+	BINARY_OP_NOI  goto 38
+	SUB_OP  goto 39
+	DIV_POP  goto 40
+	MUL_POP  goto 41
+	MULT_OP  goto 42
+	SET_LE_POP  goto 45
+	SET_GT_POP  goto 46
+	SET_GE_POP  goto 47
+	SET_EQ_POP  goto 48
+	NULLARY_BR_OP  goto 49
+	UNARY_BR_OP  goto 50
+	UNARY_BR_POP  goto 51
+	BINARY_BR_OP  goto 52
+	BR_GT_POP  goto 53
+	BR_GE_POP  goto 54
+	BR_LT_POP  goto 55
+	BR_LE_POP  goto 56
+	J_OPS  goto 57
+	B_OP  goto 58
+	MOVE_COP_OP  goto 59
+	MOV_FROM_HILO_OP  goto 60
+	MOV_TO_HILO_OP  goto 61
+	MOV_COP_OP  goto 62
+	CTL_COP_OP  goto 63
+	FP_ABS_OP  goto 64
+	FP_BINARY_OP  goto 65
+	FP_CONVERT_OP  goto 66
+	FP_NEG_OP  goto 67
+	FP_CMP_OP  goto 68
+
+state 4
+	OPT_LBL :  ID_: 
+	OPT_LBL :  ID_= Y_INT 
+
+	:  shift 284
+	=  shift 285
+	.  error
+
+
+state 5
+	ID :  $$376_Y_ID 
+
+	Y_ID  shift 286
+	.  error
+
+
+state 6
+	LINE :  $$1 OPT_LBL CMD_    (2)
+
+	.  reduce 2
+
+
+state 7
+	CMD :  ASM_CODE_Y_NL 
+
+	Y_NL  shift 287
+	.  error
+
+
+state 8
+	CMD :  ASM_DIRECTIVE_Y_NL 
+
+	Y_NL  shift 288
+	.  error
+
+
+state 9
+	CMD :  Y_NL_    (8)
+
+	.  reduce 8
+
+
+state 10
+	CMD :  Y_EOF_    (9)
+
+	.  reduce 9
+
+
+state 11
+	ASM_CODE :  LOAD_OP_DEST_REG ADDRESS 
+
+	Y_REG  shift 291
+	.  error
+
+	DEST_REG  goto 289
+	REGISTER  goto 290
+
+state 12
+	ASM_CODE :  LOAD_COP_COP_REG ADDRESS 
+
+	Y_REG  shift 293
+	Y_FP_REG  shift 294
+	.  error
+
+	COP_REG  goto 292
+
+state 13
+	ASM_CODE :  LOAD_IMM_OP_DEST_REG IMM 
+
+	Y_REG  shift 291
+	.  error
+
+	DEST_REG  goto 295
+	REGISTER  goto 290
+
+state 14
+	ASM_CODE :  Y_LA_POP_DEST_REG ADDRESS 
+
+	Y_REG  shift 291
+	.  error
+
+	DEST_REG  goto 296
+	REGISTER  goto 290
+
+state 15
+	ASM_CODE :  Y_LI_POP_DEST_REG IMM 
+
+	Y_REG  shift 291
+	.  error
+
+	DEST_REG  goto 297
+	REGISTER  goto 290
+
+state 16
+	ASM_CODE :  Y_LI_D_POP_F_DEST Y_FP 
+
+	Y_FP_REG  shift 300
+	.  error
+
+	F_DEST  goto 298
+	FP_REGISTER  goto 299
+
+state 17
+	ASM_CODE :  Y_LI_S_POP_F_DEST Y_FP 
+
+	Y_FP_REG  shift 300
+	.  error
+
+	F_DEST  goto 301
+	FP_REGISTER  goto 299
+
+state 18
+	ASM_CODE :  Y_ULW_POP_DEST_REG ADDRESS 
+
+	Y_REG  shift 291
+	.  error
+
+	DEST_REG  goto 302
+	REGISTER  goto 290
+
+state 19
+	ASM_CODE :  ULOADH_POP_DEST_REG ADDRESS 
+
+	Y_REG  shift 291
+	.  error
+
+	DEST_REG  goto 303
+	REGISTER  goto 290
+
+state 20
+	ASM_CODE :  LOADF_OP_F_DEST ADDRESS 
+
+	Y_FP_REG  shift 300
+	.  error
+
+	F_DEST  goto 304
+	FP_REGISTER  goto 299
+
+state 21
+	ASM_CODE :  STORE_OP_SOURCE ADDRESS 
+
+	Y_REG  shift 291
+	.  error
+
+	SOURCE  goto 305
+	REGISTER  goto 306
+
+state 22
+	ASM_CODE :  STORE_COP_COP_REG ADDRESS 
+
+	Y_REG  shift 293
+	Y_FP_REG  shift 294
+	.  error
+
+	COP_REG  goto 307
+
+state 23
+	ASM_CODE :  Y_USW_POP_SOURCE ADDRESS 
+
+	Y_REG  shift 291
+	.  error
+
+	SOURCE  goto 308
+	REGISTER  goto 306
+
+state 24
+	ASM_CODE :  Y_USH_POP_SOURCE ADDRESS 
+
+	Y_REG  shift 291
+	.  error
+
+	SOURCE  goto 309
+	REGISTER  goto 306
+
+state 25
+	ASM_CODE :  STOREF_OP_F_SRC1 ADDRESS 
+
+	Y_FP_REG  shift 300
+	.  error
+
+	F_SRC1  goto 310
+	FP_REGISTER  goto 311
+
+state 26
+	ASM_CODE :  SYS_OP_    (25)
+
+	.  reduce 25
+
+
+state 27
+	ASM_CODE :  Y_BREAK_OP_Y_INT 
+
+	Y_INT  shift 312
+	.  error
+
+
+state 28
+	ASM_CODE :  Y_NOP_POP_    (27)
+
+	.  reduce 27
+
+
+state 29
+	ASM_CODE :  Y_ABS_POP_DEST_REG SRC1 
+
+	Y_REG  shift 291
+	.  error
+
+	DEST_REG  goto 313
+	REGISTER  goto 290
+
+state 30
+	ASM_CODE :  Y_NEG_POP_DEST_REG SRC1 
+
+	Y_REG  shift 291
+	.  error
+
+	DEST_REG  goto 314
+	REGISTER  goto 290
+
+state 31
+	ASM_CODE :  Y_NEGU_POP_DEST_REG SRC1 
+
+	Y_REG  shift 291
+	.  error
+
+	DEST_REG  goto 315
+	REGISTER  goto 290
+
+state 32
+	ASM_CODE :  Y_NOT_POP_DEST_REG SRC1 
+
+	Y_REG  shift 291
+	.  error
+
+	DEST_REG  goto 316
+	REGISTER  goto 290
+
+state 33
+	ASM_CODE :  Y_MOVE_POP_DEST_REG SRC1 
+
+	Y_REG  shift 291
+	.  error
+
+	DEST_REG  goto 317
+	REGISTER  goto 290
+
+state 34
+	ASM_CODE :  BINARY_OP_I_DEST_REG SRC1 SRC2 
+	ASM_CODE :  BINARY_OP_I_DEST_REG SRC1 IMM 
+	ASM_CODE :  BINARY_OP_I_DEST_REG IMM 
+
+	Y_REG  shift 291
+	.  error
+
+	DEST_REG  goto 318
+	REGISTER  goto 290
+
+state 35
+	ASM_CODE :  BINARY_OPR_I_DEST_REG SRC1 SRC2 
+	ASM_CODE :  BINARY_OPR_I_DEST_REG SRC1 Y_INT 
+	ASM_CODE :  BINARY_OPR_I_DEST_REG Y_INT 
+
+	Y_REG  shift 291
+	.  error
+
+	DEST_REG  goto 319
+	REGISTER  goto 290
+
+state 36
+	ASM_CODE :  BINARY_IMM_OP_DEST_REG SRC1 IMM 
+	ASM_CODE :  BINARY_IMM_OP_DEST_REG IMM 
+
+	Y_REG  shift 291
+	.  error
+
+	DEST_REG  goto 320
+	REGISTER  goto 290
+
+state 37
+	ASM_CODE :  SHIFT_OP_DEST_REG SRC1 Y_INT 
+	ASM_CODE :  SHIFT_OP_DEST_REG SRC1 SRC2 
+
+	Y_REG  shift 291
+	.  error
+
+	DEST_REG  goto 321
+	REGISTER  goto 290
+
+state 38
+	ASM_CODE :  BINARY_OP_NOI_DEST_REG SRC1 SRC2 
+	ASM_CODE :  BINARY_OP_NOI_DEST_REG SRC1 IMM 
+	ASM_CODE :  BINARY_OP_NOI_DEST_REG IMM 
+
+	Y_REG  shift 291
+	.  error
+
+	DEST_REG  goto 322
+	REGISTER  goto 290
+
+state 39
+	ASM_CODE :  SUB_OP_DEST_REG SRC1 SRC2 
+	ASM_CODE :  SUB_OP_DEST_REG SRC1 IMM 
+	ASM_CODE :  SUB_OP_DEST_REG IMM 
+
+	Y_REG  shift 291
+	.  error
+
+	DEST_REG  goto 323
+	REGISTER  goto 290
+
+state 40
+	ASM_CODE :  DIV_POP_DEST_REG SRC1 
+	ASM_CODE :  DIV_POP_DEST_REG SRC1 SRC2 
+	ASM_CODE :  DIV_POP_DEST_REG SRC1 IMM 
+
+	Y_REG  shift 291
+	.  error
+
+	DEST_REG  goto 324
+	REGISTER  goto 290
+
+state 41
+	ASM_CODE :  MUL_POP_DEST_REG SRC1 SRC2 
+	ASM_CODE :  MUL_POP_DEST_REG SRC1 IMM 
+
+	Y_REG  shift 291
+	.  error
+
+	DEST_REG  goto 325
+	REGISTER  goto 290
+
+state 42
+	ASM_CODE :  MULT_OP_SRC1 SRC2 
+
+	Y_REG  shift 291
+	.  error
+
+	SRC1  goto 326
+	REGISTER  goto 327
+
+state 43
+	ASM_CODE :  Y_ROR_POP_DEST_REG SRC1 SRC2 
+	ASM_CODE :  Y_ROR_POP_DEST_REG SRC1 IMM 
+
+	Y_REG  shift 291
+	.  error
+
+	DEST_REG  goto 328
+	REGISTER  goto 290
+
+state 44
+	ASM_CODE :  Y_ROL_POP_DEST_REG SRC1 SRC2 
+	ASM_CODE :  Y_ROL_POP_DEST_REG SRC1 IMM 
+
+	Y_REG  shift 291
+	.  error
+
+	DEST_REG  goto 329
+	REGISTER  goto 290
+
+state 45
+	ASM_CODE :  SET_LE_POP_DEST_REG SRC1 SRC2 
+	ASM_CODE :  SET_LE_POP_DEST_REG SRC1 IMM 
+
+	Y_REG  shift 291
+	.  error
+
+	DEST_REG  goto 330
+	REGISTER  goto 290
+
+state 46
+	ASM_CODE :  SET_GT_POP_DEST_REG SRC1 SRC2 
+	ASM_CODE :  SET_GT_POP_DEST_REG SRC1 IMM 
+
+	Y_REG  shift 291
+	.  error
+
+	DEST_REG  goto 331
+	REGISTER  goto 290
+
+state 47
+	ASM_CODE :  SET_GE_POP_DEST_REG SRC1 SRC2 
+	ASM_CODE :  SET_GE_POP_DEST_REG SRC1 IMM 
+
+	Y_REG  shift 291
+	.  error
+
+	DEST_REG  goto 332
+	REGISTER  goto 290
+
+state 48
+	ASM_CODE :  SET_EQ_POP_DEST_REG SRC1 SRC2 
+	ASM_CODE :  SET_EQ_POP_DEST_REG SRC1 IMM 
+
+	Y_REG  shift 291
+	.  error
+
+	DEST_REG  goto 333
+	REGISTER  goto 290
+
+state 49
+	ASM_CODE :  NULLARY_BR_OP_LABEL 
+	$$376 : _    (376)
+
+	.  reduce 376
+
+	ID  goto 335
+	LABEL  goto 334
+	$$376  goto 5
+
+state 50
+	ASM_CODE :  UNARY_BR_OP_SRC1 LABEL 
+
+	Y_REG  shift 291
+	.  error
+
+	SRC1  goto 336
+	REGISTER  goto 327
+
+state 51
+	ASM_CODE :  UNARY_BR_POP_SRC1 LABEL 
+
+	Y_REG  shift 291
+	.  error
+
+	SRC1  goto 337
+	REGISTER  goto 327
+
+state 52
+	ASM_CODE :  BINARY_BR_OP_SRC1 SRC2 LABEL 
+	ASM_CODE :  BINARY_BR_OP_SRC1 IMMEDIATE LABEL 
+
+	Y_REG  shift 291
+	.  error
+
+	SRC1  goto 338
+	REGISTER  goto 327
+
+state 53
+	ASM_CODE :  BR_GT_POP_SRC1 SRC2 LABEL 
+	ASM_CODE :  BR_GT_POP_SRC1 IMMEDIATE LABEL 
+
+	Y_REG  shift 291
+	.  error
+
+	SRC1  goto 339
+	REGISTER  goto 327
+
+state 54
+	ASM_CODE :  BR_GE_POP_SRC1 SRC2 LABEL 
+	ASM_CODE :  BR_GE_POP_SRC1 IMMEDIATE LABEL 
+
+	Y_REG  shift 291
+	.  error
+
+	SRC1  goto 340
+	REGISTER  goto 327
+
+state 55
+	ASM_CODE :  BR_LT_POP_SRC1 SRC2 LABEL 
+	ASM_CODE :  BR_LT_POP_SRC1 IMMEDIATE LABEL 
+
+	Y_REG  shift 291
+	.  error
+
+	SRC1  goto 341
+	REGISTER  goto 327
+
+state 56
+	ASM_CODE :  BR_LE_POP_SRC1 SRC2 LABEL 
+	ASM_CODE :  BR_LE_POP_SRC1 IMMEDIATE LABEL 
+
+	Y_REG  shift 291
+	.  error
+
+	SRC1  goto 342
+	REGISTER  goto 327
+
+state 57
+	ASM_CODE :  J_OPS_LABEL 
+	ASM_CODE :  J_OPS_SRC1 
+	ASM_CODE :  J_OPS_DEST SRC1 
+	$$376 : _    (376)
+
+	Y_REG  shift 291
+	.  reduce 376
+
+	ID  goto 335
+	SRC1  goto 344
+	LABEL  goto 343
+	DEST  goto 345
+	REGISTER  goto 346
+	$$376  goto 5
+
+state 58
+	ASM_CODE :  B_OP_LABEL 
+	$$376 : _    (376)
+
+	.  reduce 376
+
+	ID  goto 335
+	LABEL  goto 347
+	$$376  goto 5
+
+state 59
+	ASM_CODE :  MOVE_COP_OP_COP_REG COP_REG 
+
+	Y_REG  shift 293
+	Y_FP_REG  shift 294
+	.  error
+
+	COP_REG  goto 348
+
+state 60
+	ASM_CODE :  MOV_FROM_HILO_OP_REG 
+
+	Y_REG  shift 291
+	.  error
+
+	REG  goto 349
+	REGISTER  goto 350
+
+state 61
+	ASM_CODE :  MOV_TO_HILO_OP_REG 
+
+	Y_REG  shift 291
+	.  error
+
+	REG  goto 351
+	REGISTER  goto 350
+
+state 62
+	ASM_CODE :  MOV_COP_OP_REG COP_REG 
+
+	Y_REG  shift 291
+	.  error
+
+	REG  goto 352
+	REGISTER  goto 350
+
+state 63
+	ASM_CODE :  CTL_COP_OP_COP_REG COP_REG 
+
+	Y_REG  shift 293
+	Y_FP_REG  shift 294
+	.  error
+
+	COP_REG  goto 353
+
+state 64
+	ASM_CODE :  FP_ABS_OP_F_DEST F_SRC1 
+
+	Y_FP_REG  shift 300
+	.  error
+
+	F_DEST  goto 354
+	FP_REGISTER  goto 299
+
+state 65
+	ASM_CODE :  FP_BINARY_OP_F_DEST F_SRC1 F_SRC2 
+
+	Y_FP_REG  shift 300
+	.  error
+
+	F_DEST  goto 355
+	FP_REGISTER  goto 299
+
+state 66
+	ASM_CODE :  FP_CONVERT_OP_F_DEST F_SRC2 
+
+	Y_FP_REG  shift 300
+	.  error
+
+	F_DEST  goto 356
+	FP_REGISTER  goto 299
+
+state 67
+	ASM_CODE :  FP_NEG_OP_F_DEST F_SRC2 
+
+	Y_FP_REG  shift 300
+	.  error
+
+	F_DEST  goto 357
+	FP_REGISTER  goto 299
+
+state 68
+	ASM_CODE :  FP_CMP_OP_F_SRC1 F_SRC2 
+
+	Y_FP_REG  shift 300
+	.  error
+
+	F_SRC1  goto 358
+	FP_REGISTER  goto 311
+
+state 69
+	ASM_DIRECTIVE :  Y_ALIAS_DIR_Y_REG Y_REG 
+
+	Y_REG  shift 359
+	.  error
+
+
+state 70
+	ASM_DIRECTIVE :  Y_ALIGN_DIR_EXPR 
+	$$376 : _    (376)
+
+	Y_INT  shift 361
+	.  reduce 376
+
+	ID  goto 362
+	EXPR  goto 360
+	$$376  goto 5
+
+state 71
+	ASM_DIRECTIVE :  Y_ASCII_DIR_$$270 STR_LST 
+	$$270 : _    (270)
+
+	.  reduce 270
+
+	$$270  goto 363
+
+state 72
+	ASM_DIRECTIVE :  Y_ASCIIZ_DIR_$$272 STR_LST 
+	$$272 : _    (272)
+
+	.  reduce 272
+
+	$$272  goto 364
+
+state 73
+	ASM_DIRECTIVE :  Y_ASM0_DIR_    (274)
+
+	.  reduce 274
+
+
+state 74
+	ASM_DIRECTIVE :  Y_BGNB_DIR_Y_INT 
+
+	Y_INT  shift 365
+	.  error
+
+
+state 75
+	ASM_DIRECTIVE :  Y_BYTE_DIR_$$276 EXPR_LST 
+	$$276 : _    (276)
+
+	.  reduce 276
+
+	$$276  goto 366
+
+state 76
+	ASM_DIRECTIVE :  Y_COMM_DIR_ID EXPR 
+	$$376 : _    (376)
+
+	.  reduce 376
+
+	ID  goto 367
+	$$376  goto 5
+
+state 77
+	ASM_DIRECTIVE :  Y_DATA_DIR_    (279)
+	ASM_DIRECTIVE :  Y_DATA_DIR_Y_INT 
+
+	Y_INT  shift 368
+	.  reduce 279
+
+
+state 78
+	ASM_DIRECTIVE :  Y_K_DATA_DIR_    (281)
+	ASM_DIRECTIVE :  Y_K_DATA_DIR_Y_INT 
+
+	Y_INT  shift 369
+	.  reduce 281
+
+
+state 79
+	ASM_DIRECTIVE :  Y_DOUBLE_DIR_$$283 FP_EXPR_LST 
+	$$283 : _    (283)
+
+	.  reduce 283
+
+	$$283  goto 370
+
+state 80
+	ASM_DIRECTIVE :  Y_END_DIR_OPTIONAL_ID 
+	$$372 : _    (372)
+
+	.  reduce 372
+
+	OPTIONAL_ID  goto 371
+	$$372  goto 372
+
+state 81
+	ASM_DIRECTIVE :  Y_ENDB_DIR_Y_INT 
+
+	Y_INT  shift 373
+	.  error
+
+
+state 82
+	ASM_DIRECTIVE :  Y_ENDR_DIR_    (287)
+
+	.  reduce 287
+
+
+state 83
+	ASM_DIRECTIVE :  Y_ENT_DIR_ID 
+	ASM_DIRECTIVE :  Y_ENT_DIR_ID Y_INT 
+	$$376 : _    (376)
+
+	.  reduce 376
+
+	ID  goto 374
+	$$376  goto 5
+
+state 84
+	ASM_DIRECTIVE :  Y_EXTERN_DIR_ID EXPR 
+	$$376 : _    (376)
+
+	.  reduce 376
+
+	ID  goto 375
+	$$376  goto 5
+
+state 85
+	ASM_DIRECTIVE :  Y_ERR_DIR_    (291)
+
+	.  reduce 291
+
+
+state 86
+	ASM_DIRECTIVE :  Y_FILE_DIR_Y_INT Y_STR 
+
+	Y_INT  shift 376
+	.  error
+
+
+state 87
+	ASM_DIRECTIVE :  Y_FLOAT_DIR_$$293 FP_EXPR_LST 
+	$$293 : _    (293)
+
+	.  reduce 293
+
+	$$293  goto 377
+
+state 88
+	ASM_DIRECTIVE :  Y_FMASK_DIR_Y_INT Y_INT 
+
+	Y_INT  shift 378
+	.  error
+
+
+state 89
+	ASM_DIRECTIVE :  Y_FRAME_DIR_REGISTER Y_INT REGISTER 
+
+	Y_REG  shift 291
+	.  error
+
+	REGISTER  goto 379
+
+state 90
+	ASM_DIRECTIVE :  Y_GLOBAL_DIR_ID 
+	$$376 : _    (376)
+
+	.  reduce 376
+
+	ID  goto 380
+	$$376  goto 5
+
+state 91
+	ASM_DIRECTIVE :  Y_HALF_DIR_$$298 EXPR_LST 
+	$$298 : _    (298)
+
+	.  reduce 298
+
+	$$298  goto 381
+
+state 92
+	ASM_DIRECTIVE :  Y_LABEL_DIR_ID 
+	$$376 : _    (376)
+
+	.  reduce 376
+
+	ID  goto 382
+	$$376  goto 5
+
+state 93
+	ASM_DIRECTIVE :  Y_LCOMM_DIR_ID EXPR 
+	$$376 : _    (376)
+
+	.  reduce 376
+
+	ID  goto 383
+	$$376  goto 5
+
+state 94
+	ASM_DIRECTIVE :  Y_LIVEREG_DIR_Y_INT Y_INT 
+
+	Y_INT  shift 384
+	.  error
+
+
+state 95
+	ASM_DIRECTIVE :  Y_LOC_DIR_Y_INT Y_INT 
+
+	Y_INT  shift 385
+	.  error
+
+
+state 96
+	ASM_DIRECTIVE :  Y_MASK_DIR_Y_INT Y_INT 
+
+	Y_INT  shift 386
+	.  error
+
+
+state 97
+	ASM_DIRECTIVE :  Y_NOALIAS_DIR_Y_REG Y_REG 
+
+	Y_REG  shift 387
+	.  error
+
+
+state 98
+	ASM_DIRECTIVE :  Y_OPTIONS_DIR_ID 
+	$$376 : _    (376)
+
+	.  reduce 376
+
+	ID  goto 388
+	$$376  goto 5
+
+state 99
+	ASM_DIRECTIVE :  Y_REPEAT_DIR_EXPR 
+	$$376 : _    (376)
+
+	Y_INT  shift 361
+	.  reduce 376
+
+	ID  goto 362
+	EXPR  goto 389
+	$$376  goto 5
+
+state 100
+	ASM_DIRECTIVE :  Y_RDATA_DIR_    (308)
+	ASM_DIRECTIVE :  Y_RDATA_DIR_Y_INT 
+
+	Y_INT  shift 390
+	.  reduce 308
+
+
+state 101
+	ASM_DIRECTIVE :  Y_SDATA_DIR_    (310)
+	ASM_DIRECTIVE :  Y_SDATA_DIR_Y_INT 
+
+	Y_INT  shift 391
+	.  reduce 310
+
+
+state 102
+	ASM_DIRECTIVE :  Y_SET_DIR_ID 
+	$$376 : _    (376)
+
+	.  reduce 376
+
+	ID  goto 392
+	$$376  goto 5
+
+state 103
+	ASM_DIRECTIVE :  Y_SPACE_DIR_EXPR 
+	$$376 : _    (376)
+
+	Y_INT  shift 361
+	.  reduce 376
+
+	ID  goto 362
+	EXPR  goto 393
+	$$376  goto 5
+
+state 104
+	ASM_DIRECTIVE :  Y_STRUCT_DIR_EXPR 
+	$$376 : _    (376)
+
+	Y_INT  shift 361
+	.  reduce 376
+
+	ID  goto 362
+	EXPR  goto 394
+	$$376  goto 5
+
+state 105
+	ASM_DIRECTIVE :  Y_TEXT_DIR_    (315)
+	ASM_DIRECTIVE :  Y_TEXT_DIR_Y_INT 
+
+	Y_INT  shift 395
+	.  reduce 315
+
+
+state 106
+	ASM_DIRECTIVE :  Y_K_TEXT_DIR_    (317)
+	ASM_DIRECTIVE :  Y_K_TEXT_DIR_Y_INT 
+
+	Y_INT  shift 396
+	.  reduce 317
+
+
+state 107
+	ASM_DIRECTIVE :  Y_VERSTAMP_DIR_Y_INT Y_INT 
+
+	Y_INT  shift 397
+	.  error
+
+
+state 108
+	ASM_DIRECTIVE :  Y_VREG_DIR_REGISTER Y_INT Y_INT 
+
+	Y_REG  shift 291
+	.  error
+
+	REGISTER  goto 398
+
+state 109
+	ASM_DIRECTIVE :  Y_WORD_DIR_$$321 EXPR_LST 
+	$$321 : _    (321)
+
+	.  reduce 321
+
+	$$321  goto 399
+
+state 110
+	LOAD_OP :  Y_LB_OP_    (94)
+
+	.  reduce 94
+
+
+state 111
+	LOAD_OP :  Y_LBU_OP_    (95)
+
+	.  reduce 95
+
+
+state 112
+	LOAD_OP :  Y_LH_OP_    (96)
+
+	.  reduce 96
+
+
+state 113
+	LOAD_OP :  Y_LHU_OP_    (97)
+
+	.  reduce 97
+
+
+state 114
+	LOAD_OP :  Y_LW_OP_    (98)
+
+	.  reduce 98
+
+
+state 115
+	LOAD_OP :  Y_LWL_OP_    (99)
+
+	.  reduce 99
+
+
+state 116
+	LOAD_OP :  Y_LWR_OP_    (100)
+
+	.  reduce 100
+
+
+state 117
+	LOAD_OP :  Y_LD_POP_    (101)
+
+	.  reduce 101
+
+
+state 118
+	LOAD_OP :  Y_PFW_OP_    (102)
+
+	.  reduce 102
+
+
+state 119
+	LOAD_COP :  Y_LWC0_OP_    (103)
+
+	.  reduce 103
+
+
+state 120
+	LOAD_COP :  Y_LWC2_OP_    (104)
+
+	.  reduce 104
+
+
+state 121
+	LOAD_COP :  Y_LWC3_OP_    (105)
+
+	.  reduce 105
+
+
+state 122
+	LOAD_IMM_OP :  Y_LUI_OP_    (106)
+
+	.  reduce 106
+
+
+state 123
+	ULOADH_POP :  Y_ULH_POP_    (107)
+
+	.  reduce 107
+
+
+state 124
+	ULOADH_POP :  Y_ULHU_POP_    (108)
+
+	.  reduce 108
+
+
+state 125
+	LOADF_OP :  Y_LWC1_OP_    (109)
+
+	.  reduce 109
+
+
+state 126
+	LOADF_OP :  Y_L_S_POP_    (110)
+
+	.  reduce 110
+
+
+state 127
+	LOADF_OP :  Y_L_D_POP_    (111)
+
+	.  reduce 111
+
+
+state 128
+	STORE_OP :  Y_SB_OP_    (112)
+
+	.  reduce 112
+
+
+state 129
+	STORE_OP :  Y_SH_OP_    (113)
+
+	.  reduce 113
+
+
+state 130
+	STORE_OP :  Y_SW_OP_    (114)
+
+	.  reduce 114
+
+
+state 131
+	STORE_OP :  Y_SWL_OP_    (115)
+
+	.  reduce 115
+
+
+state 132
+	STORE_OP :  Y_SWR_OP_    (116)
+
+	.  reduce 116
+
+
+state 133
+	STORE_OP :  Y_SD_POP_    (117)
+
+	.  reduce 117
+
+
+state 134
+	STORE_COP :  Y_SWC0_OP_    (118)
+
+	.  reduce 118
+
+
+state 135
+	STORE_COP :  Y_SWC2_OP_    (119)
+
+	.  reduce 119
+
+
+state 136
+	STORE_COP :  Y_SWC3_OP_    (120)
+
+	.  reduce 120
+
+
+state 137
+	STOREF_OP :  Y_SWC1_OP_    (121)
+
+	.  reduce 121
+
+
+state 138
+	STOREF_OP :  Y_S_S_POP_    (122)
+
+	.  reduce 122
+
+
+state 139
+	STOREF_OP :  Y_S_D_POP_    (123)
+
+	.  reduce 123
+
+
+state 140
+	SYS_OP :  Y_RFE_OP_    (124)
+
+	.  reduce 124
+
+
+state 141
+	SYS_OP :  Y_SYSCALL_OP_    (125)
+
+	.  reduce 125
+
+
+state 142
+	BINARY_OP_I :  Y_ADD_OP_    (126)
+
+	.  reduce 126
+
+
+state 143
+	BINARY_OP_I :  Y_ADDU_OP_    (127)
+
+	.  reduce 127
+
+
+state 144
+	BINARY_OP_I :  Y_AND_OP_    (128)
+
+	.  reduce 128
+
+
+state 145
+	BINARY_OP_I :  Y_XOR_OP_    (129)
+
+	.  reduce 129
+
+
+state 146
+	BINARY_OP_I :  Y_OR_OP_    (130)
+
+	.  reduce 130
+
+
+state 147
+	BINARY_OP_I :  Y_SLT_OP_    (131)
+
+	.  reduce 131
+
+
+state 148
+	BINARY_OP_I :  Y_SLTU_OP_    (132)
+
+	.  reduce 132
+
+
+state 149
+	BINARY_OPR_I :  Y_SLLV_OP_    (133)
+
+	.  reduce 133
+
+
+state 150
+	BINARY_OPR_I :  Y_SRAV_OP_    (134)
+
+	.  reduce 134
+
+
+state 151
+	BINARY_OPR_I :  Y_SRLV_OP_    (135)
+
+	.  reduce 135
+
+
+state 152
+	BINARY_IMM_OP :  Y_ADDI_OP_    (136)
+
+	.  reduce 136
+
+
+state 153
+	BINARY_IMM_OP :  Y_ADDIU_OP_    (137)
+
+	.  reduce 137
+
+
+state 154
+	BINARY_IMM_OP :  Y_ANDI_OP_    (138)
+
+	.  reduce 138
+
+
+state 155
+	BINARY_IMM_OP :  Y_ORI_OP_    (139)
+
+	.  reduce 139
+
+
+state 156
+	BINARY_IMM_OP :  Y_XORI_OP_    (140)
+
+	.  reduce 140
+
+
+state 157
+	BINARY_IMM_OP :  Y_SLTI_OP_    (141)
+
+	.  reduce 141
+
+
+state 158
+	BINARY_IMM_OP :  Y_SLTIU_OP_    (142)
+
+	.  reduce 142
+
+
+state 159
+	SHIFT_OP :  Y_SLL_OP_    (143)
+
+	.  reduce 143
+
+
+state 160
+	SHIFT_OP :  Y_SRA_OP_    (144)
+
+	.  reduce 144
+
+
+state 161
+	SHIFT_OP :  Y_SRL_OP_    (145)
+
+	.  reduce 145
+
+
+state 162
+	BINARY_OP_NOI :  Y_NOR_OP_    (146)
+
+	.  reduce 146
+
+
+state 163
+	SUB_OP :  Y_SUB_OP_    (147)
+
+	.  reduce 147
+
+
+state 164
+	SUB_OP :  Y_SUBU_OP_    (148)
+
+	.  reduce 148
+
+
+state 165
+	DIV_POP :  Y_DIV_OP_    (149)
+
+	.  reduce 149
+
+
+state 166
+	DIV_POP :  Y_DIVU_OP_    (150)
+
+	.  reduce 150
+
+
+state 167
+	DIV_POP :  Y_REM_POP_    (151)
+
+	.  reduce 151
+
+
+state 168
+	DIV_POP :  Y_REMU_POP_    (152)
+
+	.  reduce 152
+
+
+state 169
+	MUL_POP :  Y_MUL_POP_    (153)
+
+	.  reduce 153
+
+
+state 170
+	MUL_POP :  Y_MULO_POP_    (154)
+
+	.  reduce 154
+
+
+state 171
+	MUL_POP :  Y_MULOU_POP_    (155)
+
+	.  reduce 155
+
+
+state 172
+	MULT_OP :  Y_MULT_OP_    (164)
+
+	.  reduce 164
+
+
+state 173
+	MULT_OP :  Y_MULTU_OP_    (165)
+
+	.  reduce 165
+
+
+state 174
+	SET_LE_POP :  Y_SLE_POP_    (156)
+
+	.  reduce 156
+
+
+state 175
+	SET_LE_POP :  Y_SLEU_POP_    (157)
+
+	.  reduce 157
+
+
+state 176
+	SET_GT_POP :  Y_SGT_POP_    (158)
+
+	.  reduce 158
+
+
+state 177
+	SET_GT_POP :  Y_SGTU_POP_    (159)
+
+	.  reduce 159
+
+
+state 178
+	SET_GE_POP :  Y_SGE_POP_    (160)
+
+	.  reduce 160
+
+
+state 179
+	SET_GE_POP :  Y_SGEU_POP_    (161)
+
+	.  reduce 161
+
+
+state 180
+	SET_EQ_POP :  Y_SEQ_POP_    (162)
+
+	.  reduce 162
+
+
+state 181
+	SET_EQ_POP :  Y_SNE_POP_    (163)
+
+	.  reduce 163
+
+
+state 182
+	NULLARY_BR_OP :  Y_BC0T_OP_    (166)
+
+	.  reduce 166
+
+
+state 183
+	NULLARY_BR_OP :  Y_BC1T_OP_    (167)
+
+	.  reduce 167
+
+
+state 184
+	NULLARY_BR_OP :  Y_BC2T_OP_    (168)
+
+	.  reduce 168
+
+
+state 185
+	NULLARY_BR_OP :  Y_BC3T_OP_    (169)
+
+	.  reduce 169
+
+
+state 186
+	NULLARY_BR_OP :  Y_BC0F_OP_    (170)
+
+	.  reduce 170
+
+
+state 187
+	NULLARY_BR_OP :  Y_BC1F_OP_    (171)
+
+	.  reduce 171
+
+
+state 188
+	NULLARY_BR_OP :  Y_BC2F_OP_    (172)
+
+	.  reduce 172
+
+
+state 189
+	NULLARY_BR_OP :  Y_BC3F_OP_    (173)
+
+	.  reduce 173
+
+
+state 190
+	UNARY_BR_OP :  Y_BGEZ_OP_    (174)
+
+	.  reduce 174
+
+
+state 191
+	UNARY_BR_OP :  Y_BGEZAL_OP_    (175)
+
+	.  reduce 175
+
+
+state 192
+	UNARY_BR_OP :  Y_BGTZ_OP_    (176)
+
+	.  reduce 176
+
+
+state 193
+	UNARY_BR_OP :  Y_BLEZ_OP_    (177)
+
+	.  reduce 177
+
+
+state 194
+	UNARY_BR_OP :  Y_BLTZ_OP_    (178)
+
+	.  reduce 178
+
+
+state 195
+	UNARY_BR_OP :  Y_BLTZAL_OP_    (179)
+
+	.  reduce 179
+
+
+state 196
+	UNARY_BR_POP :  Y_BEQZ_POP_    (180)
+
+	.  reduce 180
+
+
+state 197
+	UNARY_BR_POP :  Y_BNEZ_POP_    (181)
+
+	.  reduce 181
+
+
+state 198
+	BINARY_BR_OP :  Y_BEQ_OP_    (182)
+
+	.  reduce 182
+
+
+state 199
+	BINARY_BR_OP :  Y_BNE_OP_    (183)
+
+	.  reduce 183
+
+
+state 200
+	BR_GT_POP :  Y_BGT_POP_    (184)
+
+	.  reduce 184
+
+
+state 201
+	BR_GT_POP :  Y_BGTU_POP_    (185)
+
+	.  reduce 185
+
+
+state 202
+	BR_GE_POP :  Y_BGE_POP_    (186)
+
+	.  reduce 186
+
+
+state 203
+	BR_GE_POP :  Y_BGEU_POP_    (187)
+
+	.  reduce 187
+
+
+state 204
+	BR_LT_POP :  Y_BLT_POP_    (188)
+
+	.  reduce 188
+
+
+state 205
+	BR_LT_POP :  Y_BLTU_POP_    (189)
+
+	.  reduce 189
+
+
+state 206
+	BR_LE_POP :  Y_BLE_POP_    (190)
+
+	.  reduce 190
+
+
+state 207
+	BR_LE_POP :  Y_BLEU_POP_    (191)
+
+	.  reduce 191
+
+
+state 208
+	J_OPS :  Y_J_OP_    (192)
+
+	.  reduce 192
+
+
+state 209
+	J_OPS :  Y_JR_OP_    (193)
+
+	.  reduce 193
+
+
+state 210
+	J_OPS :  Y_JAL_OP_    (194)
+
+	.  reduce 194
+
+
+state 211
+	J_OPS :  Y_JALR_OP_    (195)
+
+	.  reduce 195
+
+
+state 212
+	B_OP :  Y_B_POP_    (196)
+
+	.  reduce 196
+
+
+state 213
+	B_OP :  Y_BAL_POP_    (197)
+
+	.  reduce 197
+
+
+state 214
+	MOVE_COP_OP :  Y_MOV_S_OP_    (198)
+
+	.  reduce 198
+
+
+state 215
+	MOVE_COP_OP :  Y_MOV_D_OP_    (199)
+
+	.  reduce 199
+
+
+state 216
+	MOV_FROM_HILO_OP :  Y_MFHI_OP_    (200)
+
+	.  reduce 200
+
+
+state 217
+	MOV_FROM_HILO_OP :  Y_MFLO_OP_    (201)
+
+	.  reduce 201
+
+
+state 218
+	MOV_TO_HILO_OP :  Y_MTHI_OP_    (202)
+
+	.  reduce 202
+
+
+state 219
+	MOV_TO_HILO_OP :  Y_MTLO_OP_    (203)
+
+	.  reduce 203
+
+
+state 220
+	MOV_COP_OP :  Y_MFC0_OP_    (204)
+
+	.  reduce 204
+
+
+state 221
+	MOV_COP_OP :  Y_MFC1_OP_    (205)
+
+	.  reduce 205
+
+
+state 222
+	MOV_COP_OP :  Y_MFC1_D_POP_    (206)
+
+	.  reduce 206
+
+
+state 223
+	MOV_COP_OP :  Y_MFC2_OP_    (207)
+
+	.  reduce 207
+
+
+state 224
+	MOV_COP_OP :  Y_MFC3_OP_    (208)
+
+	.  reduce 208
+
+
+state 225
+	MOV_COP_OP :  Y_MTC0_OP_    (209)
+
+	.  reduce 209
+
+
+state 226
+	MOV_COP_OP :  Y_MTC1_OP_    (210)
+
+	.  reduce 210
+
+
+state 227
+	MOV_COP_OP :  Y_MTC1_D_POP_    (211)
+
+	.  reduce 211
+
+
+state 228
+	MOV_COP_OP :  Y_MTC2_OP_    (212)
+
+	.  reduce 212
+
+
+state 229
+	MOV_COP_OP :  Y_MTC3_OP_    (213)
+
+	.  reduce 213
+
+
+state 230
+	CTL_COP_OP :  Y_CFC0_OP_    (214)
+
+	.  reduce 214
+
+
+state 231
+	CTL_COP_OP :  Y_CFC1_OP_    (215)
+
+	.  reduce 215
+
+
+state 232
+	CTL_COP_OP :  Y_CFC2_OP_    (216)
+
+	.  reduce 216
+
+
+state 233
+	CTL_COP_OP :  Y_CFC3_OP_    (217)
+
+	.  reduce 217
+
+
+state 234
+	CTL_COP_OP :  Y_CTC0_OP_    (218)
+
+	.  reduce 218
+
+
+state 235
+	CTL_COP_OP :  Y_CTC1_OP_    (219)
+
+	.  reduce 219
+
+
+state 236
+	CTL_COP_OP :  Y_CTC2_OP_    (220)
+
+	.  reduce 220
+
+
+state 237
+	CTL_COP_OP :  Y_CTC3_OP_    (221)
+
+	.  reduce 221
+
+
+state 238
+	FP_ABS_OP :  Y_ABS_S_OP_    (222)
+
+	.  reduce 222
+
+
+state 239
+	FP_ABS_OP :  Y_ABS_D_OP_    (223)
+
+	.  reduce 223
+
+
+state 240
+	FP_BINARY_OP :  Y_ADD_S_OP_    (224)
+
+	.  reduce 224
+
+
+state 241
+	FP_BINARY_OP :  Y_ADD_D_OP_    (225)
+
+	.  reduce 225
+
+
+state 242
+	FP_BINARY_OP :  Y_DIV_S_OP_    (226)
+
+	.  reduce 226
+
+
+state 243
+	FP_BINARY_OP :  Y_DIV_D_OP_    (227)
+
+	.  reduce 227
+
+
+state 244
+	FP_BINARY_OP :  Y_MUL_S_OP_    (228)
+
+	.  reduce 228
+
+
+state 245
+	FP_BINARY_OP :  Y_MUL_D_OP_    (229)
+
+	.  reduce 229
+
+
+state 246
+	FP_BINARY_OP :  Y_SUB_S_OP_    (230)
+
+	.  reduce 230
+
+
+state 247
+	FP_BINARY_OP :  Y_SUB_D_OP_    (231)
+
+	.  reduce 231
+
+
+state 248
+	FP_CONVERT_OP :  Y_CVT_D_S_OP_    (232)
+
+	.  reduce 232
+
+
+state 249
+	FP_CONVERT_OP :  Y_CVT_D_W_OP_    (233)
+
+	.  reduce 233
+
+
+state 250
+	FP_CONVERT_OP :  Y_CVT_S_D_OP_    (234)
+
+	.  reduce 234
+
+
+state 251
+	FP_CONVERT_OP :  Y_CVT_S_W_OP_    (235)
+
+	.  reduce 235
+
+
+state 252
+	FP_CONVERT_OP :  Y_CVT_W_D_OP_    (236)
+
+	.  reduce 236
+
+
+state 253
+	FP_CONVERT_OP :  Y_CVT_W_S_OP_    (237)
+
+	.  reduce 237
+
+
+state 254
+	FP_NEG_OP :  Y_NEG_S_OP_    (238)
+
+	.  reduce 238
+
+
+state 255
+	FP_NEG_OP :  Y_NEG_D_OP_    (239)
+
+	.  reduce 239
+
+
+state 256
+	FP_CMP_OP :  Y_C_F_S_OP_    (240)
+
+	.  reduce 240
+
+
+state 257
+	FP_CMP_OP :  Y_C_UN_S_OP_    (241)
+
+	.  reduce 241
+
+
+state 258
+	FP_CMP_OP :  Y_C_EQ_S_OP_    (242)
+
+	.  reduce 242
+
+
+state 259
+	FP_CMP_OP :  Y_C_UEQ_S_OP_    (243)
+
+	.  reduce 243
+
+
+state 260
+	FP_CMP_OP :  Y_C_OLE_S_OP_    (244)
+
+	.  reduce 244
+
+
+state 261
+	FP_CMP_OP :  Y_C_ULE_S_OP_    (245)
+
+	.  reduce 245
+
+
+state 262
+	FP_CMP_OP :  Y_C_SF_S_OP_    (246)
+
+	.  reduce 246
+
+
+state 263
+	FP_CMP_OP :  Y_C_NGLE_S_OP_    (247)
+
+	.  reduce 247
+
+
+state 264
+	FP_CMP_OP :  Y_C_SEQ_S_OP_    (248)
+
+	.  reduce 248
+
+
+state 265
+	FP_CMP_OP :  Y_C_NGL_S_OP_    (249)
+
+	.  reduce 249
+
+
+state 266
+	FP_CMP_OP :  Y_C_LT_S_OP_    (250)
+
+	.  reduce 250
+
+
+state 267
+	FP_CMP_OP :  Y_C_NGE_S_OP_    (251)
+
+	.  reduce 251
+
+
+state 268
+	FP_CMP_OP :  Y_C_LE_S_OP_    (252)
+
+	.  reduce 252
+
+
+state 269
+	FP_CMP_OP :  Y_C_NGT_S_OP_    (253)
+
+	.  reduce 253
+
+
+state 270
+	FP_CMP_OP :  Y_C_F_D_OP_    (254)
+
+	.  reduce 254
+
+
+state 271
+	FP_CMP_OP :  Y_C_UN_D_OP_    (255)
+
+	.  reduce 255
+
+
+state 272
+	FP_CMP_OP :  Y_C_EQ_D_OP_    (256)
+
+	.  reduce 256
+
+
+state 273
+	FP_CMP_OP :  Y_C_UEQ_D_OP_    (257)
+
+	.  reduce 257
+
+
+state 274
+	FP_CMP_OP :  Y_C_OLE_D_OP_    (258)
+
+	.  reduce 258
+
+
+state 275
+	FP_CMP_OP :  Y_C_ULE_D_OP_    (259)
+
+	.  reduce 259
+
+
+state 276
+	FP_CMP_OP :  Y_C_SF_D_OP_    (260)
+
+	.  reduce 260
+
+
+state 277
+	FP_CMP_OP :  Y_C_NGLE_D_OP_    (261)
+
+	.  reduce 261
+
+
+state 278
+	FP_CMP_OP :  Y_C_SEQ_D_OP_    (262)
+
+	.  reduce 262
+
+
+state 279
+	FP_CMP_OP :  Y_C_NGL_D_OP_    (263)
+
+	.  reduce 263
+
+
+state 280
+	FP_CMP_OP :  Y_C_LT_D_OP_    (264)
+
+	.  reduce 264
+
+
+state 281
+	FP_CMP_OP :  Y_C_NGE_D_OP_    (265)
+
+	.  reduce 265
+
+
+state 282
+	FP_CMP_OP :  Y_C_LE_D_OP_    (266)
+
+	.  reduce 266
+
+
+state 283
+	FP_CMP_OP :  Y_C_NGT_D_OP_    (267)
+
+	.  reduce 267
+
+
+state 284
+	OPT_LBL :  ID :_    (3)
+
+	.  reduce 3
+
+
+state 285
+	OPT_LBL :  ID =_Y_INT 
+
+	Y_INT  shift 400
+	.  error
+
+
+state 286
+	ID :  $$376 Y_ID_    (377)
+
+	.  reduce 377
+
+
+state 287
+	CMD :  ASM_CODE Y_NL_    (6)
+
+	.  reduce 6
+
+
+state 288
+	CMD :  ASM_DIRECTIVE Y_NL_    (7)
+
+	.  reduce 7
+
+
+state 289
+	ASM_CODE :  LOAD_OP DEST_REG_ADDRESS 
+	$$323 : _    (323)
+
+	.  reduce 323
+
+	ADDRESS  goto 401
+	$$323  goto 402
+
+state 290
+	DEST_REG :  REGISTER_    (345)
+
+	.  reduce 345
+
+
+state 291
+	REGISTER :  Y_REG_    (351)
+
+	.  reduce 351
+
+
+state 292
+	ASM_CODE :  LOAD_COP COP_REG_ADDRESS 
+	$$323 : _    (323)
+
+	.  reduce 323
+
+	ADDRESS  goto 403
+	$$323  goto 402
+
+state 293
+	COP_REG :  Y_REG_    (356)
+
+	.  reduce 356
+
+
+state 294
+	COP_REG :  Y_FP_REG_    (357)
+
+	.  reduce 357
+
+
+295: shift/reduce conflict (shift 408, red'n 376) on Y_ID
+state 295
+	ASM_CODE :  LOAD_IMM_OP DEST_REG_IMM 
+	$$376 : _    (376)
+
+	Y_INT  shift 409
+	Y_ID  shift 408
+	(  shift 406
+	.  error
+
+	ID  goto 407
+	IMM  goto 404
+	ABS_ADDR  goto 405
+	$$376  goto 5
+
+state 296
+	ASM_CODE :  Y_LA_POP DEST_REG_ADDRESS 
+	$$323 : _    (323)
+
+	.  reduce 323
+
+	ADDRESS  goto 410
+	$$323  goto 402
+
+297: shift/reduce conflict (shift 408, red'n 376) on Y_ID
+state 297
+	ASM_CODE :  Y_LI_POP DEST_REG_IMM 
+	$$376 : _    (376)
+
+	Y_INT  shift 409
+	Y_ID  shift 408
+	(  shift 406
+	.  error
+
+	ID  goto 407
+	IMM  goto 411
+	ABS_ADDR  goto 405
+	$$376  goto 5
+
+state 298
+	ASM_CODE :  Y_LI_D_POP F_DEST_Y_FP 
+
+	Y_FP  shift 412
+	.  error
+
+
+state 299
+	F_DEST :  FP_REGISTER_    (352)
+
+	.  reduce 352
+
+
+state 300
+	FP_REGISTER :  Y_FP_REG_    (355)
+
+	.  reduce 355
+
+
+state 301
+	ASM_CODE :  Y_LI_S_POP F_DEST_Y_FP 
+
+	Y_FP  shift 413
+	.  error
+
+
+state 302
+	ASM_CODE :  Y_ULW_POP DEST_REG_ADDRESS 
+	$$323 : _    (323)
+
+	.  reduce 323
+
+	ADDRESS  goto 414
+	$$323  goto 402
+
+state 303
+	ASM_CODE :  ULOADH_POP DEST_REG_ADDRESS 
+	$$323 : _    (323)
+
+	.  reduce 323
+
+	ADDRESS  goto 415
+	$$323  goto 402
+
+state 304
+	ASM_CODE :  LOADF_OP F_DEST_ADDRESS 
+	$$323 : _    (323)
+
+	.  reduce 323
+
+	ADDRESS  goto 416
+	$$323  goto 402
+
+state 305
+	ASM_CODE :  STORE_OP SOURCE_ADDRESS 
+	$$323 : _    (323)
+
+	.  reduce 323
+
+	ADDRESS  goto 417
+	$$323  goto 402
+
+state 306
+	SOURCE :  REGISTER_    (350)
+
+	.  reduce 350
+
+
+state 307
+	ASM_CODE :  STORE_COP COP_REG_ADDRESS 
+	$$323 : _    (323)
+
+	.  reduce 323
+
+	ADDRESS  goto 418
+	$$323  goto 402
+
+state 308
+	ASM_CODE :  Y_USW_POP SOURCE_ADDRESS 
+	$$323 : _    (323)
+
+	.  reduce 323
+
+	ADDRESS  goto 419
+	$$323  goto 402
+
+state 309
+	ASM_CODE :  Y_USH_POP SOURCE_ADDRESS 
+	$$323 : _    (323)
+
+	.  reduce 323
+
+	ADDRESS  goto 420
+	$$323  goto 402
+
+state 310
+	ASM_CODE :  STOREF_OP F_SRC1_ADDRESS 
+	$$323 : _    (323)
+
+	.  reduce 323
+
+	ADDRESS  goto 421
+	$$323  goto 402
+
+state 311
+	F_SRC1 :  FP_REGISTER_    (353)
+
+	.  reduce 353
+
+
+state 312
+	ASM_CODE :  Y_BREAK_OP Y_INT_    (26)
+
+	.  reduce 26
+
+
+state 313
+	ASM_CODE :  Y_ABS_POP DEST_REG_SRC1 
+
+	Y_REG  shift 291
+	.  error
+
+	SRC1  goto 422
+	REGISTER  goto 327
+
+state 314
+	ASM_CODE :  Y_NEG_POP DEST_REG_SRC1 
+
+	Y_REG  shift 291
+	.  error
+
+	SRC1  goto 423
+	REGISTER  goto 327
+
+state 315
+	ASM_CODE :  Y_NEGU_POP DEST_REG_SRC1 
+
+	Y_REG  shift 291
+	.  error
+
+	SRC1  goto 424
+	REGISTER  goto 327
+
+state 316
+	ASM_CODE :  Y_NOT_POP DEST_REG_SRC1 
+
+	Y_REG  shift 291
+	.  error
+
+	SRC1  goto 425
+	REGISTER  goto 327
+
+state 317
+	ASM_CODE :  Y_MOVE_POP DEST_REG_SRC1 
+
+	Y_REG  shift 291
+	.  error
+
+	SRC1  goto 426
+	REGISTER  goto 327
+
+318: shift/reduce conflict (shift 408, red'n 376) on Y_ID
+state 318
+	ASM_CODE :  BINARY_OP_I DEST_REG_SRC1 SRC2 
+	ASM_CODE :  BINARY_OP_I DEST_REG_SRC1 IMM 
+	ASM_CODE :  BINARY_OP_I DEST_REG_IMM 
+	$$376 : _    (376)
+
+	Y_INT  shift 409
+	Y_ID  shift 408
+	Y_REG  shift 291
+	(  shift 406
+	.  error
+
+	ID  goto 407
+	IMM  goto 428
+	SRC1  goto 427
+	REGISTER  goto 327
+	ABS_ADDR  goto 405
+	$$376  goto 5
+
+state 319
+	ASM_CODE :  BINARY_OPR_I DEST_REG_SRC1 SRC2 
+	ASM_CODE :  BINARY_OPR_I DEST_REG_SRC1 Y_INT 
+	ASM_CODE :  BINARY_OPR_I DEST_REG_Y_INT 
+
+	Y_INT  shift 430
+	Y_REG  shift 291
+	.  error
+
+	SRC1  goto 429
+	REGISTER  goto 327
+
+320: shift/reduce conflict (shift 408, red'n 376) on Y_ID
+state 320
+	ASM_CODE :  BINARY_IMM_OP DEST_REG_SRC1 IMM 
+	ASM_CODE :  BINARY_IMM_OP DEST_REG_IMM 
+	$$376 : _    (376)
+
+	Y_INT  shift 409
+	Y_ID  shift 408
+	Y_REG  shift 291
+	(  shift 406
+	.  error
+
+	ID  goto 407
+	IMM  goto 432
+	SRC1  goto 431
+	REGISTER  goto 327
+	ABS_ADDR  goto 405
+	$$376  goto 5
+
+state 321
+	ASM_CODE :  SHIFT_OP DEST_REG_SRC1 Y_INT 
+	ASM_CODE :  SHIFT_OP DEST_REG_SRC1 SRC2 
+
+	Y_REG  shift 291
+	.  error
+
+	SRC1  goto 433
+	REGISTER  goto 327
+
+322: shift/reduce conflict (shift 408, red'n 376) on Y_ID
+state 322
+	ASM_CODE :  BINARY_OP_NOI DEST_REG_SRC1 SRC2 
+	ASM_CODE :  BINARY_OP_NOI DEST_REG_SRC1 IMM 
+	ASM_CODE :  BINARY_OP_NOI DEST_REG_IMM 
+	$$376 : _    (376)
+
+	Y_INT  shift 409
+	Y_ID  shift 408
+	Y_REG  shift 291
+	(  shift 406
+	.  error
+
+	ID  goto 407
+	IMM  goto 435
+	SRC1  goto 434
+	REGISTER  goto 327
+	ABS_ADDR  goto 405
+	$$376  goto 5
+
+323: shift/reduce conflict (shift 408, red'n 376) on Y_ID
+state 323
+	ASM_CODE :  SUB_OP DEST_REG_SRC1 SRC2 
+	ASM_CODE :  SUB_OP DEST_REG_SRC1 IMM 
+	ASM_CODE :  SUB_OP DEST_REG_IMM 
+	$$376 : _    (376)
+
+	Y_INT  shift 409
+	Y_ID  shift 408
+	Y_REG  shift 291
+	(  shift 406
+	.  error
+
+	ID  goto 407
+	IMM  goto 437
+	SRC1  goto 436
+	REGISTER  goto 327
+	ABS_ADDR  goto 405
+	$$376  goto 5
+
+state 324
+	ASM_CODE :  DIV_POP DEST_REG_SRC1 
+	ASM_CODE :  DIV_POP DEST_REG_SRC1 SRC2 
+	ASM_CODE :  DIV_POP DEST_REG_SRC1 IMM 
+
+	Y_REG  shift 291
+	.  error
+
+	SRC1  goto 438
+	REGISTER  goto 327
+
+state 325
+	ASM_CODE :  MUL_POP DEST_REG_SRC1 SRC2 
+	ASM_CODE :  MUL_POP DEST_REG_SRC1 IMM 
+
+	Y_REG  shift 291
+	.  error
+
+	SRC1  goto 439
+	REGISTER  goto 327
+
+state 326
+	ASM_CODE :  MULT_OP SRC1_SRC2 
+
+	Y_REG  shift 291
+	.  error
+
+	SRC2  goto 440
+	REGISTER  goto 441
+
+state 327
+	SRC1 :  REGISTER_    (346)
+
+	.  reduce 346
+
+
+state 328
+	ASM_CODE :  Y_ROR_POP DEST_REG_SRC1 SRC2 
+	ASM_CODE :  Y_ROR_POP DEST_REG_SRC1 IMM 
+
+	Y_REG  shift 291
+	.  error
+
+	SRC1  goto 442
+	REGISTER  goto 327
+
+state 329
+	ASM_CODE :  Y_ROL_POP DEST_REG_SRC1 SRC2 
+	ASM_CODE :  Y_ROL_POP DEST_REG_SRC1 IMM 
+
+	Y_REG  shift 291
+	.  error
+
+	SRC1  goto 443
+	REGISTER  goto 327
+
+state 330
+	ASM_CODE :  SET_LE_POP DEST_REG_SRC1 SRC2 
+	ASM_CODE :  SET_LE_POP DEST_REG_SRC1 IMM 
+
+	Y_REG  shift 291
+	.  error
+
+	SRC1  goto 444
+	REGISTER  goto 327
+
+state 331
+	ASM_CODE :  SET_GT_POP DEST_REG_SRC1 SRC2 
+	ASM_CODE :  SET_GT_POP DEST_REG_SRC1 IMM 
+
+	Y_REG  shift 291
+	.  error
+
+	SRC1  goto 445
+	REGISTER  goto 327
+
+state 332
+	ASM_CODE :  SET_GE_POP DEST_REG_SRC1 SRC2 
+	ASM_CODE :  SET_GE_POP DEST_REG_SRC1 IMM 
+
+	Y_REG  shift 291
+	.  error
+
+	SRC1  goto 446
+	REGISTER  goto 327
+
+state 333
+	ASM_CODE :  SET_EQ_POP DEST_REG_SRC1 SRC2 
+	ASM_CODE :  SET_EQ_POP DEST_REG_SRC1 IMM 
+
+	Y_REG  shift 291
+	.  error
+
+	SRC1  goto 447
+	REGISTER  goto 327
+
+state 334
+	ASM_CODE :  NULLARY_BR_OP LABEL_    (67)
+
+	.  reduce 67
+
+
+state 335
+	LABEL :  ID_    (358)
+
+	.  reduce 358
+
+
+state 336
+	ASM_CODE :  UNARY_BR_OP SRC1_LABEL 
+	$$376 : _    (376)
+
+	.  reduce 376
+
+	ID  goto 335
+	LABEL  goto 448
+	$$376  goto 5
+
+state 337
+	ASM_CODE :  UNARY_BR_POP SRC1_LABEL 
+	$$376 : _    (376)
+
+	.  reduce 376
+
+	ID  goto 335
+	LABEL  goto 449
+	$$376  goto 5
+
+state 338
+	ASM_CODE :  BINARY_BR_OP SRC1_SRC2 LABEL 
+	ASM_CODE :  BINARY_BR_OP SRC1_IMMEDIATE LABEL 
+	$$335 : _    (335)
+
+	Y_REG  shift 291
+	.  reduce 335
+
+	SRC2  goto 450
+	IMMEDIATE  goto 451
+	REGISTER  goto 441
+	$$335  goto 452
+
+state 339
+	ASM_CODE :  BR_GT_POP SRC1_SRC2 LABEL 
+	ASM_CODE :  BR_GT_POP SRC1_IMMEDIATE LABEL 
+	$$335 : _    (335)
+
+	Y_REG  shift 291
+	.  reduce 335
+
+	SRC2  goto 453
+	IMMEDIATE  goto 454
+	REGISTER  goto 441
+	$$335  goto 452
+
+state 340
+	ASM_CODE :  BR_GE_POP SRC1_SRC2 LABEL 
+	ASM_CODE :  BR_GE_POP SRC1_IMMEDIATE LABEL 
+	$$335 : _    (335)
+
+	Y_REG  shift 291
+	.  reduce 335
+
+	SRC2  goto 455
+	IMMEDIATE  goto 456
+	REGISTER  goto 441
+	$$335  goto 452
+
+state 341
+	ASM_CODE :  BR_LT_POP SRC1_SRC2 LABEL 
+	ASM_CODE :  BR_LT_POP SRC1_IMMEDIATE LABEL 
+	$$335 : _    (335)
+
+	Y_REG  shift 291
+	.  reduce 335
+
+	SRC2  goto 457
+	IMMEDIATE  goto 458
+	REGISTER  goto 441
+	$$335  goto 452
+
+state 342
+	ASM_CODE :  BR_LE_POP SRC1_SRC2 LABEL 
+	ASM_CODE :  BR_LE_POP SRC1_IMMEDIATE LABEL 
+	$$335 : _    (335)
+
+	Y_REG  shift 291
+	.  reduce 335
+
+	SRC2  goto 459
+	IMMEDIATE  goto 460
+	REGISTER  goto 441
+	$$335  goto 452
+
+state 343
+	ASM_CODE :  J_OPS LABEL_    (80)
+
+	.  reduce 80
+
+
+state 344
+	ASM_CODE :  J_OPS SRC1_    (81)
+
+	.  reduce 81
+
+
+state 345
+	ASM_CODE :  J_OPS DEST_SRC1 
+
+	Y_REG  shift 291
+	.  error
+
+	SRC1  goto 461
+	REGISTER  goto 327
+
+state 346
+	SRC1 :  REGISTER_    (346)
+	DEST :  REGISTER_    (348)
+
+	Y_REG  reduce 348
+	.  reduce 346
+
+
+state 347
+	ASM_CODE :  B_OP LABEL_    (83)
+
+	.  reduce 83
+
+
+state 348
+	ASM_CODE :  MOVE_COP_OP COP_REG_COP_REG 
+
+	Y_REG  shift 293
+	Y_FP_REG  shift 294
+	.  error
+
+	COP_REG  goto 462
+
+state 349
+	ASM_CODE :  MOV_FROM_HILO_OP REG_    (85)
+
+	.  reduce 85
+
+
+state 350
+	REG :  REGISTER_    (349)
+
+	.  reduce 349
+
+
+state 351
+	ASM_CODE :  MOV_TO_HILO_OP REG_    (86)
+
+	.  reduce 86
+
+
+state 352
+	ASM_CODE :  MOV_COP_OP REG_COP_REG 
+
+	Y_REG  shift 293
+	Y_FP_REG  shift 294
+	.  error
+
+	COP_REG  goto 463
+
+state 353
+	ASM_CODE :  CTL_COP_OP COP_REG_COP_REG 
+
+	Y_REG  shift 293
+	Y_FP_REG  shift 294
+	.  error
+
+	COP_REG  goto 464
+
+state 354
+	ASM_CODE :  FP_ABS_OP F_DEST_F_SRC1 
+
+	Y_FP_REG  shift 300
+	.  error
+
+	F_SRC1  goto 465
+	FP_REGISTER  goto 311
+
+state 355
+	ASM_CODE :  FP_BINARY_OP F_DEST_F_SRC1 F_SRC2 
+
+	Y_FP_REG  shift 300
+	.  error
+
+	F_SRC1  goto 466
+	FP_REGISTER  goto 311
+
+state 356
+	ASM_CODE :  FP_CONVERT_OP F_DEST_F_SRC2 
+
+	Y_FP_REG  shift 300
+	.  error
+
+	F_SRC2  goto 467
+	FP_REGISTER  goto 468
+
+state 357
+	ASM_CODE :  FP_NEG_OP F_DEST_F_SRC2 
+
+	Y_FP_REG  shift 300
+	.  error
+
+	F_SRC2  goto 469
+	FP_REGISTER  goto 468
+
+state 358
+	ASM_CODE :  FP_CMP_OP F_SRC1_F_SRC2 
+
+	Y_FP_REG  shift 300
+	.  error
+
+	F_SRC2  goto 470
+	FP_REGISTER  goto 468
+
+state 359
+	ASM_DIRECTIVE :  Y_ALIAS_DIR Y_REG_Y_REG 
+
+	Y_REG  shift 471
+	.  error
+
+
+state 360
+	ASM_DIRECTIVE :  Y_ALIGN_DIR EXPR_    (269)
+
+	.  reduce 269
+
+
+state 361
+	EXPR :  Y_INT_    (365)
+
+	.  reduce 365
+
+
+state 362
+	EXPR :  ID_    (366)
+
+	.  reduce 366
+
+
+state 363
+	ASM_DIRECTIVE :  Y_ASCII_DIR $$270_STR_LST 
+
+	Y_STR  shift 474
+	.  error
+
+	STR_LST  goto 472
+	STR  goto 473
+
+state 364
+	ASM_DIRECTIVE :  Y_ASCIIZ_DIR $$272_STR_LST 
+
+	Y_STR  shift 474
+	.  error
+
+	STR_LST  goto 475
+	STR  goto 473
+
+state 365
+	ASM_DIRECTIVE :  Y_BGNB_DIR Y_INT_    (275)
+
+	.  reduce 275
+
+
+state 366
+	ASM_DIRECTIVE :  Y_BYTE_DIR $$276_EXPR_LST 
+	$$363 : _    (363)
+
+	.  reduce 363
+
+	EXPR_LST  goto 476
+	EXPRESSION  goto 477
+	$$363  goto 478
+
+state 367
+	ASM_DIRECTIVE :  Y_COMM_DIR ID_EXPR 
+	$$376 : _    (376)
+
+	Y_INT  shift 361
+	.  reduce 376
+
+	ID  goto 362
+	EXPR  goto 479
+	$$376  goto 5
+
+state 368
+	ASM_DIRECTIVE :  Y_DATA_DIR Y_INT_    (280)
+
+	.  reduce 280
+
+
+state 369
+	ASM_DIRECTIVE :  Y_K_DATA_DIR Y_INT_    (282)
+
+	.  reduce 282
+
+
+state 370
+	ASM_DIRECTIVE :  Y_DOUBLE_DIR $$283_FP_EXPR_LST 
+
+	Y_FP  shift 481
+	.  error
+
+	FP_EXPR_LST  goto 480
+
+state 371
+	ASM_DIRECTIVE :  Y_END_DIR OPTIONAL_ID_    (285)
+
+	.  reduce 285
+
+
+state 372
+	OPTIONAL_ID :  $$372_OPT_ID 
+	OPT_ID : _    (375)
+	$$376 : _    (376)
+
+	Y_ID  reduce 376
+	.  reduce 375
+
+	ID  goto 483
+	OPT_ID  goto 482
+	$$376  goto 5
+
+state 373
+	ASM_DIRECTIVE :  Y_ENDB_DIR Y_INT_    (286)
+
+	.  reduce 286
+
+
+state 374
+	ASM_DIRECTIVE :  Y_ENT_DIR ID_    (288)
+	ASM_DIRECTIVE :  Y_ENT_DIR ID_Y_INT 
+
+	Y_INT  shift 484
+	.  reduce 288
+
+
+state 375
+	ASM_DIRECTIVE :  Y_EXTERN_DIR ID_EXPR 
+	$$376 : _    (376)
+
+	Y_INT  shift 361
+	.  reduce 376
+
+	ID  goto 362
+	EXPR  goto 485
+	$$376  goto 5
+
+state 376
+	ASM_DIRECTIVE :  Y_FILE_DIR Y_INT_Y_STR 
+
+	Y_STR  shift 486
+	.  error
+
+
+state 377
+	ASM_DIRECTIVE :  Y_FLOAT_DIR $$293_FP_EXPR_LST 
+
+	Y_FP  shift 481
+	.  error
+
+	FP_EXPR_LST  goto 487
+
+state 378
+	ASM_DIRECTIVE :  Y_FMASK_DIR Y_INT_Y_INT 
+
+	Y_INT  shift 488
+	.  error
+
+
+state 379
+	ASM_DIRECTIVE :  Y_FRAME_DIR REGISTER_Y_INT REGISTER 
+
+	Y_INT  shift 489
+	.  error
+
+
+state 380
+	ASM_DIRECTIVE :  Y_GLOBAL_DIR ID_    (297)
+
+	.  reduce 297
+
+
+state 381
+	ASM_DIRECTIVE :  Y_HALF_DIR $$298_EXPR_LST 
+	$$363 : _    (363)
+
+	.  reduce 363
+
+	EXPR_LST  goto 490
+	EXPRESSION  goto 477
+	$$363  goto 478
+
+state 382
+	ASM_DIRECTIVE :  Y_LABEL_DIR ID_    (300)
+
+	.  reduce 300
+
+
+state 383
+	ASM_DIRECTIVE :  Y_LCOMM_DIR ID_EXPR 
+	$$376 : _    (376)
+
+	Y_INT  shift 361
+	.  reduce 376
+
+	ID  goto 362
+	EXPR  goto 491
+	$$376  goto 5
+
+state 384
+	ASM_DIRECTIVE :  Y_LIVEREG_DIR Y_INT_Y_INT 
+
+	Y_INT  shift 492
+	.  error
+
+
+state 385
+	ASM_DIRECTIVE :  Y_LOC_DIR Y_INT_Y_INT 
+
+	Y_INT  shift 493
+	.  error
+
+
+state 386
+	ASM_DIRECTIVE :  Y_MASK_DIR Y_INT_Y_INT 
+
+	Y_INT  shift 494
+	.  error
+
+
+state 387
+	ASM_DIRECTIVE :  Y_NOALIAS_DIR Y_REG_Y_REG 
+
+	Y_REG  shift 495
+	.  error
+
+
+state 388
+	ASM_DIRECTIVE :  Y_OPTIONS_DIR ID_    (306)
+
+	.  reduce 306
+
+
+state 389
+	ASM_DIRECTIVE :  Y_REPEAT_DIR EXPR_    (307)
+
+	.  reduce 307
+
+
+state 390
+	ASM_DIRECTIVE :  Y_RDATA_DIR Y_INT_    (309)
+
+	.  reduce 309
+
+
+state 391
+	ASM_DIRECTIVE :  Y_SDATA_DIR Y_INT_    (311)
+
+	.  reduce 311
+
+
+state 392
+	ASM_DIRECTIVE :  Y_SET_DIR ID_    (312)
+
+	.  reduce 312
+
+
+state 393
+	ASM_DIRECTIVE :  Y_SPACE_DIR EXPR_    (313)
+
+	.  reduce 313
+
+
+state 394
+	ASM_DIRECTIVE :  Y_STRUCT_DIR EXPR_    (314)
+
+	.  reduce 314
+
+
+state 395
+	ASM_DIRECTIVE :  Y_TEXT_DIR Y_INT_    (316)
+
+	.  reduce 316
+
+
+state 396
+	ASM_DIRECTIVE :  Y_K_TEXT_DIR Y_INT_    (318)
+
+	.  reduce 318
+
+
+state 397
+	ASM_DIRECTIVE :  Y_VERSTAMP_DIR Y_INT_Y_INT 
+
+	Y_INT  shift 496
+	.  error
+
+
+state 398
+	ASM_DIRECTIVE :  Y_VREG_DIR REGISTER_Y_INT Y_INT 
+
+	Y_INT  shift 497
+	.  error
+
+
+state 399
+	ASM_DIRECTIVE :  Y_WORD_DIR $$321_EXPR_LST 
+	$$363 : _    (363)
+
+	.  reduce 363
+
+	EXPR_LST  goto 498
+	EXPRESSION  goto 477
+	$$363  goto 478
+
+state 400
+	OPT_LBL :  ID = Y_INT_    (4)
+
+	.  reduce 4
+
+
+state 401
+	ASM_CODE :  LOAD_OP DEST_REG ADDRESS_    (10)
+
+	.  reduce 10
+
+
+state 402
+	ADDRESS :  $$323_ADDR 
+
+	Y_INT  shift 409
+	Y_ID  shift 502
+	(  shift 500
+	.  error
+
+	ADDR  goto 499
+	ABS_ADDR  goto 501
+
+state 403
+	ASM_CODE :  LOAD_COP COP_REG ADDRESS_    (11)
+
+	.  reduce 11
+
+
+state 404
+	ASM_CODE :  LOAD_IMM_OP DEST_REG IMM_    (12)
+
+	.  reduce 12
+
+
+state 405
+	IMM :  ABS_ADDR_    (337)
+
+	.  reduce 337
+
+
+state 406
+	IMM :  (_ABS_ADDR ) > > Y_INT 
+
+	Y_INT  shift 409
+	.  error
+
+	ABS_ADDR  goto 503
+
+state 407
+	IMM :  ID_    (339)
+
+	.  reduce 339
+
+
+state 408
+	IMM :  Y_ID_+ ABS_ADDR 
+	IMM :  Y_ID_- ABS_ADDR 
+
+	+  shift 504
+	-  shift 505
+	.  error
+
+
+409: shift/reduce conflict (shift 506, red'n 342) on +
+state 409
+	ABS_ADDR :  Y_INT_    (342)
+	ABS_ADDR :  Y_INT_+ Y_INT 
+	ABS_ADDR :  Y_INT_Y_INT 
+
+	Y_INT  shift 507
+	+  shift 506
+	.  reduce 342
+
+
+state 410
+	ASM_CODE :  Y_LA_POP DEST_REG ADDRESS_    (13)
+
+	.  reduce 13
+
+
+state 411
+	ASM_CODE :  Y_LI_POP DEST_REG IMM_    (14)
+
+	.  reduce 14
+
+
+state 412
+	ASM_CODE :  Y_LI_D_POP F_DEST Y_FP_    (15)
+
+	.  reduce 15
+
+
+state 413
+	ASM_CODE :  Y_LI_S_POP F_DEST Y_FP_    (16)
+
+	.  reduce 16
+
+
+state 414
+	ASM_CODE :  Y_ULW_POP DEST_REG ADDRESS_    (17)
+
+	.  reduce 17
+
+
+state 415
+	ASM_CODE :  ULOADH_POP DEST_REG ADDRESS_    (18)
+
+	.  reduce 18
+
+
+state 416
+	ASM_CODE :  LOADF_OP F_DEST ADDRESS_    (19)
+
+	.  reduce 19
+
+
+state 417
+	ASM_CODE :  STORE_OP SOURCE ADDRESS_    (20)
+
+	.  reduce 20
+
+
+state 418
+	ASM_CODE :  STORE_COP COP_REG ADDRESS_    (21)
+
+	.  reduce 21
+
+
+state 419
+	ASM_CODE :  Y_USW_POP SOURCE ADDRESS_    (22)
+
+	.  reduce 22
+
+
+state 420
+	ASM_CODE :  Y_USH_POP SOURCE ADDRESS_    (23)
+
+	.  reduce 23
+
+
+state 421
+	ASM_CODE :  STOREF_OP F_SRC1 ADDRESS_    (24)
+
+	.  reduce 24
+
+
+state 422
+	ASM_CODE :  Y_ABS_POP DEST_REG SRC1_    (28)
+
+	.  reduce 28
+
+
+state 423
+	ASM_CODE :  Y_NEG_POP DEST_REG SRC1_    (29)
+
+	.  reduce 29
+
+
+state 424
+	ASM_CODE :  Y_NEGU_POP DEST_REG SRC1_    (30)
+
+	.  reduce 30
+
+
+state 425
+	ASM_CODE :  Y_NOT_POP DEST_REG SRC1_    (31)
+
+	.  reduce 31
+
+
+state 426
+	ASM_CODE :  Y_MOVE_POP DEST_REG SRC1_    (32)
+
+	.  reduce 32
+
+
+427: shift/reduce conflict (shift 408, red'n 376) on Y_ID
+state 427
+	ASM_CODE :  BINARY_OP_I DEST_REG SRC1_SRC2 
+	ASM_CODE :  BINARY_OP_I DEST_REG SRC1_IMM 
+	$$376 : _    (376)
+
+	Y_INT  shift 409
+	Y_ID  shift 408
+	Y_REG  shift 291
+	(  shift 406
+	.  error
+
+	ID  goto 407
+	IMM  goto 509
+	SRC2  goto 508
+	REGISTER  goto 441
+	ABS_ADDR  goto 405
+	$$376  goto 5
+
+state 428
+	ASM_CODE :  BINARY_OP_I DEST_REG IMM_    (35)
+
+	.  reduce 35
+
+
+state 429
+	ASM_CODE :  BINARY_OPR_I DEST_REG SRC1_SRC2 
+	ASM_CODE :  BINARY_OPR_I DEST_REG SRC1_Y_INT 
+
+	Y_INT  shift 511
+	Y_REG  shift 291
+	.  error
+
+	SRC2  goto 510
+	REGISTER  goto 441
+
+state 430
+	ASM_CODE :  BINARY_OPR_I DEST_REG Y_INT_    (38)
+
+	.  reduce 38
+
+
+431: shift/reduce conflict (shift 408, red'n 376) on Y_ID
+state 431
+	ASM_CODE :  BINARY_IMM_OP DEST_REG SRC1_IMM 
+	$$376 : _    (376)
+
+	Y_INT  shift 409
+	Y_ID  shift 408
+	(  shift 406
+	.  error
+
+	ID  goto 407
+	IMM  goto 512
+	ABS_ADDR  goto 405
+	$$376  goto 5
+
+state 432
+	ASM_CODE :  BINARY_IMM_OP DEST_REG IMM_    (40)
+
+	.  reduce 40
+
+
+state 433
+	ASM_CODE :  SHIFT_OP DEST_REG SRC1_Y_INT 
+	ASM_CODE :  SHIFT_OP DEST_REG SRC1_SRC2 
+
+	Y_INT  shift 513
+	Y_REG  shift 291
+	.  error
+
+	SRC2  goto 514
+	REGISTER  goto 441
+
+434: shift/reduce conflict (shift 408, red'n 376) on Y_ID
+state 434
+	ASM_CODE :  BINARY_OP_NOI DEST_REG SRC1_SRC2 
+	ASM_CODE :  BINARY_OP_NOI DEST_REG SRC1_IMM 
+	$$376 : _    (376)
+
+	Y_INT  shift 409
+	Y_ID  shift 408
+	Y_REG  shift 291
+	(  shift 406
+	.  error
+
+	ID  goto 407
+	IMM  goto 516
+	SRC2  goto 515
+	REGISTER  goto 441
+	ABS_ADDR  goto 405
+	$$376  goto 5
+
+state 435
+	ASM_CODE :  BINARY_OP_NOI DEST_REG IMM_    (45)
+
+	.  reduce 45
+
+
+436: shift/reduce conflict (shift 408, red'n 376) on Y_ID
+state 436
+	ASM_CODE :  SUB_OP DEST_REG SRC1_SRC2 
+	ASM_CODE :  SUB_OP DEST_REG SRC1_IMM 
+	$$376 : _    (376)
+
+	Y_INT  shift 409
+	Y_ID  shift 408
+	Y_REG  shift 291
+	(  shift 406
+	.  error
+
+	ID  goto 407
+	IMM  goto 518
+	SRC2  goto 517
+	REGISTER  goto 441
+	ABS_ADDR  goto 405
+	$$376  goto 5
+
+state 437
+	ASM_CODE :  SUB_OP DEST_REG IMM_    (48)
+
+	.  reduce 48
+
+
+438: shift/reduce conflict (shift 408, red'n 376) on Y_ID
+state 438
+	ASM_CODE :  DIV_POP DEST_REG SRC1_    (49)
+	ASM_CODE :  DIV_POP DEST_REG SRC1_SRC2 
+	ASM_CODE :  DIV_POP DEST_REG SRC1_IMM 
+	$$376 : _    (376)
+
+	Y_INT  shift 409
+	Y_ID  shift 408
+	Y_REG  shift 291
+	(  shift 406
+	.  reduce 49
+
+	ID  goto 407
+	IMM  goto 520
+	SRC2  goto 519
+	REGISTER  goto 441
+	ABS_ADDR  goto 405
+	$$376  goto 5
+
+439: shift/reduce conflict (shift 408, red'n 376) on Y_ID
+state 439
+	ASM_CODE :  MUL_POP DEST_REG SRC1_SRC2 
+	ASM_CODE :  MUL_POP DEST_REG SRC1_IMM 
+	$$376 : _    (376)
+
+	Y_INT  shift 409
+	Y_ID  shift 408
+	Y_REG  shift 291
+	(  shift 406
+	.  error
+
+	ID  goto 407
+	IMM  goto 522
+	SRC2  goto 521
+	REGISTER  goto 441
+	ABS_ADDR  goto 405
+	$$376  goto 5
+
+state 440
+	ASM_CODE :  MULT_OP SRC1 SRC2_    (54)
+
+	.  reduce 54
+
+
+state 441
+	SRC2 :  REGISTER_    (347)
+
+	.  reduce 347
+
+
+442: shift/reduce conflict (shift 408, red'n 376) on Y_ID
+state 442
+	ASM_CODE :  Y_ROR_POP DEST_REG SRC1_SRC2 
+	ASM_CODE :  Y_ROR_POP DEST_REG SRC1_IMM 
+	$$376 : _    (376)
+
+	Y_INT  shift 409
+	Y_ID  shift 408
+	Y_REG  shift 291
+	(  shift 406
+	.  error
+
+	ID  goto 407
+	IMM  goto 524
+	SRC2  goto 523
+	REGISTER  goto 441
+	ABS_ADDR  goto 405
+	$$376  goto 5
+
+443: shift/reduce conflict (shift 408, red'n 376) on Y_ID
+state 443
+	ASM_CODE :  Y_ROL_POP DEST_REG SRC1_SRC2 
+	ASM_CODE :  Y_ROL_POP DEST_REG SRC1_IMM 
+	$$376 : _    (376)
+
+	Y_INT  shift 409
+	Y_ID  shift 408
+	Y_REG  shift 291
+	(  shift 406
+	.  error
+
+	ID  goto 407
+	IMM  goto 526
+	SRC2  goto 525
+	REGISTER  goto 441
+	ABS_ADDR  goto 405
+	$$376  goto 5
+
+444: shift/reduce conflict (shift 408, red'n 376) on Y_ID
+state 444
+	ASM_CODE :  SET_LE_POP DEST_REG SRC1_SRC2 
+	ASM_CODE :  SET_LE_POP DEST_REG SRC1_IMM 
+	$$376 : _    (376)
+
+	Y_INT  shift 409
+	Y_ID  shift 408
+	Y_REG  shift 291
+	(  shift 406
+	.  error
+
+	ID  goto 407
+	IMM  goto 528
+	SRC2  goto 527
+	REGISTER  goto 441
+	ABS_ADDR  goto 405
+	$$376  goto 5
+
+445: shift/reduce conflict (shift 408, red'n 376) on Y_ID
+state 445
+	ASM_CODE :  SET_GT_POP DEST_REG SRC1_SRC2 
+	ASM_CODE :  SET_GT_POP DEST_REG SRC1_IMM 
+	$$376 : _    (376)
+
+	Y_INT  shift 409
+	Y_ID  shift 408
+	Y_REG  shift 291
+	(  shift 406
+	.  error
+
+	ID  goto 407
+	IMM  goto 530
+	SRC2  goto 529
+	REGISTER  goto 441
+	ABS_ADDR  goto 405
+	$$376  goto 5
+
+446: shift/reduce conflict (shift 408, red'n 376) on Y_ID
+state 446
+	ASM_CODE :  SET_GE_POP DEST_REG SRC1_SRC2 
+	ASM_CODE :  SET_GE_POP DEST_REG SRC1_IMM 
+	$$376 : _    (376)
+
+	Y_INT  shift 409
+	Y_ID  shift 408
+	Y_REG  shift 291
+	(  shift 406
+	.  error
+
+	ID  goto 407
+	IMM  goto 532
+	SRC2  goto 531
+	REGISTER  goto 441
+	ABS_ADDR  goto 405
+	$$376  goto 5
+
+447: shift/reduce conflict (shift 408, red'n 376) on Y_ID
+state 447
+	ASM_CODE :  SET_EQ_POP DEST_REG SRC1_SRC2 
+	ASM_CODE :  SET_EQ_POP DEST_REG SRC1_IMM 
+	$$376 : _    (376)
+
+	Y_INT  shift 409
+	Y_ID  shift 408
+	Y_REG  shift 291
+	(  shift 406
+	.  error
+
+	ID  goto 407
+	IMM  goto 534
+	SRC2  goto 533
+	REGISTER  goto 441
+	ABS_ADDR  goto 405
+	$$376  goto 5
+
+state 448
+	ASM_CODE :  UNARY_BR_OP SRC1 LABEL_    (68)
+
+	.  reduce 68
+
+
+state 449
+	ASM_CODE :  UNARY_BR_POP SRC1 LABEL_    (69)
+
+	.  reduce 69
+
+
+state 450
+	ASM_CODE :  BINARY_BR_OP SRC1 SRC2_LABEL 
+	$$376 : _    (376)
+
+	.  reduce 376
+
+	ID  goto 335
+	LABEL  goto 535
+	$$376  goto 5
+
+state 451
+	ASM_CODE :  BINARY_BR_OP SRC1 IMMEDIATE_LABEL 
+	$$376 : _    (376)
+
+	.  reduce 376
+
+	ID  goto 335
+	LABEL  goto 536
+	$$376  goto 5
+
+452: shift/reduce conflict (shift 408, red'n 376) on Y_ID
+state 452
+	IMMEDIATE :  $$335_IMM 
+	$$376 : _    (376)
+
+	Y_INT  shift 409
+	Y_ID  shift 408
+	(  shift 406
+	.  error
+
+	ID  goto 407
+	IMM  goto 537
+	ABS_ADDR  goto 405
+	$$376  goto 5
+
+state 453
+	ASM_CODE :  BR_GT_POP SRC1 SRC2_LABEL 
+	$$376 : _    (376)
+
+	.  reduce 376
+
+	ID  goto 335
+	LABEL  goto 538
+	$$376  goto 5
+
+state 454
+	ASM_CODE :  BR_GT_POP SRC1 IMMEDIATE_LABEL 
+	$$376 : _    (376)
+
+	.  reduce 376
+
+	ID  goto 335
+	LABEL  goto 539
+	$$376  goto 5
+
+state 455
+	ASM_CODE :  BR_GE_POP SRC1 SRC2_LABEL 
+	$$376 : _    (376)
+
+	.  reduce 376
+
+	ID  goto 335
+	LABEL  goto 540
+	$$376  goto 5
+
+state 456
+	ASM_CODE :  BR_GE_POP SRC1 IMMEDIATE_LABEL 
+	$$376 : _    (376)
+
+	.  reduce 376
+
+	ID  goto 335
+	LABEL  goto 541
+	$$376  goto 5
+
+state 457
+	ASM_CODE :  BR_LT_POP SRC1 SRC2_LABEL 
+	$$376 : _    (376)
+
+	.  reduce 376
+
+	ID  goto 335
+	LABEL  goto 542
+	$$376  goto 5
+
+state 458
+	ASM_CODE :  BR_LT_POP SRC1 IMMEDIATE_LABEL 
+	$$376 : _    (376)
+
+	.  reduce 376
+
+	ID  goto 335
+	LABEL  goto 543
+	$$376  goto 5
+
+state 459
+	ASM_CODE :  BR_LE_POP SRC1 SRC2_LABEL 
+	$$376 : _    (376)
+
+	.  reduce 376
+
+	ID  goto 335
+	LABEL  goto 544
+	$$376  goto 5
+
+state 460
+	ASM_CODE :  BR_LE_POP SRC1 IMMEDIATE_LABEL 
+	$$376 : _    (376)
+
+	.  reduce 376
+
+	ID  goto 335
+	LABEL  goto 545
+	$$376  goto 5
+
+state 461
+	ASM_CODE :  J_OPS DEST SRC1_    (82)
+
+	.  reduce 82
+
+
+state 462
+	ASM_CODE :  MOVE_COP_OP COP_REG COP_REG_    (84)
+
+	.  reduce 84
+
+
+state 463
+	ASM_CODE :  MOV_COP_OP REG COP_REG_    (87)
+
+	.  reduce 87
+
+
+state 464
+	ASM_CODE :  CTL_COP_OP COP_REG COP_REG_    (88)
+
+	.  reduce 88
+
+
+state 465
+	ASM_CODE :  FP_ABS_OP F_DEST F_SRC1_    (89)
+
+	.  reduce 89
+
+
+state 466
+	ASM_CODE :  FP_BINARY_OP F_DEST F_SRC1_F_SRC2 
+
+	Y_FP_REG  shift 300
+	.  error
+
+	F_SRC2  goto 546
+	FP_REGISTER  goto 468
+
+state 467
+	ASM_CODE :  FP_CONVERT_OP F_DEST F_SRC2_    (91)
+
+	.  reduce 91
+
+
+state 468
+	F_SRC2 :  FP_REGISTER_    (354)
+
+	.  reduce 354
+
+
+state 469
+	ASM_CODE :  FP_NEG_OP F_DEST F_SRC2_    (92)
+
+	.  reduce 92
+
+
+state 470
+	ASM_CODE :  FP_CMP_OP F_SRC1 F_SRC2_    (93)
+
+	.  reduce 93
+
+
+state 471
+	ASM_DIRECTIVE :  Y_ALIAS_DIR Y_REG Y_REG_    (268)
+
+	.  reduce 268
+
+
+state 472
+	ASM_DIRECTIVE :  Y_ASCII_DIR $$270 STR_LST_    (271)
+	STR_LST :  STR_LST_STR 
+
+	Y_STR  shift 474
+	.  reduce 271
+
+	STR  goto 547
+
+state 473
+	STR_LST :  STR_    (360)
+
+	.  reduce 360
+
+
+state 474
+	STR :  Y_STR_    (361)
+	STR :  Y_STR_: Y_INT 
+
+	:  shift 548
+	.  reduce 361
+
+
+state 475
+	ASM_DIRECTIVE :  Y_ASCIIZ_DIR $$272 STR_LST_    (273)
+	STR_LST :  STR_LST_STR 
+
+	Y_STR  shift 474
+	.  reduce 273
+
+	STR  goto 547
+
+state 476
+	ASM_DIRECTIVE :  Y_BYTE_DIR $$276 EXPR_LST_    (277)
+	EXPR_LST :  EXPR_LST_EXPRESSION 
+	$$363 : _    (363)
+
+	Y_NL  reduce 277
+	.  reduce 363
+
+	EXPRESSION  goto 549
+	$$363  goto 478
+
+state 477
+	EXPR_LST :  EXPRESSION_    (368)
+	EXPR_LST :  EXPRESSION_: Y_INT 
+
+	:  shift 550
+	.  reduce 368
+
+
+state 478
+	EXPRESSION :  $$363_EXPR 
+	$$376 : _    (376)
+
+	Y_INT  shift 361
+	.  reduce 376
+
+	ID  goto 362
+	EXPR  goto 551
+	$$376  goto 5
+
+state 479
+	ASM_DIRECTIVE :  Y_COMM_DIR ID EXPR_    (278)
+
+	.  reduce 278
+
+
+state 480
+	ASM_DIRECTIVE :  Y_DOUBLE_DIR $$283 FP_EXPR_LST_    (284)
+	FP_EXPR_LST :  FP_EXPR_LST_Y_FP 
+
+	Y_FP  shift 552
+	.  reduce 284
+
+
+state 481
+	FP_EXPR_LST :  Y_FP_    (371)
+
+	.  reduce 371
+
+
+state 482
+	OPTIONAL_ID :  $$372 OPT_ID_    (373)
+
+	.  reduce 373
+
+
+state 483
+	OPT_ID :  ID_    (374)
+
+	.  reduce 374
+
+
+state 484
+	ASM_DIRECTIVE :  Y_ENT_DIR ID Y_INT_    (289)
+
+	.  reduce 289
+
+
+state 485
+	ASM_DIRECTIVE :  Y_EXTERN_DIR ID EXPR_    (290)
+
+	.  reduce 290
+
+
+state 486
+	ASM_DIRECTIVE :  Y_FILE_DIR Y_INT Y_STR_    (292)
+
+	.  reduce 292
+
+
+state 487
+	ASM_DIRECTIVE :  Y_FLOAT_DIR $$293 FP_EXPR_LST_    (294)
+	FP_EXPR_LST :  FP_EXPR_LST_Y_FP 
+
+	Y_FP  shift 552
+	.  reduce 294
+
+
+state 488
+	ASM_DIRECTIVE :  Y_FMASK_DIR Y_INT Y_INT_    (295)
+
+	.  reduce 295
+
+
+state 489
+	ASM_DIRECTIVE :  Y_FRAME_DIR REGISTER Y_INT_REGISTER 
+
+	Y_REG  shift 291
+	.  error
+
+	REGISTER  goto 553
+
+state 490
+	ASM_DIRECTIVE :  Y_HALF_DIR $$298 EXPR_LST_    (299)
+	EXPR_LST :  EXPR_LST_EXPRESSION 
+	$$363 : _    (363)
+
+	Y_NL  reduce 299
+	.  reduce 363
+
+	EXPRESSION  goto 549
+	$$363  goto 478
+
+state 491
+	ASM_DIRECTIVE :  Y_LCOMM_DIR ID EXPR_    (301)
+
+	.  reduce 301
+
+
+state 492
+	ASM_DIRECTIVE :  Y_LIVEREG_DIR Y_INT Y_INT_    (302)
+
+	.  reduce 302
+
+
+state 493
+	ASM_DIRECTIVE :  Y_LOC_DIR Y_INT Y_INT_    (303)
+
+	.  reduce 303
+
+
+state 494
+	ASM_DIRECTIVE :  Y_MASK_DIR Y_INT Y_INT_    (304)
+
+	.  reduce 304
+
+
+state 495
+	ASM_DIRECTIVE :  Y_NOALIAS_DIR Y_REG Y_REG_    (305)
+
+	.  reduce 305
+
+
+state 496
+	ASM_DIRECTIVE :  Y_VERSTAMP_DIR Y_INT Y_INT_    (319)
+
+	.  reduce 319
+
+
+state 497
+	ASM_DIRECTIVE :  Y_VREG_DIR REGISTER Y_INT_Y_INT 
+
+	Y_INT  shift 554
+	.  error
+
+
+state 498
+	ASM_DIRECTIVE :  Y_WORD_DIR $$321 EXPR_LST_    (322)
+	EXPR_LST :  EXPR_LST_EXPRESSION 
+	$$363 : _    (363)
+
+	Y_NL  reduce 322
+	.  reduce 363
+
+	EXPRESSION  goto 549
+	$$363  goto 478
+
+state 499
+	ADDRESS :  $$323 ADDR_    (324)
+
+	.  reduce 324
+
+
+state 500
+	ADDR :  (_REGISTER ) 
+
+	Y_REG  shift 291
+	.  error
+
+	REGISTER  goto 555
+
+state 501
+	ADDR :  ABS_ADDR_    (326)
+	ADDR :  ABS_ADDR_( REGISTER ) 
+	ADDR :  ABS_ADDR_+ ID 
+
+	(  shift 556
+	+  shift 557
+	.  reduce 326
+
+
+state 502
+	ADDR :  Y_ID_    (328)
+	ADDR :  Y_ID_( REGISTER ) 
+	ADDR :  Y_ID_+ ABS_ADDR 
+	ADDR :  Y_ID_- ABS_ADDR 
+	ADDR :  Y_ID_+ ABS_ADDR ( REGISTER ) 
+	ADDR :  Y_ID_- ABS_ADDR ( REGISTER ) 
+
+	(  shift 558
+	+  shift 559
+	-  shift 560
+	.  reduce 328
+
+
+state 503
+	IMM :  ( ABS_ADDR_) > > Y_INT 
+
+	)  shift 561
+	.  error
+
+
+state 504
+	IMM :  Y_ID +_ABS_ADDR 
+
+	Y_INT  shift 409
+	.  error
+
+	ABS_ADDR  goto 562
+
+state 505
+	IMM :  Y_ID -_ABS_ADDR 
+
+	Y_INT  shift 409
+	.  error
+
+	ABS_ADDR  goto 563
+
+state 506
+	ABS_ADDR :  Y_INT +_Y_INT 
+
+	Y_INT  shift 564
+	.  error
+
+
+state 507
+	ABS_ADDR :  Y_INT Y_INT_    (344)
+
+	.  reduce 344
+
+
+state 508
+	ASM_CODE :  BINARY_OP_I DEST_REG SRC1 SRC2_    (33)
+
+	.  reduce 33
+
+
+state 509
+	ASM_CODE :  BINARY_OP_I DEST_REG SRC1 IMM_    (34)
+
+	.  reduce 34
+
+
+state 510
+	ASM_CODE :  BINARY_OPR_I DEST_REG SRC1 SRC2_    (36)
+
+	.  reduce 36
+
+
+state 511
+	ASM_CODE :  BINARY_OPR_I DEST_REG SRC1 Y_INT_    (37)
+
+	.  reduce 37
+
+
+state 512
+	ASM_CODE :  BINARY_IMM_OP DEST_REG SRC1 IMM_    (39)
+
+	.  reduce 39
+
+
+state 513
+	ASM_CODE :  SHIFT_OP DEST_REG SRC1 Y_INT_    (41)
+
+	.  reduce 41
+
+
+state 514
+	ASM_CODE :  SHIFT_OP DEST_REG SRC1 SRC2_    (42)
+
+	.  reduce 42
+
+
+state 515
+	ASM_CODE :  BINARY_OP_NOI DEST_REG SRC1 SRC2_    (43)
+
+	.  reduce 43
+
+
+state 516
+	ASM_CODE :  BINARY_OP_NOI DEST_REG SRC1 IMM_    (44)
+
+	.  reduce 44
+
+
+state 517
+	ASM_CODE :  SUB_OP DEST_REG SRC1 SRC2_    (46)
+
+	.  reduce 46
+
+
+state 518
+	ASM_CODE :  SUB_OP DEST_REG SRC1 IMM_    (47)
+
+	.  reduce 47
+
+
+state 519
+	ASM_CODE :  DIV_POP DEST_REG SRC1 SRC2_    (50)
+
+	.  reduce 50
+
+
+state 520
+	ASM_CODE :  DIV_POP DEST_REG SRC1 IMM_    (51)
+
+	.  reduce 51
+
+
+state 521
+	ASM_CODE :  MUL_POP DEST_REG SRC1 SRC2_    (52)
+
+	.  reduce 52
+
+
+state 522
+	ASM_CODE :  MUL_POP DEST_REG SRC1 IMM_    (53)
+
+	.  reduce 53
+
+
+state 523
+	ASM_CODE :  Y_ROR_POP DEST_REG SRC1 SRC2_    (55)
+
+	.  reduce 55
+
+
+state 524
+	ASM_CODE :  Y_ROR_POP DEST_REG SRC1 IMM_    (57)
+
+	.  reduce 57
+
+
+state 525
+	ASM_CODE :  Y_ROL_POP DEST_REG SRC1 SRC2_    (56)
+
+	.  reduce 56
+
+
+state 526
+	ASM_CODE :  Y_ROL_POP DEST_REG SRC1 IMM_    (58)
+
+	.  reduce 58
+
+
+state 527
+	ASM_CODE :  SET_LE_POP DEST_REG SRC1 SRC2_    (59)
+
+	.  reduce 59
+
+
+state 528
+	ASM_CODE :  SET_LE_POP DEST_REG SRC1 IMM_    (60)
+
+	.  reduce 60
+
+
+state 529
+	ASM_CODE :  SET_GT_POP DEST_REG SRC1 SRC2_    (61)
+
+	.  reduce 61
+
+
+state 530
+	ASM_CODE :  SET_GT_POP DEST_REG SRC1 IMM_    (62)
+
+	.  reduce 62
+
+
+state 531
+	ASM_CODE :  SET_GE_POP DEST_REG SRC1 SRC2_    (63)
+
+	.  reduce 63
+
+
+state 532
+	ASM_CODE :  SET_GE_POP DEST_REG SRC1 IMM_    (64)
+
+	.  reduce 64
+
+
+state 533
+	ASM_CODE :  SET_EQ_POP DEST_REG SRC1 SRC2_    (65)
+
+	.  reduce 65
+
+
+state 534
+	ASM_CODE :  SET_EQ_POP DEST_REG SRC1 IMM_    (66)
+
+	.  reduce 66
+
+
+state 535
+	ASM_CODE :  BINARY_BR_OP SRC1 SRC2 LABEL_    (70)
+
+	.  reduce 70
+
+
+state 536
+	ASM_CODE :  BINARY_BR_OP SRC1 IMMEDIATE LABEL_    (71)
+
+	.  reduce 71
+
+
+state 537
+	IMMEDIATE :  $$335 IMM_    (336)
+
+	.  reduce 336
+
+
+state 538
+	ASM_CODE :  BR_GT_POP SRC1 SRC2 LABEL_    (72)
+
+	.  reduce 72
+
+
+state 539
+	ASM_CODE :  BR_GT_POP SRC1 IMMEDIATE LABEL_    (73)
+
+	.  reduce 73
+
+
+state 540
+	ASM_CODE :  BR_GE_POP SRC1 SRC2 LABEL_    (74)
+
+	.  reduce 74
+
+
+state 541
+	ASM_CODE :  BR_GE_POP SRC1 IMMEDIATE LABEL_    (75)
+
+	.  reduce 75
+
+
+state 542
+	ASM_CODE :  BR_LT_POP SRC1 SRC2 LABEL_    (76)
+
+	.  reduce 76
+
+
+state 543
+	ASM_CODE :  BR_LT_POP SRC1 IMMEDIATE LABEL_    (77)
+
+	.  reduce 77
+
+
+state 544
+	ASM_CODE :  BR_LE_POP SRC1 SRC2 LABEL_    (78)
+
+	.  reduce 78
+
+
+state 545
+	ASM_CODE :  BR_LE_POP SRC1 IMMEDIATE LABEL_    (79)
+
+	.  reduce 79
+
+
+state 546
+	ASM_CODE :  FP_BINARY_OP F_DEST F_SRC1 F_SRC2_    (90)
+
+	.  reduce 90
+
+
+state 547
+	STR_LST :  STR_LST STR_    (359)
+
+	.  reduce 359
+
+
+state 548
+	STR :  Y_STR :_Y_INT 
+
+	Y_INT  shift 565
+	.  error
+
+
+state 549
+	EXPR_LST :  EXPR_LST EXPRESSION_    (367)
+
+	.  reduce 367
+
+
+state 550
+	EXPR_LST :  EXPRESSION :_Y_INT 
+
+	Y_INT  shift 566
+	.  error
+
+
+state 551
+	EXPRESSION :  $$363 EXPR_    (364)
+
+	.  reduce 364
+
+
+state 552
+	FP_EXPR_LST :  FP_EXPR_LST Y_FP_    (370)
+
+	.  reduce 370
+
+
+state 553
+	ASM_DIRECTIVE :  Y_FRAME_DIR REGISTER Y_INT REGISTER_    (296)
+
+	.  reduce 296
+
+
+state 554
+	ASM_DIRECTIVE :  Y_VREG_DIR REGISTER Y_INT Y_INT_    (320)
+
+	.  reduce 320
+
+
+state 555
+	ADDR :  ( REGISTER_) 
+
+	)  shift 567
+	.  error
+
+
+state 556
+	ADDR :  ABS_ADDR (_REGISTER ) 
+
+	Y_REG  shift 291
+	.  error
+
+	REGISTER  goto 568
+
+state 557
+	ADDR :  ABS_ADDR +_ID 
+	$$376 : _    (376)
+
+	.  reduce 376
+
+	ID  goto 569
+	$$376  goto 5
+
+state 558
+	ADDR :  Y_ID (_REGISTER ) 
+
+	Y_REG  shift 291
+	.  error
+
+	REGISTER  goto 570
+
+state 559
+	ADDR :  Y_ID +_ABS_ADDR 
+	ADDR :  Y_ID +_ABS_ADDR ( REGISTER ) 
+
+	Y_INT  shift 409
+	.  error
+
+	ABS_ADDR  goto 571
+
+state 560
+	ADDR :  Y_ID -_ABS_ADDR 
+	ADDR :  Y_ID -_ABS_ADDR ( REGISTER ) 
+
+	Y_INT  shift 409
+	.  error
+
+	ABS_ADDR  goto 572
+
+state 561
+	IMM :  ( ABS_ADDR )_> > Y_INT 
+
+	>  shift 573
+	.  error
+
+
+state 562
+	IMM :  Y_ID + ABS_ADDR_    (340)
+
+	.  reduce 340
+
+
+state 563
+	IMM :  Y_ID - ABS_ADDR_    (341)
+
+	.  reduce 341
+
+
+state 564
+	ABS_ADDR :  Y_INT + Y_INT_    (343)
+
+	.  reduce 343
+
+
+state 565
+	STR :  Y_STR : Y_INT_    (362)
+
+	.  reduce 362
+
+
+state 566
+	EXPR_LST :  EXPRESSION : Y_INT_    (369)
+
+	.  reduce 369
+
+
+state 567
+	ADDR :  ( REGISTER )_    (325)
+
+	.  reduce 325
+
+
+state 568
+	ADDR :  ABS_ADDR ( REGISTER_) 
+
+	)  shift 574
+	.  error
+
+
+state 569
+	ADDR :  ABS_ADDR + ID_    (331)
+
+	.  reduce 331
+
+
+state 570
+	ADDR :  Y_ID ( REGISTER_) 
+
+	)  shift 575
+	.  error
+
+
+state 571
+	ADDR :  Y_ID + ABS_ADDR_    (330)
+	ADDR :  Y_ID + ABS_ADDR_( REGISTER ) 
+
+	(  shift 576
+	.  reduce 330
+
+
+state 572
+	ADDR :  Y_ID - ABS_ADDR_    (332)
+	ADDR :  Y_ID - ABS_ADDR_( REGISTER ) 
+
+	(  shift 577
+	.  reduce 332
+
+
+state 573
+	IMM :  ( ABS_ADDR ) >_> Y_INT 
+
+	>  shift 578
+	.  error
+
+
+state 574
+	ADDR :  ABS_ADDR ( REGISTER )_    (327)
+
+	.  reduce 327
+
+
+state 575
+	ADDR :  Y_ID ( REGISTER )_    (329)
+
+	.  reduce 329
+
+
+state 576
+	ADDR :  Y_ID + ABS_ADDR (_REGISTER ) 
+
+	Y_REG  shift 291
+	.  error
+
+	REGISTER  goto 579
+
+state 577
+	ADDR :  Y_ID - ABS_ADDR (_REGISTER ) 
+
+	Y_REG  shift 291
+	.  error
+
+	REGISTER  goto 580
+
+state 578
+	IMM :  ( ABS_ADDR ) > >_Y_INT 
+
+	Y_INT  shift 581
+	.  error
+
+
+state 579
+	ADDR :  Y_ID + ABS_ADDR ( REGISTER_) 
+
+	)  shift 582
+	.  error
+
+
+state 580
+	ADDR :  Y_ID - ABS_ADDR ( REGISTER_) 
+
+	)  shift 583
+	.  error
+
+
+state 581
+	IMM :  ( ABS_ADDR ) > > Y_INT_    (338)
+
+	.  reduce 338
+
+
+state 582
+	ADDR :  Y_ID + ABS_ADDR ( REGISTER )_    (333)
+
+	.  reduce 333
+
+
+state 583
+	ADDR :  Y_ID - ABS_ADDR ( REGISTER )_    (334)
+
+	.  reduce 334
+
+
+256/600 terminals, 87/2000 nonterminals
+378/1200 grammar rules, 584/1500 states
+20 shift/reduce, 0 reduce/reduce conflicts reported
+311/2400 working sets used
+memory: states,etc. 2806/48000, parser 535/24000
+86/3000 distinct lookahead sets
+14 extra closures
+495 shift entries, 7 exceptions
+348 goto entries
+143 entries saved by goto default
+Optimizer space used: input 1601/48000, output 1083/24000
+1083 table entries, 415 zero
+maximum spread: 503, maximum offset: 577

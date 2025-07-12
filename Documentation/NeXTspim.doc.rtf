@@ -1,0 +1,112 @@
+{\rtf0\ansi{\fonttbl\f0\fswiss Helvetica;\f1\fmodern Courier;\f2\fnil Times-Roman;}
+\paperw11760
+\paperh6540
+\margl120
+\margr120
+\pard\tx1140\tx2300\tx3440\tx4600\tx5760\tx6900\tx8060\tx9200\tx10360\tx11520\f0\b\i0\ul0\fs36 NeXTspim User Documentation\
+
+\f1\b0\fs24 \
+
+\f2 This document contains just brief summaries of what each menu item does.  For simulation documentation, see the spim.ps file.\
+\
+To change a register value, select its text field, edit it, and press return.\
+
+\f1 \
+
+\f2\b\fs28 Info/Preferences:\
+
+\pard\tx1140\tx2160\tx3440\tx4600\tx5760\tx6900\tx8060\tx9200\tx10360\tx11520\b0\fs24\fi-2160\li2160 Bare Machine:	Instructions marked in spim.ps are not supported.  Only "real" MIPS instructions will be interpreted.\
+Load Default Trap Handler:	Load some default kernel code to handle exceptions.\
+Print GPRs in hex:	Print the general registers (R1...R31) in hex instead of decimal.\
+Print FPRs in hex:	Print the floating point registers in hex instead of decimal.\
+Memory-mapped I/O:	Enable a section of memory that reflects keyboard events.  See spim.ps for details.  (WARNING: This feature has not been thouroughly tested and may not actually be functional.)\
+Instruction Cache:	Enable the instruction cache.\
+Data Cache:	Enable the data cache.\
+TLB:		Enable the Transfer Lookaside Buffer simulation.\
+Cycle Level:	Enable cycle-level simulation.\
+Update display every xxx second.  Changes how often the Messages window, Registers window, and Text Segments window will be updated.  May range from 0.1 sec to 1.0 sec.\
+\
+
+\b\fs28 Program/Load:\
+
+\b0\fs24 Load a MIPS assembly file.  The file must have a .s extension.\
+\
+
+\b\fs28 Program/Run (Stop):\
+
+\b0\fs24 Start/Stop the program.  Also clears the input queue, but does not reset the registers.\
+\
+
+\b\fs28 Program/Step:\
+
+\b0\fs24 Run the program one step.\
+\
+
+\b\fs28 Program/Clear Registers:\
+
+\b0\fs24 Reset all registers, including the program counter.\
+\
+
+\b\fs28 Program/Clear All:\
+
+\b0\fs24 Reset the simulation.  The registers will be cleared and the program will be erased.\
+\
+
+\pard\tx1140\tx2180\tx3440\tx4600\tx5760\tx6900\tx8060\tx9200\tx10360\tx11520\b\fs28 Program/Breakpoints:\
+
+\b0\fs24 To add a breakpoint, type the address (with the leading 0x if hexadecimal) and press enter or click on "Add New".\
+To remove a breakpoint, type in its address and press "Remove", or press "Remove All" to clear all breakpoints.\
+\
+
+\b\fs28 View/Memory		
+\b0\fs24 Main NeXTspim window, shows registers, code, and data.
+\b\fs28 \
+View/Messages		
+\b0\fs24 "Console" for input/output and error messages.
+\b\fs28 \
+View/Pipeline		
+\b0\fs24 Cycle-level pipeline display (if enabled)
+\b\fs28 	\
+View/Instruction Cache	
+\b0\fs24 Instruction cache contents\
+
+\b\fs28 View/Data Cache		
+\b0\fs24 Data cache contents
+\b\fs28 \
+View/Cache Statistics	
+\b0\fs24 Cache hits/misses
+\b\fs28 \
+View/Exception Statistics	
+\b0\fs24 Record of exceptions 
+\b\fs28 \
+View/Syscall Statistics	
+\b0\fs24 Record of sycalls made.  Not really functional yet, probably meant for MIPS sycalls when running on a MIPS machine.\
+
+\b\fs28 View/Symbol Table	
+\b0\fs24 Global symbol table for current program.\
+
+\b\fs28 \
+
+\b0\fs24 Click on one of the menu items to open the corresponding window and bring it to the front.\
+\
+
+\b\fs28 Print/Registers\
+Print/Data\
+Print/Text\
+Print/Messages\
+
+\b0\fs24 Click on one of the menu items to print the corresponding view.  There are no formatting options right now...\
+\
+\
+Warning:  It is generally a bad idea to start or stop a program while it is waiting for keyboard input.  Weird things happen.\
+\
+Please see the file NeXTspim.rtf for info on unimplemented features, future additions, etc.\
+\
+Mark Gritter\
+mgritter@gac.edu\
+April 23, 1994\
+\
+\
+\
+
+}

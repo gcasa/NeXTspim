@@ -1,0 +1,256 @@
+{\rtf0\ansi{\fonttbl\f0\fswiss Helvetica;\f1\fmodern Courier;\f2\fnil Times-Roman;}
+\paperw13720
+\paperh7640
+\margl60
+\margr120
+{\colortbl\red0\green0\blue0;}
+\pard\tx1140\tx2300\tx3440\tx4600\tx5760\tx6900\tx8060\tx9200\tx10360\tx11520\f0\b\i0\ul0\fs36 NeXTspim\
+
+\f1\b0\fs24 \
+
+\f2 I developed NeXTspim under NeXTstep 2.1 on black hardware.  I do not know whether or not it will compile on other platforms or with a newer verison of the OS.\
+\
+To make NeXTspim, just use the existing makefile, or work through Interface Builder.  If you do "make install" to create a file package, you must copy trap.handler into that package so that NeXTspim can find it.\
+
+\f1 \
+
+\f2\b\fs28 Changes to existing code:\
+
+\b0\fs24 The function 
+\f1 write-output
+\f2  no longer has the first 
+\f1 int
+\f2  argument to specify the window.  All output will go to the Messages window.   
+\f1 mips-syscall.c
+\f2  and 
+\f1 mem.c
+\f2  were changed to reflect this.\
+\
+A line was commented out in 
+\f1 mem.c
+\f2  to prevent the memory-mapped I/O routines from doubling the characters on the screen.  Since NeXTspim uses a ConsoleText object, the characters are automatically placed.\
+\
+The 
+\f1 initialize_world
+\f2  function in 
+\f1 spim-util.c
+\f2  has been modified to include the path of the executable in the filename for the default trap handler.  This is important, since the working directory of an executable launched from the File Viewer is the user's home directory, not the directory where the executable is.\
+\
+
+\b\fs28 New NeXT-specific Code:
+\f1\b0\fs24 \
+xpsim.c
+\f2  and 
+\f1 button.c
+\f2  have been replaced by:\
+
+\f1 SPIMInterface.[hm]
+\f2 	Main window, display registers, etc...\
+
+\f1 BreakpointsPanel.[hm]
+\f2 	Set/Clear Breakpoints\
+
+\f1 ContinuePanel.[hm]
+\f2 	Pops up when breakpoint encountered\
+
+\f1 KeyQueue.[hm]
+\f2 		Save keyboard input until needed.\
+
+\f1 PrefsPanel.[hm]
+\f2 		Change the preferences (Note: Command line prefs are not supported)\
+
+\f1 RunLoop.[hm]		
+\f2 Code for simulation thread (see below)\
+
+\f1 SetValuePanel.[hm]
+\f2 	Set a register value\
+
+\f1 StatsWindow.[hm]
+\f2 	A window class for displaying statistical information when it is called up\
+\
+The 
+\f1 *Panel
+\f2  classes are descendants of 
+\f1 Panel
+\f2 .  Instead of creating a 
+\f1 Panel
+\f2  with the controls and an 
+\f1 Object
+\f2  descendant to handle the panel, one object performs both functions.  The controls in each of these windows are connected to the 
+\f1 button:
+\f2  or 
+\f1 switch:
+\f2  method of the new class.\
+\
+In addition, the following new views were created to make certain tasks easier:\
+
+\pard\tx3240\tx3440\tx4600\tx5760\tx6900\tx8060\tx9200\tx10360\tx11520\f1\fi-3240\li3240 TextView:ScrollView
+\f2 	A scroll view that creates its own Text object, with functions for easily adding text.  Vertical scroller only.  Uses the "Courier" font.  Used for viewing registers and data.\
+
+\f1 CodeView:TextView
+\f2 	Adds a horizontal scroller.  Used for viewing code, since I want to keep all code for one address on the same line.\
+
+\f1 ConsoleView:TextView
+\f2 	Creates a 
+\f1 ConsoleText
+\f2  object instead of a 
+\f1 Text
+\f2  object and allocates a 
+\f1 KeyQueue
+\f2  for it.\
+\
+A Text subclass was also created:\
+
+\f1 ConsoleText:Text
+\f2 	Overrides default 
+\pard\tx1140\tx2300\tx3440\tx4600\tx5760\tx6900\tx8060\tx9200\tx10360\tx11520\f1\fc0 keyDown:
+\pard\tx3240\tx3440\tx4600\tx5760\tx6900\tx8060\tx9200\tx10360\tx11520\f2\fi-3240\li3240  procedure to ignore arrow keys and control characters and to put characters into a specified KeyQueue.\
+
+\pard\tx720\tx3440\tx4600\tx5760\tx6900\tx8060\tx9200\tx10360\tx11520 \
+
+\b\fs28 Threads\
+
+\b0\fs24 The original xspim code used only a single program thread, but my new interface makes this harder to do, and I was having a hard time understanding the execution code.  To make things simpler, NeXTspim runs two threads, an interface thread (the orginal thread) and the simulation thread (contained entirely in 
+\f1 RunLoop.[hm]
+\f2 ).  Responsibilities of each:\
+\
+
+\b Interface thread:\
+
+\b0 	Most user input (via buttons, ConsoleText, etc.)\
+	All output\
+	Starting/Stopping the simulation\
+	Setting options and starting values.\
+	\
+
+\b Simulation thread:\
+
+\b0 	Calling simulation code.\
+	Calls input/output functions, but should not directly output to console or any NeXTstep object  (The exception is the keyboard input syscall.  The simulation thread does directly call the KeyQueue object, but it should not receive the keyDown message.  Console output, however, is buffered and handled by the interface thread.)\
+\
+The function 
+\f1 UpdateDisplayIfNeeded
+\f2  (in 
+\f1 SPIMInterface.m
+\f2 ) is called by the interface thread at user-definable intervals, using the 
+\f1 DPSAddTimedEntry
+\f2  function.  This function changes the highlighting, outputs text to the Messages window, opens the Continue window, redisplays the registers, and should be responsible for anything the simulation thread needs to do.  The simulation thread does not call this function directly but sets flags to order it to perform actions.  
+\f1 InitUpdateDisplayLoop
+\f2  and 
+\f1 KillUpdateDisplayLoop
+\f2  are used to start and stop the timed updates.  \
+\
+
+\b Mutexes:\
+
+\b0 \
+RunMutex	Permission to start or stop the simulation\
+DisplayMutex	Permission to change the display update flags\
+RegisterMutex	Permission to change the registers\
+\
+(In addition, KeyQueue contains an internal mutex variable to ensure that its contents remain unchanged when it is being read from.)\
+\
+
+\b\fs28 SPIM files:
+\b0\fs24 \
+
+\pard\tx3240\tx4600\tx5760\tx6900\tx8060\tx9200\tx10360\tx11520\f1\fc0 data.[ch]
+\f2 	Code to handle data directives.\
+
+\f1 inst.[ch]
+\f2 	Code to build instructions and manipulate symbol table.\
+
+\f1 mem.[ch]
+\f2 	Code to maintain memory.\
+
+\f1 mips-syscall.[ch]
+\f2 	Code to handle system calls and exceptions.\
+
+\f1 op.h
+\f2 	Definition of operations.\
+
+\f1 parser.[yh]
+\f2 	Assembly command parser (YACC).\
+
+\f1 read-aout.[ch]
+\f2 	Code to read MIPS a.out executables.\
+
+\f1 reg.h
+\f2 	Register access macros.\
+
+\f1 run.[ch]
+\f2 	Instruction simulator.\
+
+\f1 scanner.[lh]
+\f2 	Lexical analyzer (LEX).\
+
+\f1 spim-syscall.h
+\f2 	System call numbers.\
+
+\f1 spim-utils.[ch]
+\f2 	Misc. routines.\
+
+\f1 sym-tbl.[ch]
+\f2 	Symbol table.\
+
+\f1 trap.handler
+\f2 	Standard trap handler.\
+
+\f1 Documentation/spim.ps
+\f2 	Postscript document that describes SPIM.\
+
+\f1 Documentation/cycle.ps
+\f2 	Describes Anne Roger's cycle-level simulator (cl-spim, cl-xspim).\
+
+\f1 cl-cycle.[ch]
+\f2 	Pipeline simulation\
+
+\f1 cl-except.[ch]
+\f2 	Exception and signal handling\
+
+\f1 cl-tlb.[ch]
+\f2 	Virtual memory simulation\
+
+\f1 cl-cache.[ch]
+\f2 	Instruction and data caching simulation\
+\
+\
+
+\pard\tx720\tx3440\tx4600\tx5760\tx6900\tx8060\tx9200\tx10360\tx11520\b\fs28 Unimplemented Features\
+
+\b0\fs24 \
+
+\b Memory-mapped I/O\
+
+\b0 It sort of works; at least no errors occur.  However, the test program doesn't work correctly as far as I can tell (although I'm not sure what it's supposed to do).  The code is all there, but the old memory-mapped I/O functions don't seem to be getting along with the NeXTspim code.  If someone could actually decide whether it works or not, I'd be eternally grateful.\
+\
+
+\b Reading MIPS Binary Files\
+
+\b0 The code exists, but no user interface has been created, and the file loading functions do not detect the type of the file automatically.\
+\
+
+\b\fs28 Bugs\
+
+\b0\fs24 When the program is waiting for keyboard input, there is no indication given; it looks as if the program is running but doing nothing.  If the user tries to stop the program it will keep running, since (1) it is waiting for a full line and (2) instructions are executed 100 at a time.  The second is easily adjustable, the first is a bit harder.\
+\
+
+\b\fs28 Surprising Features
+\b0\fs24 \
+The user can type into the Message window before input is asked for.  Since the KeyQueue object will hold those characters, the next time the program asks for input it will already be there.  However, the KeyQueue buffer is cleared when the program is run, so there shouldn't be too many unexpected things happening.\
+\
+
+\b\fs28 Wish List
+\b0\fs24 \
+1. Allow MIPS programs to call UNIX syscalls from within NeXTspim.  This will allow programs to do file I/O and write in "real" code, instead of relying on the pseudo-operating system provided by the NeXTspim syscalls.  It will also give a better idea of how much time \
+\
+2. Better statistics information.  At the very minimum, a count of how many cycles a given program takes to execute, and perhaps a summary of the number of times each line was executed.\
+\
+Feel free to E-mail your comments, complaints, or additions to the "wish list".  I am very interested in finding out where NeXTspim is being used and what you think of it.\
+\
+Mark Gritter\
+mgritter@gac.edu\
+
+\pard\tx1140\tx2300\tx3440\tx4600\tx5760\tx6900\tx8060\tx9200\tx10360\tx11520 April 23, 1994\
+
+}
