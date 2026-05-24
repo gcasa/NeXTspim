@@ -1,26 +1,10 @@
-/* NeXTspim 1.0
-   Copyright (C) 1994 by Mark Gritter (mgritter@gac.edu).
-   
-   SPIM S20 MIPS simulator.
-   Copyright (C) 1990-1992 by James Larus (larus@cs.wisc.edu).
-   ALL RIGHTS RESERVED.
+/* Main Cocoa/GNUstep interface for NeXTspim. */
 
-   SPIM is distributed under the following conditions:
+#ifndef NEXTSPIM_SPIMINTERFACE_H
+#define NEXTSPIM_SPIMINTERFACE_H
 
-     You may make copies of SPIM for your own use and modify those copies.
-
-     All copies of SPIM must retain my name and copyright notice.
-
-     You may not sell SPIM or distributed SPIM in conjunction with a
-     commerical product or service without the expressed written consent of
-     James Larus.
-
-   THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR
-   IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
-   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-   PURPOSE. */
-
-/* SPIMInterface.h -- Main I/O handler */
+#import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h>
 
 #include <stdio.h>
 #include <setjmp.h>
@@ -40,55 +24,47 @@
 #include "cl-cycle.h"
 #endif
 
-#import <objc/Object.h>
-#import <appkit/TextField.h>
-#import <appkit/Text.h>
-#import <appkit/ScrollView.h>
-#import <appkit/Scroller.h>
-#import "TextView.h"
-
 #define BYTES_PER_LINE 16
-
 #define IO_BUFFSIZE 	10000
 
-/* Exported functions: */
-
-void execute_program (mem_addr pc, int steps, int display, int cont_bkpt);
-void read_file (char *name, int assembly_file);
+void execute_program(mem_addr pc, int steps, int display, int cont_bkpt);
+void read_file(char *name, int assembly_file);
 void start_program(mem_addr addr);
-
-/* Exported variables: */
+void write_output(char *fmt, ...);
 
 extern int load_trap_handler;
 extern id idMainInterface, idPrefsPanel;
 
-@interface SPIMInterface:Object
+@class KeyQueue;
+
+@interface SPIMInterface : NSObject <NSApplicationDelegate>
 {
-    id	Registers;
-	id  MainRegisters;
-    id	Messages;
-    id	TextSegments;
-    id	DataSegments;
-	id	idOpenPanel;
-	id  MainWindow;
-	id  idStartStopCell;
-	id  MessageWindow;
-	id	ICacheStats;
-	id	ICacheData;
-	id	DCacheStats;
-	id	DCacheData;
-	id	Pipeline;
-	id  Prefs;
-	id  Breakpoints;
+	id Registers;
+	id MainRegisters;
+	id Messages;
+	id TextSegments;
+	id DataSegments;
+	id idOpenPanel;
+	id MainWindow;
+	id idStartStopCell;
+	id MessageWindow;
+	id ICacheStats;
+	id ICacheData;
+	id DCacheStats;
+	id DCacheData;
+	id Pipeline;
+	id Prefs;
+	id Breakpoints;
 	int KernelStartLine;
-	id  registersMain[7], registersGeneral[32], registersFloat[32];
+	id registersMain[7], registersGeneral[32], registersFloat[32];
+	NSTimer *updateTimer;
 }
 
 - init;
 - appDidInit:sender;
 
 - loadFile;
-- run:(BOOL)step:(BOOL)cont_bkpt;
+- run:(BOOL)step :(BOOL)cont_bkpt;
 - clear:(BOOL)step;
 
 - StartStopCell;
@@ -102,7 +78,6 @@ extern id idMainInterface, idPrefsPanel;
 - showRunning:(BOOL)r;
 
 - setEnabled:(BOOL)enable;
-
 - writeOutput:(char *)string;
 
 - MenuItem:sender;
@@ -113,4 +88,9 @@ extern id idMainInterface, idPrefsPanel;
 - displayPipeline;
 #endif
 
+- (void)startDisplayTimer;
+- (void)stopDisplayTimer;
+
 @end
+
+#endif

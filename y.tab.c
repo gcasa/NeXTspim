@@ -248,6 +248,7 @@
 
 # line 289 "parser.y"
 #include <stdio.h>
+#include <stdint.h>
 
 #include "spim.h"
 #include "spim-utils.h"
@@ -310,7 +311,7 @@ extern short yyerrflag;
 #define YYMAXDEPTH 150
 #endif
 #ifndef YYSTYPE
-#define YYSTYPE int
+#define YYSTYPE intptr_t
 #endif
 YYSTYPE yylval, yyval;
 # define YYERRCODE 256
@@ -2081,52 +2082,52 @@ case 324:
 case 325:
 # line 1723 "parser.y"
 {
-		  yyval = (int) make_addr_expr (0, NULL, yypvt[-1]);
+		  yyval = (intptr_t) make_addr_expr (0, NULL, yypvt[-1]);
 		} break;
 case 326:
 # line 1728 "parser.y"
 {
-		  yyval = (int) make_addr_expr (yypvt[-0], NULL, 0);
+		  yyval = (intptr_t) make_addr_expr (yypvt[-0], NULL, 0);
 		} break;
 case 327:
 # line 1733 "parser.y"
 {
-		  yyval = (int) make_addr_expr (yypvt[-3], NULL, yypvt[-1]);
+		  yyval = (intptr_t) make_addr_expr (yypvt[-3], NULL, yypvt[-1]);
 		} break;
 case 328:
 # line 1738 "parser.y"
 {
-		  yyval = (int) make_addr_expr (0, (char *)yypvt[-0], 0);
+		  yyval = (intptr_t) make_addr_expr (0, (char *)yypvt[-0], 0);
 		} break;
 case 329:
 # line 1743 "parser.y"
 {
-		  yyval = (int) make_addr_expr (0, (char *)yypvt[-3], yypvt[-1]);
+		  yyval = (intptr_t) make_addr_expr (0, (char *)yypvt[-3], yypvt[-1]);
 		} break;
 case 330:
 # line 1748 "parser.y"
 {
-		  yyval = (int) make_addr_expr (yypvt[-0], (char *)yypvt[-2], 0);
+		  yyval = (intptr_t) make_addr_expr (yypvt[-0], (char *)yypvt[-2], 0);
 		} break;
 case 331:
 # line 1753 "parser.y"
 {
-		  yyval = (int) make_addr_expr (yypvt[-2], (char *)yypvt[-0], 0);
+		  yyval = (intptr_t) make_addr_expr (yypvt[-2], (char *)yypvt[-0], 0);
 		} break;
 case 332:
 # line 1758 "parser.y"
 {
-		  yyval = (int) make_addr_expr (- yypvt[-0], (char *)yypvt[-2], 0);
+		  yyval = (intptr_t) make_addr_expr (- yypvt[-0], (char *)yypvt[-2], 0);
 		} break;
 case 333:
 # line 1763 "parser.y"
 {
-		  yyval = (int) make_addr_expr (yypvt[-3], (char *)yypvt[-5], yypvt[-1]);
+		  yyval = (intptr_t) make_addr_expr (yypvt[-3], (char *)yypvt[-5], yypvt[-1]);
 		} break;
 case 334:
 # line 1768 "parser.y"
 {
-		  yyval = (int) make_addr_expr (- yypvt[-3], (char *)yypvt[-5], yypvt[-1]);
+		  yyval = (intptr_t) make_addr_expr (- yypvt[-3], (char *)yypvt[-5], yypvt[-1]);
 		} break;
 case 335:
 # line 1774 "parser.y"
@@ -2137,27 +2138,27 @@ case 336:
 case 337:
 # line 1777 "parser.y"
 {
-		  yyval = (int) make_imm_expr (yypvt[-0], NULL, 0);
+		  yyval = (intptr_t) make_imm_expr (yypvt[-0], NULL, 0);
 		} break;
 case 338:
 # line 1782 "parser.y"
 {
-		  yyval = (int) make_imm_expr (yypvt[-4] >> yypvt[-0], NULL, 0);
+		  yyval = (intptr_t) make_imm_expr (yypvt[-4] >> yypvt[-0], NULL, 0);
 		} break;
 case 339:
 # line 1787 "parser.y"
 {
-		  yyval = (int) make_imm_expr (0, (char *)yypvt[-0], 0);
+		  yyval = (intptr_t) make_imm_expr (0, (char *)yypvt[-0], 0);
 		} break;
 case 340:
 # line 1792 "parser.y"
 {
-		  yyval = (int) make_imm_expr (yypvt[-0], (char *)yypvt[-2], 0);
+		  yyval = (intptr_t) make_imm_expr (yypvt[-0], (char *)yypvt[-2], 0);
 		} break;
 case 341:
 # line 1797 "parser.y"
 {
-		  yyval = (int) make_imm_expr (- yypvt[-0], (char *)yypvt[-2], 0);
+		  yyval = (intptr_t) make_imm_expr (- yypvt[-0], (char *)yypvt[-2], 0);
 		} break;
 case 343:
 # line 1806 "parser.y"
@@ -2189,7 +2190,7 @@ case 355:
 case 358:
 # line 1860 "parser.y"
 {
-		  yyval = (int) make_imm_expr (- current_text_pc (), (char *)yypvt[-0],
+		  yyval = (intptr_t) make_imm_expr (- current_text_pc (), (char *)yypvt[-0],
 					    1);
 		} break;
 case 361:

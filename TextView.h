@@ -1,17 +1,24 @@
+#import <AppKit/AppKit.h>
 
-#import <appkit/ScrollView.h>
-#import <appkit/Text.h>
-#import <appkit/Font.h>
+@interface NSTextView (NeXTspimLegacyText)
+- setText:(const char *)txt;
+- addText:(const char *)txt;
+- (int)textLength;
+- setSel:(int)start :(int)end;
+- replaceSel:(const char *)txt;
+- (int)positionFromLine:(int)line;
+- (int)lineFromPosition:(int)position;
+@end
 
-@interface TextView:ScrollView 
+@interface TextView : NSScrollView
 {
-    id	theFont;
-	id	theText;
-	NXCoord height;
+	NSFont *theFont;
+	NSTextView *theText;
+	CGFloat height;
 }
 
-- initFrame:(const NXRect *)frameRect;
-- newText:(const NXRect *)frameRect;
+- initFrame:(NSRect)frameRect;
+- newText:(NSRect)frameRect;
 - idText;
 - setText:(char *)txt;
 - addText:(char *)txt;
@@ -20,5 +27,3 @@
 - scrollLine:(int)line;
 
 @end
-
-

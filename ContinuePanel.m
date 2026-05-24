@@ -1,28 +1,4 @@
-/* NeXTspim 1.0
-   Copyright (C) 1994 by Mark Gritter (mgritter@gac.edu).
-   
-   SPIM S20 MIPS simulator.
-   Copyright (C) 1990-1992 by James Larus (larus@cs.wisc.edu).
-   ALL RIGHTS RESERVED.
-
-   SPIM is distributed under the following conditions:
-
-     You may make copies of SPIM for your own use and modify those copies.
-
-     All copies of SPIM must retain my name and copyright notice.
-
-     You may not sell SPIM or distributed SPIM in conjunction with a
-     commerical product or service without the expressed written consent of
-     James Larus.
-
-   THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR
-   IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
-   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-   PURPOSE. */
-
 #import "ContinuePanel.h"
-#import <appkit/TextField.h>
-#import <appkit/Panel.h>
 #import "RunLoop.h"
 #import "BreakpointsPanel.h"
 
@@ -30,36 +6,62 @@ id idContinuePanel;
 
 @implementation ContinuePanel
 
-- init {
-	[super init];
-	idContinuePanel = self;
+- init
+{
+	self = [super initWithContentRect:NSMakeRect(260, 260, 300, 120)
+	                        styleMask:(NSTitledWindowMask | NSClosableWindowMask)
+	                          backing:NSBackingStoreBuffered
+	                            defer:NO];
+	if (self) {
+		NSView *content = [self contentView];
+		[self setTitle:@"Breakpoint"];
+		NSTextField *label = [[[NSTextField alloc] initWithFrame:NSMakeRect(16, 78, 90, 20)] autorelease];
+		[label setStringValue:@"Stopped at"];
+		[label setEditable:NO];
+		[label setBordered:NO];
+		[label setDrawsBackground:NO];
+		[content addSubview:label];
+		bkAddressText = [[NSTextField alloc] initWithFrame:NSMakeRect(112, 74, 120, 24)];
+		[bkAddressText setEditable:NO];
+		[content addSubview:bkAddressText];
+		NSArray *titles = [NSArray arrayWithObjects:@"Continue", @"Step", @"Remove", nil];
+		NSArray *tags = [NSArray arrayWithObjects:[NSNumber numberWithInt:101],
+			[NSNumber numberWithInt:102], [NSNumber numberWithInt:103], nil];
+		NSUInteger i;
+		for (i = 0; i < [titles count]; i++) {
+			NSButton *b = [[[NSButton alloc] initWithFrame:NSMakeRect(18 + i * 92, 24, 82, 28)] autorelease];
+			[b setTitle:[titles objectAtIndex:i]];
+			[b setTag:[[tags objectAtIndex:i] intValue]];
+			[b setTarget:self];
+			[b setAction:@selector(button:)];
+			[content addSubview:b];
+		}
+		idContinuePanel = self;
+	}
 	return self;
 }
 
-- initContent:(const NXRect *)contentRect style:(int)aStyle backing:(int)bufferingType buttonMask:(int)mask defer:(BOOL)flag {
-	[super initContent:contentRect style:aStyle backing:bufferingType buttonMask:mask defer:flag];
-	idContinuePanel = self;
+- setBreakpointsPanel:(id)panel
+{
+	Breakpoints = panel;
 	return self;
 }
 
-- open:(mem_addr)addr {
+- open:(mem_addr)addr
+{
 	char buffer[20];
 	sprintf(buffer, "%08x", addr);
 	bkptAddr = addr;
-	[self orderFront:self];
-	[bkAddressText setStringValue:buffer];
+	[bkAddressText setStringValue:[NSString stringWithUTF8String:buffer]];
+	[self makeKeyAndOrderFront:self];
 	return self;
 }
 
 - button:sender
 {
-    switch ([sender selectedTag]) {
-		case 101:
-			[idMainInterface run:NO:YES];
-			break;
-		case 102:
-			[idMainInterface run:YES:YES];
-			break;
+	switch ([sender tag]) {
+		case 101: [idMainInterface run:NO :YES]; break;
+		case 102: [idMainInterface run:YES :YES]; break;
 		case 103:
 #ifdef CL_SPIM
 			breakpoint_reinsert = 0;

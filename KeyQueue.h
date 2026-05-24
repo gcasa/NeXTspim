@@ -1,27 +1,21 @@
+/* Keyboard input buffer used by the console view. */
 
-/* by Mark Gritter
-   January 11, 1994
-   Object holds characters entered one by one, then releases them
-   either individually, all at once, or split between carriage rets. 
-   Meant to be used for keyboard buffering.  See ConsoleText object. 
-   Includes mutex so that separate threads can access it.  */
-
-#import <objc/Object.h>
-#import <cthreads.h>
+#import <Foundation/Foundation.h>
+#import "RunLoop.h"
 
 #define DEFAULT_MAX_BUFFER 1024
 #define MAX_INCREASE 16
 
-@interface KeyQueue:Object
+@interface KeyQueue : NSObject
 {
 	char *buffer;
 	int bufEnd;
 	int bufSize;
-	struct mutex *KeyMutex;
+	SPIMMutex *KeyMutex;
 }
 
 - init;
-- free;
+- (void)dealloc;
 - addChar:(char)c;
 - deleteChar;
 - (BOOL)bufferEmpty;

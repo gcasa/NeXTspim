@@ -1,43 +1,62 @@
-/* NeXTspim 1.0
-   Copyright (C) 1994 by Mark Gritter (mgritter@gac.edu).
-   
-   SPIM S20 MIPS simulator.
-   Copyright (C) 1990-1992 by James Larus (larus@cs.wisc.edu).
-   ALL RIGHTS RESERVED.
+/* Portable run loop support for Cocoa/GNUstep builds. */
 
-   SPIM is distributed under the following conditions:
+#ifndef NEXTSPIM_RUNLOOP_H
+#define NEXTSPIM_RUNLOOP_H
 
-     You may make copies of SPIM for your own use and modify those copies.
+#include <pthread.h>
+#include "spim.h"
 
-     All copies of SPIM must retain my name and copyright notice.
+#ifdef __OBJC__
+#import <objc/objc.h>
+#else
+typedef signed char BOOL;
 
-     You may not sell SPIM or distributed SPIM in conjunction with a
-     commerical product or service without the expressed written consent of
-     James Larus.
-
-   THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR
-   IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
-   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-   PURPOSE. */
-
-#include <cthreads.h>
+#ifndef YES
+#define YES ((BOOL)1)
+#define NO  ((BOOL)0)
+#endif
+#endif
 
 #define LOOP_STOP	0
 #define LOOP_RUN	1
 #define LOOP_STEP	2
 #define LOOP_QUIT	128
 
-extern struct mutex *RunMutex, *RegisterMutex, *DisplayMutex;
-extern struct condition *RunCondition;
+typedef struct SPIMMutex {
+	pthread_mutex_t mutex;
+} SPIMMutex;
+
+typedef struct SPIMCondition {
+	pthread_cond_t condition;
+} SPIMCondition;
+
+extern SPIMMutex *RunMutex, *RegisterMutex, *DisplayMutex;
+extern SPIMCondition *RunCondition;
 extern int RunFlag;
 extern mem_addr RunPC;
 extern int RunSteps, RunDisplay, RunContBkpt;
 extern BOOL DisplayNeedsUpdate, ChangeStartStopButton, ChangeHighlight, OpenContinueWindow;
 
+SPIMMutex *SPIMMutexCreate(void);
+void SPIMMutexLock(SPIMMutex *mutex);
+void SPIMMutexUnlock(SPIMMutex *mutex);
+SPIMCondition *SPIMConditionCreate(void);
+void SPIMConditionWait(SPIMCondition *condition, SPIMMutex *mutex);
+void SPIMConditionSignal(SPIMCondition *condition);
+void SPIMYield(void);
+
+#define mutex_lock(m) SPIMMutexLock(m)
+#define mutex_unlock(m) SPIMMutexUnlock(m)
+#define condition_wait(c, m) SPIMConditionWait((c), (m))
+#define condition_signal(c) SPIMConditionSignal(c)
+
 void InitLoop(void);
-void RunLoop(any_t arg);
+void RunLoop(void *arg);
 void StartRunLoop(void);
 void StopRunLoop(void);
 void StepRunLoop(void);
 void BreakpointStopLoop(void);
+
 #undef PC
+
+#endif

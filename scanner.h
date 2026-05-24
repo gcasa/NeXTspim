@@ -41,7 +41,9 @@ int yylex ();
 
 extern int only_id;
 
-extern int yylval;		/* Value of token from YYLEX */
+#include <stdint.h>
+
+extern intptr_t yylval;		/* Value of token from YYLEX */
 
 extern int line_no;		/* Line number in input file*/
 

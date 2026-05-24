@@ -1,3 +1,6 @@
+#ifndef NEXTSPIM_SPIM_H
+#define NEXTSPIM_SPIM_H
+
 /* SPIM S20 MIPS simulator.
    Definitions for the SPIM S20.
    Copyright (C) 1990-1992 by James Larus (larus@cs.wisc.edu).
@@ -44,9 +47,13 @@
 
 #define SIGN_EX(X) ((X) & 0x8000 ? (X) | 0xffff0000 : (X))
 
+#ifndef MIN
 #define MIN(A, B) ((A) < (B) ? (A) : (B))
+#endif
 
+#ifndef MAX
 #define MAX(A, B) ((A) > (B) ? (A) : (B))
+#endif
 
 #define K 1024
 
@@ -232,3 +239,5 @@ extern long initial_k_text_size;
 extern long initial_k_data_size;
 
 extern long initial_k_data_limit;
+
+#endif /* NEXTSPIM_SPIM_H */

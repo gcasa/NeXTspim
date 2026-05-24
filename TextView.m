@@ -1,122 +1,142 @@
-/*
-**  TextView.m, implementation of scrolling text stuff for TextLab.
-**  Copyright 1989 NeXT, Inc.  All Rights Reserved.
-**  Author: Bruce Blumberg
-**
-**  Heavily modified by Mark Gritter, 1993.
-**
-*/
-
-
-#import <appkit/appkit.h>
 #import "TextView.h"
 
-@implementation TextView:ScrollView
+@implementation NSTextView (NeXTspimLegacyText)
 
-- initFrame:(const NXRect *)frameRect
+- setText:(const char *)txt
 {
-    NXRect rect = {0.0, 0.0, 0.0, 0.0};
-	/* initialize view */
-    [super initFrame:frameRect];
-    
-    /* specify scrollbars and style*/
-    [[self setVertScrollerRequired:YES] setHorizScrollerRequired:NO];
-	[self setBorderType:NX_BEZEL];
-
-    [self getContentSize:&(rect.size)];
-    theText = [self newText:&rect];
-    [self setDocView:theText];
-    [theText setSel:0 :0];	
-
-	theFont = [Font newFont:"Courier" size:12];
-
-	[theText setBackgroundGray:NX_LTGRAY]; 
-	[theText setFont:theFont];
-	
-  	height = [theText lineHeight];
-	[self setLineScroll:height];
-	[self setPageScroll:height];
-	// The following two lines allow the resizing of the scrollview
-    // to be passed down to the docView (in this case, the text view 
-    // itself).
-
-    [contentView setAutoresizeSubviews:YES];
-    [contentView setAutosizing:NX_HEIGHTSIZABLE | NX_WIDTHSIZABLE];
-	
+	[self setString:[NSString stringWithUTF8String:(txt ? txt : "")]];
 	return self;
 }
 
-- newText:(const NXRect *)frameRect
+- addText:(const char *)txt
 {
-    id	text;
-    NXSize aSize = {1.0E38, 1.0E38};
-    
-    text = [[Text alloc] initFrame:frameRect
-    			 text:NULL
-			 alignment:NX_LEFTALIGNED];
-    [text setOpaque:YES];
-    [[[[[text notifyAncestorWhenFrameChanged:YES]
-				setVertResizable:YES]
-				    setHorizResizable:NO]
-					setMonoFont:YES]
-					    setDelegate:self];
-    
-    [text setMinSize:&(frameRect->size)];
-    [text setMaxSize:&aSize];
-    [text setAutosizing:NX_HEIGHTSIZABLE | NX_WIDTHSIZABLE];
-    
-    [text setCharFilter:NXEditorFilter];
-    return text;
+	NSString *s = [NSString stringWithUTF8String:(txt ? txt : "")];
+	[[self textStorage] appendAttributedString:[[[NSAttributedString alloc] initWithString:s] autorelease]];
+	[self scrollRangeToVisible:NSMakeRange([[self string] length], 0)];
+	return self;
 }
 
-- idText
+- (int)textLength
 {
-	return theText;
+	return (int)[[self string] length];
 }
+
+- setSel:(int)start :(int)end
+{
+	NSUInteger len = [[self string] length];
+	NSUInteger s = (start < 0) ? 0 : (NSUInteger)start;
+	NSUInteger e = (end < 0) ? 0 : (NSUInteger)end;
+	if (s > len) s = len;
+	if (e > len) e = len;
+	if (e < s) e = s;
+	[self setSelectedRange:NSMakeRange(s, e - s)];
+	return self;
+}
+
+- replaceSel:(const char *)txt
+{
+	[self replaceCharactersInRange:[self selectedRange]
+	                     withString:[NSString stringWithUTF8String:(txt ? txt : "")]];
+	return self;
+}
+
+- (int)positionFromLine:(int)line
+{
+	NSString *s = [self string];
+	NSUInteger pos = 0, len = [s length];
+	int current = 1;
+	while (current < line && pos < len) {
+		NSRange r = [s rangeOfString:@"\n" options:0 range:NSMakeRange(pos, len - pos)];
+		if (r.location == NSNotFound) return (int)len;
+		pos = r.location + 1;
+		current++;
+	}
+	return (int)pos;
+}
+
+- (int)lineFromPosition:(int)position
+{
+	NSString *s = [self string];
+	NSUInteger limit = MIN((NSUInteger)MAX(position, 0), [s length]);
+	int line = 1;
+	NSUInteger i;
+	for (i = 0; i < limit; i++)
+		if ([s characterAtIndex:i] == '\n') line++;
+	return line;
+}
+
+@end
+
+@implementation TextView
+
+- initFrame:(NSRect)frameRect
+{
+	self = [super initWithFrame:frameRect];
+	if (self) {
+		[self setHasVerticalScroller:YES];
+		[self setHasHorizontalScroller:NO];
+		[self setBorderType:NSBezelBorder];
+		[self setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+		theFont = [[NSFont userFixedPitchFontOfSize:12.0] retain];
+		theText = [[self newText:[[self contentView] bounds]] retain];
+		[theText setFont:theFont];
+		[theText setBackgroundColor:[NSColor colorWithCalibratedWhite:0.88 alpha:1.0]];
+		height = 14.0;
+		[self setDocumentView:theText];
+	}
+	return self;
+}
+
+- newText:(NSRect)frameRect
+{
+	NSTextView *text = [[[NSTextView alloc] initWithFrame:frameRect] autorelease];
+	[text setEditable:YES];
+	[text setMinSize:NSMakeSize(0.0, frameRect.size.height)];
+	[text setMaxSize:NSMakeSize(FLT_MAX, FLT_MAX)];
+	[text setVerticallyResizable:YES];
+	[text setHorizontallyResizable:NO];
+	[text setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+	[[text textContainer] setContainerSize:NSMakeSize(frameRect.size.width, FLT_MAX)];
+	[[text textContainer] setWidthTracksTextView:YES];
+	return text;
+}
+
+- idText { return theText; }
 
 - setText:(char *)txt
 {
-	[[theText setText:txt] sizeToFit];
-	return theText;
+	[theText setText:txt];
+	return self;
 }
 
 - addText:(char *)txt
 {
-	int l = [theText textLength];
-	[[[theText setSel:l:l] replaceSel:txt] sizeToFit];
-	[vScroller setFloatValue:1.0];
-	[self perform:[vScroller action] with:vScroller];
-	return theText;
+	[theText addText:txt];
+	return self;
 }
 
 - printPSCode:sender
 {
-	id smallerFont;
-	smallerFont = [Font newFont:"Courier" size:8];
-	[[theText setBackgroundGray:NX_WHITE] setFont:smallerFont];
-	[theText printPSCode:sender];
-	[[theText setFont:theFont] setBackgroundGray:NX_LTGRAY];
-	[smallerFont free];
-	[self update];
-	return self;	
+	(void)sender;
+	[theText print:self];
+	return self;
 }
 
 - setVertScroll:(float)val
 {
-	[vScroller setFloatValue:val];
-	[self perform:[vScroller action] with:vScroller];
-	return vScroller;
+	NSClipView *clip = [self contentView];
+	NSRect docRect = [[self documentView] bounds];
+	NSRect visible = [clip bounds];
+	CGFloat y = MAX(0.0, (docRect.size.height - visible.size.height) * val);
+	[clip scrollToPoint:NSMakePoint(0, y)];
+	[self reflectScrolledClipView:clip];
+	return self;
 }
 
 - scrollLine:(int)line
 {
-	NXPoint coord;
-	NXRect rect;
-	[contentView getDocVisibleRect:&rect];
-	coord.x = rect.origin.x;
-	coord.y = height * (line - 1);
-	[contentView rawScroll:&coord];
-	[self reflectScroll:contentView];
+	NSUInteger pos = [theText positionFromLine:line];
+	[theText scrollRangeToVisible:NSMakeRange(pos, 0)];
 	return self;
 }
 

@@ -52,7 +52,7 @@
 
 static mem_addr copy_int_to_stack (int n);
 static mem_addr copy_str_to_stack (char *s);
-static void delete_all_breakpoints (void);
+void delete_all_breakpoints (void);
 
 /* Path for default trap handler */
 extern char *default_trap_path;
@@ -501,14 +501,9 @@ va_dcl
   char *fmt;
 
   va_start (args);
-#endif
   fmt = va_arg (args, char *);
-
-#ifdef mips
-  vfprintf (stderr, fmt, args);
-#else
-  _doprnt (fmt, args, stderr);
 #endif
+  vfprintf (stderr, fmt, args);
   exit (-1);
   /*NOTREACHED*/
 }

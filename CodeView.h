@@ -1,10 +1,4 @@
-
 #import "TextView.h"
 
-@interface CodeView:TextView
-{
-}
-
-- initFrame:(const NXRect *)frameRect;
-
+@interface CodeView : TextView
 @end

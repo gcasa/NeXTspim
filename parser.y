@@ -287,6 +287,7 @@
 
 %{
 #include <stdio.h>
+#include <stdint.h>
 
 #include "spim.h"
 #include "spim-utils.h"
@@ -1721,52 +1722,52 @@ ADDRESS:	{only_id = 1;} ADDR {only_id = 0; $$ = $2;}
 
 ADDR:		'(' REGISTER ')'
 		{
-		  $$ = (int) make_addr_expr (0, NULL, $2);
+		  $$ = (intptr_t) make_addr_expr (0, NULL, $2);
 		}
 
 	|	ABS_ADDR
 		{
-		  $$ = (int) make_addr_expr ($1, NULL, 0);
+		  $$ = (intptr_t) make_addr_expr ($1, NULL, 0);
 		}
 
 	|	ABS_ADDR '(' REGISTER ')'
 		{
-		  $$ = (int) make_addr_expr ($1, NULL, $3);
+		  $$ = (intptr_t) make_addr_expr ($1, NULL, $3);
 		}
 
 	|	Y_ID
 		{
-		  $$ = (int) make_addr_expr (0, (char *)$1, 0);
+		  $$ = (intptr_t) make_addr_expr (0, (char *)$1, 0);
 		}
 
 	|	Y_ID '(' REGISTER ')'
 		{
-		  $$ = (int) make_addr_expr (0, (char *)$1, $3);
+		  $$ = (intptr_t) make_addr_expr (0, (char *)$1, $3);
 		}
 
 	|	Y_ID '+' ABS_ADDR
 		{
-		  $$ = (int) make_addr_expr ($3, (char *)$1, 0);
+		  $$ = (intptr_t) make_addr_expr ($3, (char *)$1, 0);
 		}
 
 	|	ABS_ADDR '+' ID
 		{
-		  $$ = (int) make_addr_expr ($1, (char *)$3, 0);
+		  $$ = (intptr_t) make_addr_expr ($1, (char *)$3, 0);
 		}
 
 	|	Y_ID '-' ABS_ADDR
 		{
-		  $$ = (int) make_addr_expr (- $3, (char *)$1, 0);
+		  $$ = (intptr_t) make_addr_expr (- $3, (char *)$1, 0);
 		}
 
 	|	Y_ID '+' ABS_ADDR '(' REGISTER ')'
 		{
-		  $$ = (int) make_addr_expr ($3, (char *)$1, $5);
+		  $$ = (intptr_t) make_addr_expr ($3, (char *)$1, $5);
 		}
 
 	|	Y_ID '-' ABS_ADDR '(' REGISTER ')'
 		{
-		  $$ = (int) make_addr_expr (- $3, (char *)$1, $5);
+		  $$ = (intptr_t) make_addr_expr (- $3, (char *)$1, $5);
 		}
 	;
 
@@ -1775,27 +1776,27 @@ IMMEDIATE:	{only_id = 1;} IMM {only_id = 0; $$ = $2;}
 
 IMM:		ABS_ADDR
 		{
-		  $$ = (int) make_imm_expr ($1, NULL, 0);
+		  $$ = (intptr_t) make_imm_expr ($1, NULL, 0);
 		}
 
 	|	'(' ABS_ADDR ')' '>' '>' Y_INT
 		{
-		  $$ = (int) make_imm_expr ($2 >> $6, NULL, 0);
+		  $$ = (intptr_t) make_imm_expr ($2 >> $6, NULL, 0);
 		}
 
 	|	ID
 		{
-		  $$ = (int) make_imm_expr (0, (char *)$1, 0);
+		  $$ = (intptr_t) make_imm_expr (0, (char *)$1, 0);
 		}
 
 	|	Y_ID '+' ABS_ADDR
 		{
-		  $$ = (int) make_imm_expr ($3, (char *)$1, 0);
+		  $$ = (intptr_t) make_imm_expr ($3, (char *)$1, 0);
 		}
 
 	|	Y_ID '-' ABS_ADDR
 		{
-		  $$ = (int) make_imm_expr (- $3, (char *)$1, 0);
+		  $$ = (intptr_t) make_imm_expr (- $3, (char *)$1, 0);
 		}
 	;
 
@@ -1858,7 +1859,7 @@ COP_REG:	Y_REG
 
 LABEL:		ID
 		{
-		  $$ = (int) make_imm_expr (- current_text_pc (), (char *)$1,
+		  $$ = (intptr_t) make_imm_expr (- current_text_pc (), (char *)$1,
 					    1);
 		}
 

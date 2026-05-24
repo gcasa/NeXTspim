@@ -7,6 +7,7 @@
 #define FLEX_SCANNER
 
 #include <stdio.h>
+#include <stdint.h>
 
 
 /* cfront 1.2 defines "c_plusplus" instead of "__cplusplus" */
@@ -207,7 +208,7 @@ typedef struct yy_buffer_state *YY_BUFFER_STATE;
 /* Exported Variables: */
 
 int only_id;
-int yylval;		/* Value of token from YYLEX */
+intptr_t yylval;		/* Value of token from YYLEX */
 int line_no;		/* Line number in input file*/
 int y_str_length;	/* Length of Y_STR */
 
@@ -588,7 +589,7 @@ case 5:
 # line 107 "scanner.l"
 {
 			  scan_float = atof (yytext);
-			  yylval = (int) &scan_float;
+			  yylval = (intptr_t) &scan_float;
 			  if (line_start == NULL) line_start = yytext;
 			  return (Y_FP);
 			}
@@ -617,7 +618,7 @@ case 6:
 			    }
 			  else
 			    {
-			      yylval = (int) str_copy (yytext);
+			      yylval = (intptr_t) str_copy (yytext);
 			      return (Y_ID);
 			    }
 			}
@@ -644,7 +645,7 @@ case 7:
 				}
 			      else
 				{
-				  yylval = (int) str_copy (yytext);
+				  yylval = (intptr_t) str_copy (yytext);
 				  return (Y_ID);
 				}
 			    }
@@ -674,7 +675,7 @@ case 11:
 # line 186 "scanner.l"
 {
 			  if (line_start == NULL) line_start = yytext;
-			  yylval = (int) str_copy (yytext);
+			  yylval = (intptr_t) str_copy (yytext);
 			  /* For top level */
 			  return (Y_ID);
 			}
@@ -683,7 +684,7 @@ case 12:
 # line 194 "scanner.l"
 {
 			  if (line_start == NULL) line_start = yytext;
-			  yylval = (int) copy_str (yytext + 1, 1);
+			  yylval = (intptr_t) copy_str (yytext + 1, 1);
 			  return (Y_STR);
 			}
 	YY_BREAK

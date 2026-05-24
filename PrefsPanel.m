@@ -1,165 +1,176 @@
-/* NeXTspim 1.0
-   Copyright (C) 1994 by Mark Gritter (mgritter@gac.edu).
-   
-   SPIM S20 MIPS simulator.
-   Copyright (C) 1990-1992 by James Larus (larus@cs.wisc.edu).
-   ALL RIGHTS RESERVED.
-
-   SPIM is distributed under the following conditions:
-
-     You may make copies of SPIM for your own use and modify those copies.
-
-     All copies of SPIM must retain my name and copyright notice.
-
-     You may not sell SPIM or distributed SPIM in conjunction with a
-     commerical product or service without the expressed written consent of
-     James Larus.
-
-   THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR
-   IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
-   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-   PURPOSE. */
-
 #import "PrefsPanel.h"
-#import <appkit/Button.h>
-#import <appkit/TextField.h>
 #import "SPIMInterface.h"
 #import "RunLoop.h"
-#import <defaults.h>
-#import <stdio.h>
-#import <stdlib.h>
 
-extern int print_gpr_hex;		/* Print GPRs in hex/decimal */
-extern int print_fpr_hex;		/* Print FPRs in hex/floating point */
+extern int print_gpr_hex;
+extern int print_fpr_hex;
 extern float TimeBetweenUpdate;
 extern id idPrefsPanel;
 
 extern void KillUpdateDisplayLoop(void);
 extern void InitUpdateDisplayLoop(void);
 
-static char DefOwner[] = "NeXTspimFromGAC";
+static NSString *DefOwner = @"NeXTspimFromGAC";
 
-static int GetBooleanPref(const char *name) {
-	const char *c = NXGetDefaultValue(DefOwner, name);
-	if (c[0] == 'Y' || c[0] == 'y') return 1;
-	return 0;
+static BOOL GetBooleanPref(NSString *name)
+{
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSString *key = [NSString stringWithFormat:@"%@.%@", DefOwner, name];
+	return [defaults boolForKey:key];
 }
 
-#define BSTR(x) ((x) ? "Y" : "N")
-  
+static void SetBooleanPref(NSString *name, BOOL value)
+{
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSString *key = [NSString stringWithFormat:@"%@.%@", DefOwner, name];
+	[defaults setBool:value forKey:key];
+}
+
 @implementation PrefsPanel
 
-+ initialize {
-	static NXDefaultsVector NeXTspimDefaults = {
-		{"BareMachine","N"},
-		{"DefaultTrapHandler","N"},
-		{"HexGPRs","N"},
-		{"HexFPRs","N"},
-		{"MemoryMappedIO","N"},
++ initialize
+{
+	if (self == [PrefsPanel class]) {
+		NSDictionary *defs = [NSDictionary dictionaryWithObjectsAndKeys:
+			@"NO", @"NeXTspimFromGAC.BareMachine",
+			@"NO", @"NeXTspimFromGAC.DefaultTrapHandler",
+			@"NO", @"NeXTspimFromGAC.HexGPRs",
+			@"NO", @"NeXTspimFromGAC.HexFPRs",
+			@"NO", @"NeXTspimFromGAC.MemoryMappedIO",
+			@"NO", @"NeXTspimFromGAC.InstCache",
+			@"NO", @"NeXTspimFromGAC.DataCache",
+			@"NO", @"NeXTspimFromGAC.TLB",
+			@"NO", @"NeXTspimFromGAC.CycleLevel",
+			@"0.3", @"NeXTspimFromGAC.Update",
+			nil];
+		[[NSUserDefaults standardUserDefaults] registerDefaults:defs];
+	}
+}
+
+- init
+{
+	self = [super initWithContentRect:NSMakeRect(160, 160, 300, 300)
+	                        styleMask:(NSTitledWindowMask | NSClosableWindowMask)
+	                          backing:NSBackingStoreBuffered
+	                            defer:NO];
+	if (self) {
+		NSArray *items = [NSArray arrayWithObjects:
+			@"Bare machine", @"Load default trap handler", @"Hex GPRs",
+			@"Hex FPRs", @"Memory mapped I/O",
 #ifdef CL_SPIM
-		{"InstCache","N"},
-		{"DataCache","N"},
-		{"TLB", "N"},
-		{"CycleLevel", "N"},
+			@"Instruction cache", @"Data cache", @"TLB", @"Cycle level",
 #endif
-		{"Update","0.3"},
-		{NULL}
-	};
-	NXRegisterDefaults(DefOwner, NeXTspimDefaults);
+			nil];
+		NSArray *tags = [NSArray arrayWithObjects:
+			[NSNumber numberWithInt:101], [NSNumber numberWithInt:102],
+			[NSNumber numberWithInt:103], [NSNumber numberWithInt:104],
+			[NSNumber numberWithInt:105],
+#ifdef CL_SPIM
+			[NSNumber numberWithInt:106], [NSNumber numberWithInt:107],
+			[NSNumber numberWithInt:108], [NSNumber numberWithInt:109],
+#endif
+			nil];
+		NSView *content = [self contentView];
+		NSUInteger i;
+		for (i = 0; i < [items count]; i++) {
+			NSButton *button = [[[NSButton alloc] initWithFrame:NSMakeRect(18, 250 - (i * 24), 240, 22)] autorelease];
+			[button setButtonType:NSSwitchButton];
+			[button setTitle:[items objectAtIndex:i]];
+			[button setTag:[[tags objectAtIndex:i] intValue]];
+			[button setTarget:self];
+			[button setAction:@selector(switch:)];
+			[content addSubview:button];
+		}
+		NSTextField *label = [[[NSTextField alloc] initWithFrame:NSMakeRect(18, 30, 120, 22)] autorelease];
+		[label setStringValue:@"Update interval"];
+		[label setEditable:NO];
+		[label setBordered:NO];
+		[label setDrawsBackground:NO];
+		[content addSubview:label];
+		NSTextField *field = [[[NSTextField alloc] initWithFrame:NSMakeRect(150, 30, 70, 22)] autorelease];
+		[field setTag:200];
+		[field setTarget:self];
+		[field setAction:@selector(switch:)];
+		[content addSubview:field];
+		NSButton *save = [[[NSButton alloc] initWithFrame:NSMakeRect(225, 28, 60, 26)] autorelease];
+		[save setTitle:@"Save"];
+		[save setTarget:self];
+		[save setAction:@selector(savePrefs:)];
+		[content addSubview:save];
+		[self setTitle:@"Preferences"];
+		idPrefsPanel = self;
+	}
 	return self;
 }
 
-- loadPrefs {
-	bare_machine = GetBooleanPref("BareMachine");
-	load_trap_handler = GetBooleanPref("DefaultTrapHandler");
-	print_gpr_hex = GetBooleanPref("HexGPRs");
-	print_fpr_hex = GetBooleanPref("HexFPRs");
-	mapped_io = GetBooleanPref("MemoryMappedIO");
+- loadPrefs
+{
+	bare_machine = GetBooleanPref(@"BareMachine");
+	load_trap_handler = GetBooleanPref(@"DefaultTrapHandler");
+	print_gpr_hex = GetBooleanPref(@"HexGPRs");
+	print_fpr_hex = GetBooleanPref(@"HexFPRs");
+	mapped_io = GetBooleanPref(@"MemoryMappedIO");
 #ifdef CL_SPIM
-	icache_on = GetBooleanPref("InstCache");
-	dcache_on = GetBooleanPref("DataCache");
-	tlb_on = GetBooleanPref("TLB");
-	cycle_level = GetBooleanPref("CycleLevel");
+	icache_on = GetBooleanPref(@"InstCache");
+	dcache_on = GetBooleanPref(@"DataCache");
+	tlb_on = GetBooleanPref(@"TLB");
+	cycle_level = GetBooleanPref(@"CycleLevel");
 #endif
-	TimeBetweenUpdate = atof(NXGetDefaultValue(DefOwner, "Update"));
-	[[contentView findViewWithTag:101] setState:bare_machine];
-	[[contentView findViewWithTag:102] setState:load_trap_handler];
-	[[contentView findViewWithTag:103] setState:print_gpr_hex];
-	[[contentView findViewWithTag:104] setState:print_fpr_hex];
-	[[contentView findViewWithTag:105] setState:mapped_io];
+	TimeBetweenUpdate = [[[NSUserDefaults standardUserDefaults] stringForKey:@"NeXTspimFromGAC.Update"] floatValue];
+	if (TimeBetweenUpdate <= 0.0) TimeBetweenUpdate = 0.3;
+	[[[self contentView] viewWithTag:101] setState:bare_machine];
+	[[[self contentView] viewWithTag:102] setState:load_trap_handler];
+	[[[self contentView] viewWithTag:103] setState:print_gpr_hex];
+	[[[self contentView] viewWithTag:104] setState:print_fpr_hex];
+	[[[self contentView] viewWithTag:105] setState:mapped_io];
 #ifdef CL_SPIM
-	[[contentView findViewWithTag:106] setState:icache_on];
-	[[contentView findViewWithTag:107] setState:dcache_on];
-	[[contentView findViewWithTag:108] setState:tlb_on];
-	[[contentView findViewWithTag:109] setState:cycle_level];
+	[[[self contentView] viewWithTag:106] setState:icache_on];
+	[[[self contentView] viewWithTag:107] setState:dcache_on];
+	[[[self contentView] viewWithTag:108] setState:tlb_on];
+	[[[self contentView] viewWithTag:109] setState:cycle_level];
 #endif
-	[[contentView findViewWithTag:200] setFloatValue:TimeBetweenUpdate];
+	[[[self contentView] viewWithTag:200] setFloatValue:TimeBetweenUpdate];
 	return self;
 }
 
-- savePrefs:sender {
-	char buf[10];
-	NXDefaultsVector newDefaults = {
-		{"BareMachine",		BSTR(bare_machine)},
-		{"DefaultTrapHandler",	BSTR(load_trap_handler)},
-		{"HexGPRs",			BSTR(print_gpr_hex)},
-		{"HexFPRs",			BSTR(print_fpr_hex)},
-		{"MemoryMappedIO",	BSTR(mapped_io)},
+- savePrefs:sender
+{
+	(void)sender;
+	SetBooleanPref(@"BareMachine", bare_machine);
+	SetBooleanPref(@"DefaultTrapHandler", load_trap_handler);
+	SetBooleanPref(@"HexGPRs", print_gpr_hex);
+	SetBooleanPref(@"HexFPRs", print_fpr_hex);
+	SetBooleanPref(@"MemoryMappedIO", mapped_io);
 #ifdef CL_SPIM
-		{"InstCache",		BSTR(icache_on)},
-		{"DataCache",		BSTR(dcache_on)},
-		{"TLB",				BSTR(tlb_on)},
-		{"CycleLevel",		BSTR(cycle_level)},
+	SetBooleanPref(@"InstCache", icache_on);
+	SetBooleanPref(@"DataCache", dcache_on);
+	SetBooleanPref(@"TLB", tlb_on);
+	SetBooleanPref(@"CycleLevel", cycle_level);
 #endif
-		{"Update",			buf},
-		{NULL}
-	};
-	sprintf(buf, "%2.2f", TimeBetweenUpdate);
-	NXWriteDefaults(DefOwner, newDefaults);
+	[[NSUserDefaults standardUserDefaults] setFloat:TimeBetweenUpdate forKey:@"NeXTspimFromGAC.Update"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
 	return self;
 }
 
 - switch:sender
 {
-	switch ([sender selectedTag]) {
-		case 101:
-			bare_machine = [sender state];
-			break;
-		case 102:
-			load_trap_handler = [sender state];
-			break;
+	switch ([sender tag]) {
+		case 101: bare_machine = [sender state]; break;
+		case 102: load_trap_handler = [sender state]; break;
 		case 103:
 			print_gpr_hex = [sender state];
-			mutex_lock(DisplayMutex);
-			DisplayNeedsUpdate = TRUE;
-			mutex_unlock(DisplayMutex);
+			mutex_lock(DisplayMutex); DisplayNeedsUpdate = YES; mutex_unlock(DisplayMutex);
 			break;
 		case 104:
 			print_fpr_hex = [sender state];
-			mutex_lock(DisplayMutex);
-			DisplayNeedsUpdate = TRUE;
-			mutex_unlock(DisplayMutex);
+			mutex_lock(DisplayMutex); DisplayNeedsUpdate = YES; mutex_unlock(DisplayMutex);
 			break;
-		case 105:
-			mapped_io = [sender state];
-			break;
+		case 105: mapped_io = [sender state]; break;
 #ifdef CL_SPIM
-		case 106:
-			icache_on = [sender state];
-			if (icache_on) cache_init(mem_system, INST_CACHE);
-			break;
-		case 107:
-			dcache_on = [sender state];
-			if (dcache_on) cache_init(mem_system, DATA_CACHE);
-			break;
-		case 108:
-			tlb_on = [sender state];
-			if (tlb_on) tlb_init();
-			break;
-		case 109:
-			cycle_level = [sender state];
-			cl_initialize_world(0);
-			break;
+		case 106: icache_on = [sender state]; if (icache_on) cache_init(mem_system, INST_CACHE); break;
+		case 107: dcache_on = [sender state]; if (dcache_on) cache_init(mem_system, DATA_CACHE); break;
+		case 108: tlb_on = [sender state]; if (tlb_on) tlb_init(); break;
+		case 109: cycle_level = [sender state]; cl_initialize_world(0); break;
 #endif
 		case 200:
 			TimeBetweenUpdate = [sender floatValue];
@@ -169,16 +180,8 @@ static int GetBooleanPref(const char *name) {
 			KillUpdateDisplayLoop();
 			InitUpdateDisplayLoop();
 			break;
-	}    
+	}
 	return self;
-}
-
-/* I do so hate doing this, but I need to call this object before
-   SpimInterface's appDidInit gets called. */
-   
-- initContent:(const NXRect *)contentRect style:(int)aStyle backing:(int)bufferingType buttonMask:(int)mask defer:(BOOL)flag {
-	idPrefsPanel = self;
-	return [super initContent:contentRect style:aStyle backing:bufferingType buttonMask:mask defer:flag];
 }
 
 @end

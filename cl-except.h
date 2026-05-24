@@ -20,7 +20,9 @@
    PURPOSE.
 */
 
+#if defined(__linux__)
 #include <syscall.h>
+#endif
 #include <signal.h>
 
 #define MAX_EXCPTS 13
@@ -113,4 +115,3 @@ extern mem_addr breakpoint_reinsert; /* !0 -> reinsert break at this address */
 #define ALL_SIGNALS 100001		/* when passed as first parameter */
 					/* to print_signal_status, print */
 					/* all signals' information. */
-
