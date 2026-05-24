@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=NeXTspim
+Comment=MIPS simulator with a NeXT-style AppKit interface
+Exec=NeXTspim
+Icon=spim
+Categories=Development;Education;Emulator;

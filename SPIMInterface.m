@@ -63,6 +63,13 @@ static int stack_initialized = 0;
 static int BufferLength = 0;
 static char **BufferedText;
 
+#define TAG_LOAD		1
+#define TAG_RUN			2
+#define TAG_STEP		3
+#define TAG_CLEAR		4
+#define TAG_CLEARALL	5
+#define TAG_BREAKPOINT	7
+
 void InitUpdateDisplayLoop(void)
 {
 	[idMainInterface startDisplayTimer];
@@ -218,6 +225,14 @@ static NSButton *MakeButton(NSString *title, NSInteger tag, id target, SEL actio
 	return button;
 }
 
+static NSMenuItem *MakeMenuItem(NSString *title, SEL action, NSString *key, NSInteger tag, id target)
+{
+	NSMenuItem *item = [[[NSMenuItem alloc] initWithTitle:title action:action keyEquivalent:key] autorelease];
+	[item setTag:tag];
+	[item setTarget:target];
+	return item;
+}
+
 @implementation SPIMInterface
 
 - init
@@ -226,6 +241,7 @@ static NSButton *MakeButton(NSString *title, NSInteger tag, id target, SEL actio
 	if (self) {
 		idOpenPanel = [[NSOpenPanel openPanel] retain];
 		idMainInterface = self;
+		[self buildMainMenu];
 		[self buildInterface];
 	}
 	return self;
@@ -243,6 +259,65 @@ static NSButton *MakeButton(NSString *title, NSInteger tag, id target, SEL actio
 {
 	(void)notification;
 	[MainWindow makeKeyAndOrderFront:self];
+}
+
+- buildMainMenu
+{
+	NSMenu *mainMenu = [[[NSMenu alloc] initWithTitle:@"Main Menu"] autorelease];
+	NSMenu *appMenu;
+	NSMenu *fileMenu;
+	NSMenu *simMenu;
+	NSMenu *windowMenu;
+	NSMenuItem *item;
+
+#if defined(GNUSTEP)
+	appMenu = [[[NSMenu alloc] initWithTitle:@"Info"] autorelease];
+	[appMenu addItem:MakeMenuItem(@"About NeXTspim", @selector(showAbout:), @"", 0, self)];
+	[appMenu addItem:MakeMenuItem(@"Preferences...", @selector(openPreferences:), @",", 0, self)];
+	[appMenu addItem:[NSMenuItem separatorItem]];
+	[appMenu addItem:MakeMenuItem(@"Quit", @selector(terminate:), @"q", 0, NSApp)];
+	item = [[[NSMenuItem alloc] initWithTitle:@"Info" action:nil keyEquivalent:@""] autorelease];
+	[item setSubmenu:appMenu];
+	[mainMenu addItem:item];
+#else
+	appMenu = [[[NSMenu alloc] initWithTitle:@"NeXTspim"] autorelease];
+	[appMenu addItem:MakeMenuItem(@"About NeXTspim", @selector(showAbout:), @"", 0, self)];
+	[appMenu addItem:[NSMenuItem separatorItem]];
+	[appMenu addItem:MakeMenuItem(@"Preferences...", @selector(openPreferences:), @",", 0, self)];
+	[appMenu addItem:[NSMenuItem separatorItem]];
+	[appMenu addItem:MakeMenuItem(@"Quit NeXTspim", @selector(terminate:), @"q", 0, NSApp)];
+	item = [[[NSMenuItem alloc] initWithTitle:@"NeXTspim" action:nil keyEquivalent:@""] autorelease];
+	[item setSubmenu:appMenu];
+	[mainMenu addItem:item];
+#endif
+
+	fileMenu = [[[NSMenu alloc] initWithTitle:@"File"] autorelease];
+	[fileMenu addItem:MakeMenuItem(@"Load...", @selector(MenuItem:), @"o", TAG_LOAD, self)];
+	item = [[[NSMenuItem alloc] initWithTitle:@"File" action:nil keyEquivalent:@""] autorelease];
+	[item setSubmenu:fileMenu];
+	[mainMenu addItem:item];
+
+	simMenu = [[[NSMenu alloc] initWithTitle:@"Simulator"] autorelease];
+	[simMenu addItem:MakeMenuItem(@"Run", @selector(MenuItem:), @"r", TAG_RUN, self)];
+	[simMenu addItem:MakeMenuItem(@"Step", @selector(MenuItem:), @"s", TAG_STEP, self)];
+	[simMenu addItem:[NSMenuItem separatorItem]];
+	[simMenu addItem:MakeMenuItem(@"Clear Registers", @selector(MenuItem:), @"k", TAG_CLEAR, self)];
+	[simMenu addItem:MakeMenuItem(@"Clear All", @selector(MenuItem:), @"K", TAG_CLEARALL, self)];
+	[simMenu addItem:[NSMenuItem separatorItem]];
+	[simMenu addItem:MakeMenuItem(@"Breakpoints", @selector(MenuItem:), @"b", TAG_BREAKPOINT, self)];
+	item = [[[NSMenuItem alloc] initWithTitle:@"Simulator" action:nil keyEquivalent:@""] autorelease];
+	[item setSubmenu:simMenu];
+	[mainMenu addItem:item];
+
+	windowMenu = [[[NSMenu alloc] initWithTitle:@"Window"] autorelease];
+	[windowMenu addItem:MakeMenuItem(@"Minimize", @selector(performMiniaturize:), @"m", 0, nil)];
+	item = [[[NSMenuItem alloc] initWithTitle:@"Window" action:nil keyEquivalent:@""] autorelease];
+	[item setSubmenu:windowMenu];
+	[mainMenu addItem:item];
+
+	[NSApp setMainMenu:mainMenu];
+	[NSApp setWindowsMenu:windowMenu];
+	return self;
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender
@@ -516,13 +591,6 @@ long *RegAddr[7] = {(long *)&PC, &EPC, &Cause, &BadVAddr, &Status_Reg, &HI, &LO}
 - StartStopCell { return idStartStopCell; }
 - idKeyQ { return [Messages queue]; }
 
-#define TAG_LOAD		1
-#define TAG_RUN			2
-#define TAG_STEP		3
-#define TAG_CLEAR		4
-#define TAG_CLEARALL	5
-#define TAG_BREAKPOINT	7
-
 - MenuItem:sender
 {
 	switch ([sender tag]) {
@@ -558,6 +626,24 @@ long *RegAddr[7] = {(long *)&PC, &EPC, &Cause, &BadVAddr, &Status_Reg, &HI, &LO}
 		else R[t - 100] = [sender intValue];
 	}
 	[self displayRegisters];
+	return self;
+}
+
+- openPreferences:sender
+{
+	(void)sender;
+	[Prefs makeKeyAndOrderFront:self];
+	return self;
+}
+
+- showAbout:sender
+{
+	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	(void)sender;
+	[alert setMessageText:@"NeXTspim"];
+	[alert setInformativeText:@"A MIPS simulator with a NeXT-style AppKit interface."];
+	[alert addButtonWithTitle:@"OK"];
+	[alert runModal];
 	return self;
 }
 
