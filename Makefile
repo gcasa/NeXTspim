@@ -1,4 +1,6 @@
 APP = NeXTspim
+APP_WRAPPER = $(APP).app
+RESOURCES = trap.handler spim.tiff Documentation/NeXTspim.rtf Documentation/spim.ps Documentation/cycle.ps
 
 OBJC_SOURCES = \
 	BreakpointsPanel.m \
@@ -42,6 +44,7 @@ CFLAGS += $(COMMON_CFLAGS) -std=gnu89
 OBJCFLAGS += $(COMMON_CFLAGS) -fobjc-exceptions
 LDLIBS += -framework AppKit -framework Foundation
 TARGET = $(APP)
+BUNDLE_TARGET = macos-app
 else ifneq ($(GNUSTEP_CONFIG),)
 CC ?= clang
 OBJC ?= clang
@@ -50,13 +53,14 @@ CFLAGS += $(COMMON_CFLAGS) -std=gnu89
 OBJCFLAGS += $(COMMON_CFLAGS) $(shell gnustep-config --objc-flags) -fobjc-exceptions
 LDLIBS += $(shell gnustep-config --gui-libs) -pthread
 TARGET = $(APP)
+BUNDLE_TARGET = gnustep-app
 else
 $(error GNUstep was not found. Install gnustep-base, gnustep-gui, and gnustep-make.)
 endif
 
-.PHONY: all clean run
+.PHONY: all clean run macos-app gnustep-app
 
-all: $(TARGET)
+all: $(BUNDLE_TARGET)
 
 $(TARGET): $(OBJECTS)
 	$(OBJC) $(OBJECTS) $(LDLIBS) -o $@
@@ -67,8 +71,30 @@ $(TARGET): $(OBJECTS)
 %.o: %.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
-run: $(TARGET)
-	./$(TARGET)
+macos-app: $(TARGET) Info.plist NeXTspim.icns $(RESOURCES)
+	mkdir -p $(APP_WRAPPER)/Contents/MacOS $(APP_WRAPPER)/Contents/Resources/Documentation
+	cp $(TARGET) $(APP_WRAPPER)/Contents/MacOS/$(APP)
+	cp Info.plist $(APP_WRAPPER)/Contents/Info.plist
+	cp NeXTspim.icns $(APP_WRAPPER)/Contents/Resources/NeXTspim.icns
+	cp spim.tiff trap.handler $(APP_WRAPPER)/Contents/Resources/
+	cp Documentation/NeXTspim.rtf Documentation/spim.ps Documentation/cycle.ps $(APP_WRAPPER)/Contents/Resources/Documentation/
+	printf 'APPL????' > $(APP_WRAPPER)/Contents/PkgInfo
+
+gnustep-app: $(TARGET) Info-gnustep.plist NeXTspim.desktop $(RESOURCES)
+	mkdir -p $(APP_WRAPPER)/Resources/Documentation
+	cp $(TARGET) $(APP_WRAPPER)/$(APP)
+	cp Info-gnustep.plist $(APP_WRAPPER)/Resources/Info-gnustep.plist
+	cp NeXTspim.desktop $(APP_WRAPPER)/Resources/NeXTspim.desktop
+	cp spim.tiff trap.handler $(APP_WRAPPER)/Resources/
+	cp Documentation/NeXTspim.rtf Documentation/spim.ps Documentation/cycle.ps $(APP_WRAPPER)/Resources/Documentation/
+
+run: all
+ifeq ($(UNAME_S),Darwin)
+	./$(APP_WRAPPER)/Contents/MacOS/$(APP)
+else
+	./$(APP_WRAPPER)/$(APP)
+endif
 
 clean:
+	rm -rf $(APP_WRAPPER)
 	rm -f $(TARGET) $(OBJECTS) cl-cache.o cl-cycle.o cl-except.o cl-tlb.o

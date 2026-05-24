@@ -1,0 +1,10 @@
+{
+	ApplicationDescription = "MIPS simulator with a NeXT-style AppKit interface";
+	ApplicationName = NeXTspim;
+	ApplicationRelease = 1;
+	Authors = ("James Larus", "Mark Gritter");
+	Copyright = "Copyright (C) 1990-1993 James Larus and Mark Gritter";
+	FullVersionID = "NeXTspim 1.0";
+	NSExecutable = NeXTspim;
+	NSIcon = "spim.tiff";
+}

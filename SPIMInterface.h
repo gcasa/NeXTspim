@@ -63,6 +63,9 @@ extern id idMainInterface, idPrefsPanel;
 - init;
 - appDidInit:sender;
 
+- buildMainMenu;
+- openPreferences:sender;
+- showAbout:sender;
 - loadFile;
 - run:(BOOL)step :(BOOL)cont_bkpt;
 - clear:(BOOL)step;

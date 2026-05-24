@@ -1,13 +1,13 @@
 #import <AppKit/AppKit.h>
 
 @interface NSTextView (NeXTspimLegacyText)
-- setText:(const char *)txt;
-- addText:(const char *)txt;
-- (int)textLength;
-- setSel:(int)start :(int)end;
-- replaceSel:(const char *)txt;
-- (int)positionFromLine:(int)line;
-- (int)lineFromPosition:(int)position;
+- neXTspimSetCString:(const char *)txt;
+- neXTspimAddCString:(const char *)txt;
+- (int)neXTspimTextLength;
+- neXTspimSetSelectionFrom:(int)start to:(int)end;
+- neXTspimReplaceSelectionWithCString:(const char *)txt;
+- (int)neXTspimPositionFromLine:(int)line;
+- (int)neXTspimLineFromPosition:(int)position;
 @end
 
 @interface TextView : NSScrollView
