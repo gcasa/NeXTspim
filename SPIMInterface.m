@@ -480,16 +480,16 @@ static NSMenuItem *MakeMenuItem(NSString *title, SEL action, NSString *key, NSIn
 	int line, pos1, pos2;
 	id text = [TextSegments idText];
 	if (PC < TEXT_BOT || (PC > text_top && (PC < K_TEXT_BOT || PC > k_text_top))) {
-		[text setSel:0 :0];
+		[text neXTspimSetSelectionFrom:0 to:0];
 		[TextSegments setVertScroll:0.0];
 		return self;
 	}
 	if (PC < K_TEXT_BOT) line = ((PC - TEXT_BOT) / BYTES_PER_WORD);
 	else line = ((PC - K_TEXT_BOT) / BYTES_PER_WORD) + KernelStartLine;
 	line++;
-	pos1 = [text positionFromLine:line];
-	pos2 = [text positionFromLine:(line + 1)];
-	[text setSel:pos1 :pos2];
+	pos1 = [text neXTspimPositionFromLine:line];
+	pos2 = [text neXTspimPositionFromLine:(line + 1)];
+	[text neXTspimSetSelectionFrom:pos1 to:pos2];
 	[TextSegments scrollLine:line];
 	return self;
 }
@@ -565,7 +565,7 @@ long *RegAddr[7] = {(long *)&PC, &EPC, &Cause, &BadVAddr, &Status_Reg, &HI, &LO}
 	[TextSegments setText:buf];
 	free(buf);
 	text = [TextSegments idText];
-	KernelStartLine = [text lineFromPosition:KernelStartPos];
+	KernelStartLine = [text neXTspimLineFromPosition:KernelStartPos];
 	text_modified = 0;
 	return self;
 }

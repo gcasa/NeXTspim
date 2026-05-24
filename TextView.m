@@ -2,13 +2,13 @@
 
 @implementation NSTextView (NeXTspimLegacyText)
 
-- setText:(const char *)txt
+- neXTspimSetCString:(const char *)txt
 {
 	[self setString:[NSString stringWithUTF8String:(txt ? txt : "")]];
 	return self;
 }
 
-- addText:(const char *)txt
+- neXTspimAddCString:(const char *)txt
 {
 	NSString *s = [NSString stringWithUTF8String:(txt ? txt : "")];
 	[[self textStorage] appendAttributedString:[[[NSAttributedString alloc] initWithString:s] autorelease]];
@@ -16,12 +16,12 @@
 	return self;
 }
 
-- (int)textLength
+- (int)neXTspimTextLength
 {
 	return (int)[[self string] length];
 }
 
-- setSel:(int)start :(int)end
+- neXTspimSetSelectionFrom:(int)start to:(int)end
 {
 	NSUInteger len = [[self string] length];
 	NSUInteger s = (start < 0) ? 0 : (NSUInteger)start;
@@ -33,14 +33,14 @@
 	return self;
 }
 
-- replaceSel:(const char *)txt
+- neXTspimReplaceSelectionWithCString:(const char *)txt
 {
 	[self replaceCharactersInRange:[self selectedRange]
 	                     withString:[NSString stringWithUTF8String:(txt ? txt : "")]];
 	return self;
 }
 
-- (int)positionFromLine:(int)line
+- (int)neXTspimPositionFromLine:(int)line
 {
 	NSString *s = [self string];
 	NSUInteger pos = 0, len = [s length];
@@ -54,7 +54,7 @@
 	return (int)pos;
 }
 
-- (int)lineFromPosition:(int)position
+- (int)neXTspimLineFromPosition:(int)position
 {
 	NSString *s = [self string];
 	NSUInteger limit = MIN((NSUInteger)MAX(position, 0), [s length]);
@@ -105,13 +105,13 @@
 
 - setText:(char *)txt
 {
-	[theText setText:txt];
+	[theText neXTspimSetCString:txt];
 	return self;
 }
 
 - addText:(char *)txt
 {
-	[theText addText:txt];
+	[theText neXTspimAddCString:txt];
 	return self;
 }
 
@@ -135,7 +135,7 @@
 
 - scrollLine:(int)line
 {
-	NSUInteger pos = [theText positionFromLine:line];
+	NSUInteger pos = [theText neXTspimPositionFromLine:line];
 	[theText scrollRangeToVisible:NSMakeRange(pos, 0)];
 	return self;
 }
