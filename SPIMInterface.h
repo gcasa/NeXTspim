@@ -93,6 +93,7 @@ extern id idMainInterface, idPrefsPanel;
 
 - (void)startDisplayTimer;
 - (void)stopDisplayTimer;
+- (void)flushBufferedOutput;
 
 @end
 

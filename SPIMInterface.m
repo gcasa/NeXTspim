@@ -62,6 +62,7 @@ static void init_stack(char *args);
 static int stack_initialized = 0;
 static int BufferLength = 0;
 static char **BufferedText;
+static BOOL OutputFlushScheduled = NO;
 
 #define TAG_LOAD		1
 #define TAG_RUN			2
@@ -85,7 +86,7 @@ void write_output(char *fmt, ...)
 	va_list args;
 	char io_buffer[IO_BUFFSIZE];
 	va_start(args, fmt);
-	vsprintf(io_buffer, fmt, args);
+	vsnprintf(io_buffer, sizeof(io_buffer), fmt, args);
 	va_end(args);
 	while (BufferLength > 20) SPIMYield();
 	mutex_lock(DisplayMutex);
@@ -94,6 +95,12 @@ void write_output(char *fmt, ...)
 	else BufferedText = realloc(BufferedText, BufferLength * sizeof(char *));
 	BufferedText[BufferLength - 1] = malloc(strlen(io_buffer) + 1);
 	strcpy(BufferedText[BufferLength - 1], io_buffer);
+	if (idMainInterface != nil && !OutputFlushScheduled) {
+		OutputFlushScheduled = YES;
+		[idMainInterface performSelectorOnMainThread:@selector(flushBufferedOutput)
+		                                  withObject:nil
+		                               waitUntilDone:NO];
+	}
 	mutex_unlock(DisplayMutex);
 }
 
@@ -124,8 +131,7 @@ char get_console_char(void)
 
 void put_console_char(char g)
 {
-	char buffer[2] = { g, 0 };
-	write_output(buffer);
+	write_output("%c", g);
 }
 
 void error(char *fmt, ...)
@@ -443,7 +449,8 @@ static NSMenuItem *MakeMenuItem(NSString *title, SEL action, NSString *key, NSIn
 
 - (void)updateDisplayIfNeeded:(NSTimer *)timer
 {
-	int x;
+	BOOL openContinue;
+	mem_addr continuePC;
 	(void)timer;
 	mutex_lock(DisplayMutex);
 	if (DisplayNeedsUpdate) {
@@ -460,19 +467,35 @@ static NSMenuItem *MakeMenuItem(NSString *title, SEL action, NSString *key, NSIn
 		[self center_text_at_PC];
 		ChangeHighlight = NO;
 	}
+	openContinue = OpenContinueWindow;
+	continuePC = PC;
+	OpenContinueWindow = NO;
+	mutex_unlock(DisplayMutex);
+	[self flushBufferedOutput];
+	if (openContinue) [idContinuePanel open:continuePC];
+}
+
+- (void)flushBufferedOutput
+{
+	char **bufferedText = NULL;
+	int bufferLength = 0;
+	int x;
+
+	mutex_lock(DisplayMutex);
 	if (BufferLength > 0) {
-		for (x = 0; x < BufferLength; x++) {
-			[self writeOutput:BufferedText[x]];
-			free(BufferedText[x]);
-		}
-		free(BufferedText);
+		bufferedText = BufferedText;
+		bufferLength = BufferLength;
+		BufferedText = NULL;
 		BufferLength = 0;
 	}
-	if (OpenContinueWindow) {
-		[idContinuePanel open:PC];
-		OpenContinueWindow = NO;
-	}
+	OutputFlushScheduled = NO;
 	mutex_unlock(DisplayMutex);
+
+	for (x = 0; x < bufferLength; x++) {
+		[self writeOutput:bufferedText[x]];
+		free(bufferedText[x]);
+	}
+	free(bufferedText);
 }
 
 - center_text_at_PC

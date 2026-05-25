@@ -655,7 +655,7 @@ check_memory_mapped_IO ()
       trans_buffer_filled -= IO_INTERVAL;
       if (trans_buffer_filled <= 0)
 	{
-	  /* put_console_char (trans_buffer); Done automatically by NeXTspim */
+	  put_console_char ((char) trans_buffer);
 	  trans_control |= TRANS_READY;
 	  trans_buffer_filled = 0;
 	  if ((trans_control & TRANS_INT_ENABLE)

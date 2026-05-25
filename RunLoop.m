@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <sched.h>
 
+#import <Foundation/Foundation.h>
 #import "SPIMInterface.h"
 #import "RunLoop.h"
 
@@ -60,22 +61,50 @@ void SPIMYield(void)
 	sched_yield();
 }
 
+#if !defined(GNUSTEP)
 static void *RunLoopThread(void *arg)
 {
 	RunLoop(arg);
 	return NULL;
 }
+#endif
+
+#if defined(GNUSTEP)
+@interface RunLoopThreadStarter : NSObject
++ (void)runLoopThread:(id)arg;
+@end
+
+@implementation RunLoopThreadStarter
++ (void)runLoopThread:(id)arg
+{
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	RunLoop(arg);
+	[pool drain];
+}
+@end
+#endif
 
 void InitLoop(void)
 {
+#if !defined(GNUSTEP)
 	pthread_t thread;
+#endif
 	RunFlag = LOOP_STOP;
 	RunMutex = SPIMMutexCreate();
 	RegisterMutex = SPIMMutexCreate();
 	DisplayMutex = SPIMMutexCreate();
 	RunCondition = SPIMConditionCreate();
-	pthread_create(&thread, NULL, RunLoopThread, NULL);
+#if defined(GNUSTEP)
+	[NSThread detachNewThreadSelector:@selector(runLoopThread:)
+	                         toTarget:[RunLoopThreadStarter class]
+	                       withObject:nil];
+#else
+	if (pthread_create(&thread, NULL, RunLoopThread, NULL) != 0) {
+		fprintf(stderr, "NeXTspim: failed to create simulator thread\n");
+		return;
+	}
 	pthread_detach(thread);
+#endif
 }
 
 void RunLoop(void *arg)
