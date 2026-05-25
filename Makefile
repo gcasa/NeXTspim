@@ -31,10 +31,11 @@ C_SOURCES = \
 OBJECTS = $(OBJC_SOURCES:.m=.o) $(C_SOURCES:.c=.o)
 
 COMMON_CPPFLAGS = -D_DARWIN_C_SOURCE -D_DEFAULT_SOURCE
-COMMON_CFLAGS = -Wall -Wno-parentheses -Wno-format -Wno-pointer-sign -Wno-unused-variable -Wno-unused-function -Wno-implicit-function-declaration -Wno-int-conversion
+COMMON_CFLAGS = -Wall -Wno-parentheses -Wno-format -Wno-pointer-sign -Wno-unused-variable -Wno-unused-function -Wno-implicit-function-declaration -Wno-int-conversion -fcommon
 
 UNAME_S := $(shell uname -s)
 GNUSTEP_CONFIG := $(shell command -v gnustep-config 2>/dev/null)
+CLANG := $(shell command -v clang 2>/dev/null)
 
 ifeq ($(UNAME_S),Darwin)
 CC ?= clang
@@ -46,11 +47,19 @@ LDLIBS += -framework AppKit -framework Foundation
 TARGET = $(APP)
 BUNDLE_TARGET = macos-app
 else ifneq ($(GNUSTEP_CONFIG),)
-CC ?= clang
-OBJC ?= clang
-CPPFLAGS += $(COMMON_CPPFLAGS) $(shell gnustep-config --objc-flags)
+ifeq ($(CLANG),)
+CC = cc
+OBJC = cc
+# GNUstep may emit clang-only flags; drop them when building with non-clang compilers.
+GNUSTEP_OBJC_FLAGS := $(filter-out -fobjc-runtime=gnustep-2.2 -fblocks,$(shell gnustep-config --objc-flags))
+else
+CC = clang
+OBJC = clang
+GNUSTEP_OBJC_FLAGS := $(shell gnustep-config --objc-flags)
+endif
+CPPFLAGS += $(COMMON_CPPFLAGS) $(GNUSTEP_OBJC_FLAGS)
 CFLAGS += $(COMMON_CFLAGS) -std=gnu89
-OBJCFLAGS += $(COMMON_CFLAGS) $(shell gnustep-config --objc-flags) -fobjc-exceptions
+OBJCFLAGS += $(COMMON_CFLAGS) $(GNUSTEP_OBJC_FLAGS) -fobjc-exceptions
 LDLIBS += $(shell gnustep-config --gui-libs) -pthread
 TARGET = $(APP)
 BUNDLE_TARGET = gnustep-app
