@@ -81,6 +81,7 @@
 		theText = [[self newText:[[self contentView] bounds]] retain];
 		[theText setFont:theFont];
 		[theText setBackgroundColor:[NSColor colorWithCalibratedWhite:0.88 alpha:1.0]];
+		[theText setTextColor:[NSColor blackColor]];
 		height = 14.0;
 		[self setDocumentView:theText];
 	}
@@ -98,6 +99,10 @@
 	[text setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
 	[[text textContainer] setContainerSize:NSMakeSize(frameRect.size.width, FLT_MAX)];
 	[[text textContainer] setWidthTracksTextView:YES];
+	[text setDrawsBackground:YES];
+	[text setBackgroundColor:[NSColor whiteColor]];
+	[text setTextColor:[NSColor blackColor]];
+	[text setInsertionPointColor:[NSColor blackColor]];
 	return text;
 }
 
