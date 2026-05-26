@@ -1,17 +1,34 @@
 #import "TextView.h"
 
+static NSDictionary *NeXTspimTextAttributes(NSTextView *text)
+{
+	NSFont *font = [text font];
+	if (font != nil) {
+		return [NSDictionary dictionaryWithObjectsAndKeys:
+			font, NSFontAttributeName,
+			[NSColor blackColor], NSForegroundColorAttributeName,
+			nil];
+	}
+	return [NSDictionary dictionaryWithObject:[NSColor blackColor]
+	                                  forKey:NSForegroundColorAttributeName];
+}
+
 @implementation NSTextView (NeXTspimLegacyText)
 
 - neXTspimSetCString:(const char *)txt
 {
-	[self setString:[NSString stringWithUTF8String:(txt ? txt : "")]];
+	NSString *s = [NSString stringWithUTF8String:(txt ? txt : "")];
+	NSAttributedString *attr = [[[NSAttributedString alloc] initWithString:s
+	                                                            attributes:NeXTspimTextAttributes(self)] autorelease];
+	[[self textStorage] setAttributedString:attr];
 	return self;
 }
 
 - neXTspimAddCString:(const char *)txt
 {
 	NSString *s = [NSString stringWithUTF8String:(txt ? txt : "")];
-	[[self textStorage] appendAttributedString:[[[NSAttributedString alloc] initWithString:s] autorelease]];
+	[[self textStorage] appendAttributedString:[[[NSAttributedString alloc] initWithString:s
+	                                                                            attributes:NeXTspimTextAttributes(self)] autorelease]];
 	[self scrollRangeToVisible:NSMakeRange([[self string] length], 0)];
 	return self;
 }
@@ -35,8 +52,11 @@
 
 - neXTspimReplaceSelectionWithCString:(const char *)txt
 {
-	[self replaceCharactersInRange:[self selectedRange]
-	                     withString:[NSString stringWithUTF8String:(txt ? txt : "")]];
+	NSString *s = [NSString stringWithUTF8String:(txt ? txt : "")];
+	NSAttributedString *attr = [[[NSAttributedString alloc] initWithString:s
+	                                                            attributes:NeXTspimTextAttributes(self)] autorelease];
+	[[self textStorage] replaceCharactersInRange:[self selectedRange]
+	                         withAttributedString:attr];
 	return self;
 }
 
@@ -102,6 +122,7 @@
 	[text setDrawsBackground:YES];
 	[text setBackgroundColor:[NSColor whiteColor]];
 	[text setTextColor:[NSColor blackColor]];
+	[text setTypingAttributes:NeXTspimTextAttributes(text)];
 	[text setInsertionPointColor:[NSColor blackColor]];
 	return text;
 }
