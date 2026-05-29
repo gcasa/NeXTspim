@@ -23,6 +23,12 @@ has been moved to Cocoa/GNUstep AppKit APIs, and the original Interface Builder
 `.nib` has been replaced with programmatic window and menu construction so the
 application can be built directly from source.
 
+### This application was ported to macOS and GNUstep by Gregory Casamento
+
+I have been working on this for a bit, but was stuck.   I relied on generative
+AI to translate some of the things I couldn't figure out.  My email address
+is greg.casamento@gmail.com.
+
 ## Current Application
 
 The current build produces `NeXTspim.app` on macOS and a GNUstep-style
